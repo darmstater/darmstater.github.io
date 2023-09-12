@@ -5,6 +5,10 @@
     box-sizing: border-box;
 }
 
+.justify-text {
+    text-align: justify;
+}
+
 body {
     background: #080808;
     color: #fff;
@@ -19,6 +23,20 @@ body {
 
 .container {
     padding: 10px 10%;
+}
+
+.tab-contents.active-tab ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tab-contents.active-tab li {
+    width: 33.33%; /* Memisahkan daftar menjadi 3 kolom */
+    box-sizing: border-box;
+    padding: 10px;
 }
 
 nav {
@@ -138,7 +156,7 @@ width: 100%;
 
 .tab-contents ul li {
     list-style: none;
-    margin: 10px 0;
+    
 }
 
 .tab-contents ul li span {

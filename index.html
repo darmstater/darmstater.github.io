@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0;url=index.html">
     <title>Personal Portfolio Website</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://kit.fontawesome.com/e674bba739.js" crossorigin="anonymous"></script>
@@ -16,7 +15,7 @@
     <div id="header">
         <div class="container">
             <nav>
-                <img src="images/Albert.png" class="logo"></img>
+                <img src="images/Albert.png" class="logo">
                 <ul>
                     <li><a href="#">Home</a></li>
                     <li><a href="#">About</a></li>
@@ -35,32 +34,44 @@
         <div class="container">
             <div class="row">
                 <div class="about-col-1">
-                    Darmstater Albertus Albert D
+                    <img src="images/user.JPG">
                 </div>
                 <div class="about-col-2">
                     <h1 class="sub-title">About Me</h1>
-                    <p>Hello, I'm a Junior Backend Developer. My Name is Darmstater Albertus Albert D.
-
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam vitae impedit quidem asperiores, alias accusantium laudantium voluptate nemo dignissimos amet distinctio laborum et nisi qui dolores in ad animi nam eos, at aspernatur doloribus quibusdam? Sequi suscipit provident molestias ut illum ad veniam, voluptatibus officiis non ipsa quod sapiente iusto necessitatibus rerum temporibus, odit corrupti, aliquam quaerat facere dolor qui commodi. Repellat aliquid alias esse molestiae culpa voluptatibus cumque fuga nisi harum commodi nostrum perspiciatis dolor velit facere consectetur quas porro quae, quidem corrupti excepturi non facilis rerum. Officia ex ipsum, quae commodi quia sapiente molestias similique enim at quasi!
+                    <p class="justify-text">Hello, I'm a Junior Backend Developer. 
+                        My Name is Darmstater Albertus Albert D.
+                        Final semester student of S1 Informatics Engineering at Soegijapranata University Semarang. 
+                        I have 6 months of internship experience as a Backend Developer at PT Golek Truk Dot Com. 
+                        Me and My team successfully developed an Android application API for HR system. 
+                        This experience strengthened my understanding of PostgreSQL, Python, RDBMS, database design, table structure, 
+                        and how to effectively interact with data in an API context. I am ready to make my best contribution to your company.
                     </p>
                     <div class="tab-titles">
-                        <p class="tab-links active-link" onclick="openTab('skills')">Skills</p>
-                        <p class="tab-links" onclick="openTab('experience')">Experience</p>
+                        <p class="tab-links active-link" onclick="openTab('experience')">Experience</p>
+                        <p class="tab-links" onclick="openTab('skills')">Skills</p>
                         <p class="tab-links" onclick="openTab('education')">Education</p>
                     </div>
-                    <div class="tab-contents active-tab" id="skills">
-                        <ul>
-                            <li><span>UI/UX</span><br>Designing Web/App interfaces</li>
-                            <li><span>Web Development</span><br>Web app Development</li>
-                            <li><span>App Development</span><br>Building Android/iOS apps</li>
-                        </ul>
-                    </div>
-                    <div class="tab-contents" id="experience">
+                    <div class="tab-contents active-tab" id="experience">
                         <ul>
                             <li><span>2023 | 6 Month Internship</span><br>PT Golektruk Dot Com as a Backend Developer</li>
                             <li><span>.</span><br></li>
                             <li><span>.</span><br></li>
                             <li><span>.</span><br></li>
+                        </ul>
+                    </div>
+                    <div class="tab-contents" id="skills">
+                        <ul>
+                            <li><span></span>Designing Web/App interfaces</li>
+                            <li><span></span>Go-Lang</li>
+                            <li><span></span>Object Oriented Programming</li>
+                            <li><span></span>PostgreSQL</li>
+                            <li><span></span>Database Management</li>
+                            <li><span></span>MySQL</li>
+                            <li><span></span>Database Management</li>
+                            <li><span></span>Database Design</li>
+                            <li><span></span>SQLAlchemy Usage</li>
+                            <li><span></span>Teamwork</li>
+                            <li><span></span>Troubleshooting Skills</li>
                         </ul>
                     </div>
                     <div class="tab-contents" id="education">
@@ -159,7 +170,7 @@
                     <a href="images/my-cv.pdf" download class="btn btn2">Download CV</a>
                 </div>
                 <div class="contact-right">
-                    <form>
+                    <form action="send_email.php" method="POST">
                         <input type="text" name="Name" placeholder="Your Name" required>
                         <input type="email" name="Email" placeholder="Your Email" required>
                         <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
@@ -167,9 +178,6 @@
                     </form>
                 </div>
             </div>
-        </div>
-        <div class="copyright">
-            <p>copyright @ Dev Alphaspace. Made with <i class="fas fa-heart"></i> by Dev Alphaspace</p>
         </div>
     </div>
 
