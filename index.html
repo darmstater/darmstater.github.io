@@ -18,10 +18,10 @@
                 <img src="images/Albert.png" class="logo">
                 <ul>
                     <li><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">Portfolio</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#contact">Contact</a></li>
                     <i class="fas fa-times"></i>
                 </ul>
                 <i class="fas fa-bars"></i>
@@ -54,12 +54,9 @@
                     <div class="tab-contents active-tab" id="experience">
                         <ul>
                             <li><span>2023 | 6 Month Internship</span><br>PT Golektruk Dot Com as a Backend Developer</li>
-                            <li><span>.</span><br></li>
-                            <li><span>.</span><br></li>
-                            <li><span>.</span><br></li>
                         </ul>
                     </div>
-                    <div class="tab-contents" id="skills">
+                    <div class="tab-contents kolom" id="skills">
                         <ul>
                             <li><span></span>Designing Web/App interfaces</li>
                             <li><span></span>Go-Lang</li>
@@ -163,18 +160,18 @@
                     <p><i class="fas fa-phone-square-alt"></i> 085865724007</p>
                     <div class="social-icons">
                         <a href="https://www.facebook.com/darmstateralbertus.albertdonatus"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-twitter-square"></i></a>
                         <a href="https://www.instagram.com/darmstater/"><i class="fab fa-instagram"></i></a>
                         <a href="https://www.linkedin.com/in/darmstater-albertus-albert-donatus-14bb44256/"><i class="fab fa-linkedin"></i></a>
                     </div>
                     <a href="images/my-cv.pdf" download class="btn btn2">Download CV</a>
                 </div>
                 <div class="contact-right">
-                    <form action="send_email.php" method="POST">
+                    <!-- menggunakan website formspree untuk pengiriman email agar diperbolehkan menggunakan method POST -->
+                    <form action="https://formspree.io/f/mleylerw" method="POST"> 
                         <input type="text" name="Name" placeholder="Your Name" required>
                         <input type="email" name="Email" placeholder="Your Email" required>
                         <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
-                        <button type="submit" class="btn btn3">submit</button>
+                        <button type="submit" class="btn btn3">Send</button>
                     </form>
                 </div>
             </div>
@@ -207,6 +204,27 @@
             document.querySelector('nav ul').classList.remove('show');
         });
 
+        document.addEventListener("DOMContentLoaded", function () {
+        // Mendapatkan semua tautan menu dengan hash
+        const links = document.querySelectorAll("a[href^='#']");
+
+        // Menambahkan event listener untuk setiap tautan
+        links.forEach(link => {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute("href").substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    // Scroll dengan animasi ke elemen target
+                    window.scrollTo({
+                        top: targetElement.offsetTop,
+                        behavior: "smooth"
+                    });
+                }
+            });
+        });
+    });
     </script>
 </body>
 

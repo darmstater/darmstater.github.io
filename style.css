@@ -33,11 +33,23 @@ body {
     margin: 0;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+
 .tab-contents.active-tab li {
     width: 33.33%; /* Memisahkan daftar menjadi 3 kolom */
     box-sizing: border-box;
     padding: 10px;
 }
+
+.tab-contents.kolom li {
+    width: 33.33%; /* Memisahkan daftar menjadi 3 kolom */
+    box-sizing: border-box;
+    padding: 10px;
+}
+
 
 nav {
     display: flex;
