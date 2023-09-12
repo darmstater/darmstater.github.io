@@ -133,6 +133,7 @@ nav ul li a:hover::after {
     font-size: 60px;
     font-weight: 600;
     color: #fff;
+    margin-bottom: 20px;
 }
 
 .tab-titles {
