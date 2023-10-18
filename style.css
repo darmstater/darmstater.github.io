@@ -10,7 +10,7 @@
 }
 
 body {
-    background: #080808;
+    background: #080808 !important;
     color: #fff;
 }
 
@@ -22,7 +22,7 @@ body {
 }
 
 .container {
-    padding: 10px 10%;
+    padding: 5px 10%;
 }
 
 .tab-contents.active-tab ul {
@@ -103,6 +103,47 @@ nav ul li a:hover::after {
 .header-text h1 span {
     color: #ff004f;
 }
+
+/* ----------HOME---------- */
+#home {
+    padding: 80px 0px;
+    color: #ababab;
+}
+
+/* CSS */
+#home {
+    color: #ababab;
+}
+
+#home .container {
+    display: flex;
+    justify-content: center; /* Mengatur konten horizontal di tengah */
+    align-items: center; /* Mengatur konten vertikal di tengah */
+    height: 100vh; /* Menetapkan tinggi kontainer menjadi 100% tinggi viewport */
+}
+
+.home-col-1 {
+    flex-basis: 35%;
+}
+
+.home-col-1 img {
+    width: 100%;
+    border-radius: 15px;
+}
+
+/* Mengatur tinggi sesuai kebutuhan */
+.home-col-2 {
+    max-width: 50%; /* Mengatur lebar maksimum col-2 */
+    text-align: center; /* Mengatur teks menjadi rata tengah */
+    margin: auto; /* Memusatkan col-2 secara horizontal */
+}
+
+
+.aaaa {
+    font-size: 24px;
+    font-family: "Arial", sans-serif;
+}
+
 
 /* ----------ABOUT---------- */
 #about {
@@ -494,4 +535,11 @@ nav .fas {
         display: block;
         margin: 25px;
     }
+}
+
+/* styles.css */
+
+/* Sembunyikan segmen-segmen tambahan awalnya */
+.hidden-segment {
+    display: none;
 }
