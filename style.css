@@ -10,9 +10,10 @@
 }
 
 body {
-    background: #080808 !important;
+    background: linear-gradient(to bottom, #000, #808080) !important;
     color: #fff;
 }
+
 
 #header {
     width: 100%;
@@ -291,7 +292,7 @@ width: 100%;
 .work {
     border-radius: 10px;
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .work img {
