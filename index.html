@@ -3,509 +3,492 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Albert Portfolio Website</title>
+    <title>Albert — Backend Developer</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/e674bba739.js" crossorigin="anonymous"></script>
-    <script defer src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
-    <div id="header">
-        <div class="container">
-            <nav>
-                <img src="images/Albert.png" class="logo">
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#portfolio">Project</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <i class="fas fa-times"></i>
-                </ul>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">Albert<span class="accent">.</span></span>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <button class="nav-close" id="nav-close"><i class="fas fa-times"></i></button>
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#portfolio" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger">
                 <i class="fas fa-bars"></i>
-            </nav>
-            
+            </button>
         </div>
-    </div>
-    <div id="home" class="section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 col-sm-12 text-center">
-                    <img src="images/user.png" alt="User Avatar" style="width: 555px; border-radius: 10%;">
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section id="home">
+        <div class="hero-container">
+            <div class="hero-text">
+                <p class="hero-greeting">Hello, World! 👋</p>
+                <h1 class="hero-name">I'm <span class="accent">Albert</span></h1>
+                <h2 class="hero-role">
+                    <span id="typing-text"></span><span class="cursor">|</span>
+                </h2>
+                <p class="hero-desc">
+                    Fresh graduate in Informatics Engineering from Soegijapranata Catholic University.
+                    Passionate about building scalable backend systems and crafting innovative digital solutions.
+                </p>
+                <div class="hero-btns">
+                    <a href="#portfolio" class="btn btn-primary">View My Work</a>
+                    <a href="#contact" class="btn btn-outline">Hire Me</a>
                 </div>
-                <div class="col-md-6 col-sm-12" style="display: ; justify-content: space-between; align-items: center;">
-                    <h2 class="sub-title">Hello!</h2>
-                    <h1>My Name is Albert!</h1>
+                <div class="hero-social">
+                    <a href="https://github.com/darmstater" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/darmstater-albertus-albert-donatus-14bb44256/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.instagram.com/darmstater/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="image-wrapper">
+                    <img src="images/user.png" alt="Albert">
+                    <div class="image-ring"></div>
+                    <div class="image-ring ring-2"></div>
+                </div>
+            </div>
+        </div>
+        <a href="#about" class="scroll-down">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="section-tag">Get to know me</p>
+                <h2 class="section-title">About <span class="accent">Me</span></h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text reveal">
                     <p>
-                        I'm a Fresh graduated student of 
-                        S1 Informatics Engineering at Soegijapranata University Semarang
-                        about creating beautiful and functional websites/application. Let's build something amazing together!
+                        Hello! I'm <strong>Darmstater Albertus Albert Donatus</strong>, a Junior Backend Developer
+                        and fresh graduate from Soegijapranata Catholic University, Semarang.
                     </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    
-    <!-- <div id="home" style="padding: 0px;">
-        <div class="container">
-            <div class="row">
-                <div class="home-col-1" >
-                    <img  src="images/user.png">
-                </div>
-                <div class="home-col-2">
-                    <h2 class="sub-title">Hello!</h2>
-                    <h2 >My Name is Albert!
-                    </h2>
-                    <h3>
-                        asdfadf
-                    </h3>
+                    <p>
+                        I have <strong>6 months of hands-on internship experience</strong> as a Backend Developer
+                        at <strong>PT Golek Truk Dot Com</strong>, where I led the development of an Android application
+                        API for an HR system. This strengthened my expertise in Python, PostgreSQL, RDBMS, and database design.
+                    </p>
+                    <p>
+                        I'm passionate about solving complex problems, writing clean code, and continuously
+                        learning new technologies. Let's build something amazing together!
+                    </p>
+                    <div class="about-info">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Semarang, Indonesia</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>darmstater12@gmail.com</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>S1 Informatics Engineering</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Open to Work</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- ----------ABOUT---------- -->
 
-    <!-- <div class="home-col-1" >
-        <img  src="images/user.png">
-    </div>
-    <div class="home-col-2">
-        <h2 class="sub-title">Hello!</h2>
-        <h2 >My Name is Albert!
-        </h2>
-        <h3>
-            asdfadf
-        </h3>
-        
-                    <div class="tab-titles about-col-2 "  style="display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
-                        <p class="tab-links active-link" onclick="openTab('experience')">Experience</p>
-                        <p class="tab-links" onclick="openTab('skills')">Skills</p>
-                        <p class="tab-links" onclick="openTab('education')">Education</p>
+                <div class="about-tabs reveal">
+                    <div class="tab-titles">
+                        <button class="tab-btn active-tab" onclick="openTab(event, 'experience')">Experience</button>
+                        <button class="tab-btn" onclick="openTab(event, 'education')">Education</button>
                     </div>
-                    <div class="tab-contents active-tab" id="experience">
-                        <ul>
-                            <li><span>2023 | 6 Month Internship</span><br>PT Golektruk Dot Com as a Backend Developer</li>
-                        </ul>
-                    </div>
-                    <div class="tab-contents kolom" id="skills">
-                        <ul>
-                            <li><span>HardSkill</span></li>
-                            <li></li>
-                            <li></li>
-                            <li><span></span>Designing Web/App interfaces</li>
-                            <li><span></span>Go-Lang</li>
-                            <li><span></span>Object Oriented Programming</li>
-                            <li><span></span>PostgreSQL</li>
-                            <li><span></span>Database Management</li>
-                            <li><span></span>MySQL</li>
-                            <li><span></span>Database Management</li>
-                            <li><span></span>Database Design</li>
-                            <li><span></span>SQLAlchemy Usage</li>
-                        </ul>
-                        <ul> 
-                            <li><span>Soft Skills</span></li>
-                            <li><span></span></li>
-                            <li><span></span></li>
-                            <li><span></span>Teamwork</li>
-                            <li><span></span>Troubleshooting Skills</li>
-                            <li><span></span>Public Speaking</li>
-                            <li><span></span>Leadership</li>
-                            <li><span></span>Creativity</li>
-                            <li><span></span>Project Management Skills</li>
-                        </ul>
-                    </div>
-                    <div class="tab-contents" id="education">
-                        <ul>
-                            <li><span>2014 - 2017</span><br>Domenico Savio Junior High School</li>
-                            <li><span>2017 - 2020</span><br>Sedes Sapientiae Senior High School</li>
-                            <li><span>2020 - NOW</span><br>Soegijapranata Catholic University</li>
-                        </ul>
-                    </div>
-        </div>
-    </div> -->
-    
-    
-    <!-- <div id="about">
-        <div class="container">
-            <h1 class="sub-title aaaa">About Me</h1>
-            <div class="row">
-                    <h2 class="justify-text about-col-1">Hello, I'm a Junior Backend Developer. 
-                        My Name is Darmstater Albertus Albert D.
-                        Final semester student of S1 Informatics Engineering at Soegijapranata University Semarang. 
-                        I have 6 months of internship experience as a Backend Developer at PT Golek Truk Dot Com. 
-                        Lead project successfully developed an Android application API for HR system. 
-                        This experience strengthened my understanding of PostgreSQL, Python, RDBMS, database design, table structure, 
-                        and how to effectively interact with data in an API context. I am ready to make my best contribution to your company.
-                    </h2> 
-                    
-                    <div class="about-col-2 "  style="display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
-                        <p class="tab-links active-link" onclick="openTab('experience')">Experience</p>
-                        <p class="tab-links" onclick="openTab('skills')">Skills</p>
-                        <p class="tab-links" onclick="openTab('education')">Education</p>
-                    <div class="tab-contents active-tab" id="experience">
-                        <ul>
-                            <li><span>2023 | 6 Month Internship</span><br>PT Golektruk Dot Com as a Backend Developer</li>
-                        </ul>
-                    </div>
-                    <div class="tab-contents kolom" id="skills">
-                        <ul>
-                            <li><span>HardSkill</span></li>
-                            <li></li>
-                            <li></li>
-                            <li><span></span>Designing Web/App interfaces</li>
-                            <li><span></span>Go-Lang</li>
-                            <li><span></span>Object Oriented Programming</li>
-                            <li><span></span>PostgreSQL</li>
-                            <li><span></span>Database Management</li>
-                            <li><span></span>MySQL</li>
-                            <li><span></span>Database Management</li>
-                            <li><span></span>Database Design</li>
-                            <li><span></span>SQLAlchemy Usage</li>
-                        </ul>
-                        <ul> 
-                            <li><span>Soft Skills</span></li>
-                            <li><span></span></li>
-                            <li><span></span></li>
-                            <li><span></span>Teamwork</li>
-                            <li><span></span>Troubleshooting Skills</li>
-                            <li><span></span>Public Speaking</li>
-                            <li><span></span>Leadership</li>
-                            <li><span></span>Creativity</li>
-                            <li><span></span>Project Management Skills</li>
-                        </ul>
-                    </div>
-                    <div class="tab-contents" id="education">
-                        <ul>
-                            <li><span>2014 - 2017</span><br>Domenico Savio Junior High School</li>
-                            <li><span>2017 - 2020</span><br>Sedes Sapientiae Senior High School</li>
-                            <li><span>2020 - NOW</span><br>Soegijapranata Catholic University</li>
-                        </ul>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container text-center">
-        <div class="row">
-          <div class="col">
-            <h1 class="sub-title aaaa">About Me</h1>
-                    <h2 class="justify-text about-col-1">Hello, I'm a Junior Backend Developer. 
-                        My Name is Darmstater Albertus Albert D.
-                        Final semester student of S1 Informatics Engineering at Soegijapranata University Semarang. 
-                        I have 6 months of internship experience as a Backend Developer at PT Golek Truk Dot Com. 
-                        Lead project successfully developed an Android application API for HR system. 
-                        This experience strengthened my understanding of PostgreSQL, Python, RDBMS, database design, table structure, 
-                        and how to effectively interact with data in an API context. I am ready to make my best contribution to your company.
-                    </h2>
-          </div>
-          <div class="col">
-            <div class="row">
-                <div class="tab-titles about-col-2 "  style="display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
-                    <p class="tab-links active-link" onclick="openTab('experience')">Experience</p>
-                    <p class="tab-links" onclick="openTab('skills')">Skills</p>
-                    <p class="tab-links" onclick="openTab('education')">Education</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="tab-contents active-tab" id="experience">
-                    <ul>
-                        <li><span>2023 | 6 Month Internship</span><br>PT Golektruk Dot Com as a Backend Developer</li>
-                    </ul>
-                </div>
-                <div class="tab-contents kolom" id="skills">
-                    <ul>
-                        <li><span>HardSkill</span></li>
-                        <li></li>
-                        <li></li>
-                        <li><span></span>Designing Web/App interfaces</li>
-                        <li><span></span>Go-Lang</li>
-                        <li><span></span>Object Oriented Programming</li>
-                        <li><span></span>PostgreSQL</li>
-                        <li><span></span>Database Management</li>
-                        <li><span></span>MySQL</li>
-                        <li><span></span>Database Management</li>
-                        <li><span></span>Database Design</li>
-                        <li><span></span>SQLAlchemy Usage</li>
-                    </ul>
-                    <ul> 
-                        <li><span>Soft Skills</span></li>
-                        <li><span></span></li>
-                        <li><span></span></li>
-                        <li><span></span>Teamwork</li>
-                        <li><span></span>Troubleshooting Skills</li>
-                        <li><span></span>Public Speaking</li>
-                        <li><span></span>Leadership</li>
-                        <li><span></span>Creativity</li>
-                        <li><span></span>Project Management Skills</li>
-                    </ul>
-                </div>
-                <div class="tab-contents" id="education">
-                    <ul>
-                        <li><span>2014 - 2017</span><br>Domenico Savio Junior High School</li>
-                        <li><span>2017 - 2020</span><br>Sedes Sapientiae Senior High School</li>
-                        <li><span>2020 - NOW</span><br>Soegijapranata Catholic University</li>
-                    </ul>
-                </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
-    <div id="about">
-        <div class="container">
-            <div class="row">
-                <div>
-                    <h1 class="sub-title aaaa">About Me</h1>
-                    <h4 class="justify-text about-col-1">Hello, I'm a Junior Backend Developer. 
-                        My Name is Darmstater Albertus Albert D.
-                        Fresh graduated student of S1 Informatics Engineering at Soegijapranata University Semarang. 
-                        I have 6 months of internship experience as a Backend Developer at PT Golek Truk Dot Com. 
-                        Lead project successfully developed an Android application API for HR system. 
-                        This experience strengthened my understanding of PostgreSQL, Python, RDBMS, database design, table structure, 
-                        and how to effectively interact with data in an API context. I am ready to make my best contribution to your company.
-                    </h4>
-                    <div class="tab-titles about-col-2 "  style="display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
-                        <p class="tab-links active-link" onclick="openTab('experience')">Experience</p>
-                        <p class="tab-links" onclick="openTab('skills')">Skills</p>
-                        <p class="tab-links" onclick="openTab('education')">Education</p>
-                    </div>
-                    <div class="tab-contents active-tab" id="experience">
-                        <ul>
-                            <li><span>2023 | 6 Month Internship</span><br>PT Golektruk Dot Com as a Backend Developer</li>
-                        </ul>
-                    </div>
-                    <div class="tab-contents kolom" id="skills">
-                        <ul>
-                            <li><span>HardSkill</span></li>
-                            <li></li>
-                            <li></li>
-                            <li><span></span>Designing Web/App interfaces</li>
-                            <li><span></span>Go-Lang</li>
-                            <li><span></span>Object Oriented Programming</li>
-                            <li><span></span>PostgreSQL</li>
-                            <li><span></span>Database Management</li>
-                            <li><span></span>MySQL</li>
-                            <li><span></span>Database Management</li>
-                            <li><span></span>Database Design</li>
-                            <li><span></span>SQLAlchemy Usage</li>
-                        </ul>
-                        <ul> 
-                            <li><span>Soft Skills</span></li>
-                            <li><span></span></li>
-                            <li><span></span></li>
-                            <li><span></span>Teamwork</li>
-                            <li><span></span>Troubleshooting Skills</li>
-                            <li><span></span>Public Speaking</li>
-                            <li><span></span>Leadership</li>
-                            <li><span></span>Creativity</li>
-                            <li><span></span>Project Management Skills</li>
-                        </ul>
-                    </div>
-                    <div class="tab-contents" id="education">
-                        <ul>
-                            <li><span>2014 - 2017</span><br>Domenico Savio Junior High School</li>
-                            <li><span>2017 - 2020</span><br>Sedes Sapientiae Senior High School</li>
-                            <li><span>2020 - 2024</span><br>Soegijapranata Catholic University</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- ----------PORTFOLIO--------- -->
-    <div id="portfolio">
-        <div class="container">
-            <h1 class="sub-title">My Project</h1>
-            <div id="project-slider" class="work-list">
-                <div class="work">
-                    <img src="images/EmailDetection.png" alt="">
-                    <div class="layer">
-                        <h2><br><br>
-                            <br>Email Spam Detection</h2>
-                        <p>Developing a machine learning model to solve the spam problem using Python. In an attempt to improve accuracy, I used the spam email dataset from the Kaggle source. By adding Postagging in each variable condition from previous research</p>
-                        <a href="https://github.com/darmstater/Project/tree/main/EmailSpamDetection/Email%20Spam%20Detection"><i class="fas fa-external-link-alt"></i></a>
+                    <div class="tab-content active" id="experience">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-info">
+                                    <span class="timeline-date">2023 · 6 Months</span>
+                                    <h4>Backend Developer Intern</h4>
+                                    <p>PT Golek Truk Dot Com</p>
+                                    <ul>
+                                        <li>Developed HR System Android app API using Python</li>
+                                        <li>Worked with PostgreSQL, RDBMS, and database design</li>
+                                        <li>Built ML-based poster rejector for phone number detection</li>
+                                        <li>Led team to successfully deliver the project on time</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="work">
-                    <img src="images/Siega.png" alt="">
-                    <div class="layer">
-                        <h2><br><br>
-                            <br>UI/UX Design Siega Auto Box</h2>
-                        <p>Creating an easy-to-use Android app UI/UX design for renting lockers that is modern and intuitive, as well as providing a security and loyalty program for the FICPACT CUP 2023 Competition.</p>
-                        <a href="https://github.com/darmstater/Project/tree/main/UIUXSiegaAutoBox"><i class="fas fa-external-link-alt"></i></a>
-                    </div>
-                </div>
-                <div class="work">
-                    <img src="images/IOT_Garasi.png" alt="">
-                    <div class="layer">
-                        <h2><br><br>
-                            <br>Automatic Garage</h2>
-                        <p>Develop an Arduino-based automatic garage system that utilizes an Infrared Distance (IRD) sensor to detect the car's presence and a button as a substitute for a mobile remote application. The system triggers the garage door to open when the car is at a specific distance. Additionally, an ultrasonic distance sensor ensures the door closes automatically when the car reaches a certain distance from the wall, with confirmation provided through a mobile application.</p>
-                        <a href="https://github.com/darmstater/Project/tree/main/Automatic%20Garage"><i class="fas fa-external-link-alt"></i></a>
-                    </div>
-                </div>
-                <div class="work">
-                    <img src="images/Soty.png" alt="">
-                    <div class="layer">
-                        <h2><br><br>
-                            <br>Student Of The Year</h2>
-                        <p>Proposed the idea of "DEVELOPMENT OF ONLINE SALES SYSTEM TO INCREASE THE EFFECTIVENESS AND EFFICIENCY OF OPERATIONAL CENTER OF STUDENT ENTREPRENEURSHIP OF UNIKA SOEGIJAPRANATA" in accord with the theme of SOTY 2022 "Innovative Self Transformation for the Advantage of Digital Era"</p>
-                        <a href="#"><i class="fas fa-external-link-alt"></i></a>
-                    </div>
-                </div>
-                <div class="work">
-                    <img src="images/DataMining.png" alt="">
-                    <div class="layer">
-                        <h2><br><br>
-                            <br>
-                            Apriori Algorithm Implementation</h2>
-                        <p>Analyzing or predicting items customers will purchase can be accomplished through various computerized methods, with one of them involving the utilization of Apriori algorithms. To perform such analysis or predictions, it is essential to have the attributes of the items that customers intend to buy</p>
-                        <a href="https://github.com/darmstater/Project/tree/main/UIUXSiegaAutoBox"><i class="fas fa-external-link-alt"></i></a>
-                    </div>
-                </div>
-                <div class="work">
-                    <img src="images/SoftwareEng.png" alt="">
-                    <div class="layer">
-                        <h2><br><br>
-                            <br>Software Engineering</h2>
-                        <p>Website aplikasi Hosis(Hospital Assistant) ini dibuat agar pasien mudah untuk melakukan
-                            konsultasi jarak jauh apalagi pada masa pandemic seperti ini, dan juga memudahkan tugas dokter
-                            dan perawat untuk melihat rekam medis, mendiagnosis dan juga memberi resep.
-                            E-resep akan keluar kurang lebih 5 menit, dan live konsultasi hanya akan berlangsung
-                            kurang dari 40 menit 
-                            </p>
-                        <a href="#"><i class="fas fa-external-link-alt"></i></a>
-                    </div>
-                </div>
-                <div class="work">
-                    <img src="images/golektruk.png" alt="">
-                    <div class="layer">
-                        <h2><br><br>
-                            <br>Golek Truk Internship</h2>
-                        <p>Participated in creating and developing the HR System application API at PT Golek Truk Dot Com. And using the Python programming language
-                           Create a machine learning poster rejector that contains a phone number automatically using python
-                           Learn API system, Git, RDBMS, Python library, database manager
-                            </p>
-                        <!-- <a href="https://github.com/darmstater/Project/tree/main/EmailSpamDetection/Email%20Spam%20Detection"><i class="fas fa-external-link-alt"></i></a> -->
-                    </div>
-                </div>
-                <div class="work">
-                    <img src="images/RaceCarJava.png" alt="">
-                    <div class="layer">
-                        <h2><br><br>
-                            <br>Race Car Game</h2>
-                        <p>
-                            Created a basic racing game using the Java programming language. It offers simple gameplay and allows players to race against computer-controlled opponents, providing an enjoyable gaming experience</p>
-                        <a href="https://github.com/darmstater/Project/tree/main/CSC%20Race%20Car"><i class="fas fa-external-link-alt"></i></a>
-                    </div>
-                </div>
-                <div class="work">
-                    <img src="images/LastProject.png" alt="">
-                    <div class="layer">
-                        <h2><br><br>
-                            <br>Analysis of Support Vector Machine and Random Forest</h2>
-                        <p>"COMPARATIVE PERFORMANCE ANALYSIS OF SUPPORT VECTOR MACHINE AND RANDOM FOREST ON DIABETES PATIENT DATA FROM HOSPITALS IN THE UNITED STATES" focuses on the performance comparison between two classification algorithms using a dataset derived from hospitals of diabetes patients in the United States. This research focused on analysing the accuracy and computation time of both algorithms as the data level increased.</p>
-                        <a href="#"><i class="fas fa-external-link-alt"></i></a>
+
+                    <div class="tab-content" id="education">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-info">
+                                    <span class="timeline-date">2020 – 2024</span>
+                                    <h4>S1 Informatics Engineering</h4>
+                                    <p>Soegijapranata Catholic University, Semarang</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-info">
+                                    <span class="timeline-date">2017 – 2020</span>
+                                    <h4>Senior High School</h4>
+                                    <p>Sedes Sapientiae Senior High School</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-info">
+                                    <span class="timeline-date">2014 – 2017</span>
+                                    <h4>Junior High School</h4>
+                                    <p>Domenico Savio Junior High School</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- <a href="#" class="btn" id="see-more-btn">See more</a> -->
         </div>
+    </section>
 
-    <script src="script.js"></script>
-
-
-    <!-- ----------CONTACT---------- -->
-    <div id="contact white-text">
+    <!-- ===== SKILLS ===== -->
+    <section id="skills">
         <div class="container">
-            <div class="row">
-                <div class="contact-left white-text">
-                    <h1 class="sub-title">Contact Me</h1>
-                    <p><i class="fas fa-paper-plane"></i> darmstater12@gmail.com</p>
-                    <p><i class="fas fa-phone-square-alt"></i> 085865724007</p>
-                    <div class="social-icons">
-                        <a href="https://www.facebook.com/darmstateralbertus.albertdonatus"><i class="fab fa-facebook"></i></a>
-                        <a href="https://www.instagram.com/darmstater/"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.linkedin.com/in/darmstater-albertus-albert-donatus-14bb44256/"><i class="fab fa-linkedin"></i></a>
+            <div class="section-header reveal">
+                <p class="section-tag">What I can do</p>
+                <h2 class="section-title">My <span class="accent">Skills</span></h2>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-category reveal">
+                    <h3><i class="fas fa-code"></i> Backend</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <div class="skill-header"><span>Python</span><span>85%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span>Go-Lang</span><span>70%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-width="70"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span>REST API</span><span>80%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-width="80"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span>OOP</span><span>80%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-width="80"></div></div>
+                        </div>
                     </div>
-                    <a href="CV_Albert.pdf" download class="btn btn2">Download CV</a>
                 </div>
-                <div class="contact-right">
-                    <!-- menggunakan website formspree untuk pengiriman email agar diperbolehkan menggunakan method POST -->
-                    <form action="https://formspree.io/f/mleylerw" method="POST"> 
-                        <input type="text" name="Name" placeholder="Your Name" required>
-                        <input type="email" name="Email" placeholder="Your Email" required>
-                        <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
-                        <button type="submit" class="btn btn3">Send</button>
+
+                <div class="skill-category reveal">
+                    <h3><i class="fas fa-database"></i> Database</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <div class="skill-header"><span>PostgreSQL</span><span>80%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-width="80"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span>MySQL</span><span>75%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-width="75"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span>SQLAlchemy</span><span>70%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-width="70"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span>Database Design</span><span>80%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-width="80"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category reveal">
+                    <h3><i class="fas fa-brain"></i> Other</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <div class="skill-header"><span>Machine Learning</span><span>65%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-width="65"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span>UI/UX Design</span><span>70%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-width="70"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span>Git & GitHub</span><span>75%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-width="75"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span>Arduino / IoT</span><span>60%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-width="60"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-stack reveal">
+                <span class="tech-badge"><i class="fab fa-python"></i> Python</span>
+                <span class="tech-badge">🐹 Go</span>
+                <span class="tech-badge"><i class="fas fa-database"></i> PostgreSQL</span>
+                <span class="tech-badge"><i class="fas fa-database"></i> MySQL</span>
+                <span class="tech-badge"><i class="fab fa-java"></i> Java</span>
+                <span class="tech-badge"><i class="fab fa-git-alt"></i> Git</span>
+                <span class="tech-badge">🤖 Machine Learning</span>
+                <span class="tech-badge"><i class="fas fa-microchip"></i> Arduino</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PORTFOLIO ===== -->
+    <section id="portfolio">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="section-tag">What I've built</p>
+                <h2 class="section-title">My <span class="accent">Projects</span></h2>
+            </div>
+            <div class="projects-grid">
+
+                <div class="project-card reveal">
+                    <div class="project-img">
+                        <img src="images/LastProject.png" alt="SVM vs Random Forest">
+                        <div class="project-overlay">
+                            <a href="#" class="overlay-btn"><i class="fas fa-external-link-alt"></i> View Project</a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">ML Research</span>
+                            <span class="tag">Data Science</span>
+                        </div>
+                        <h3>SVM vs Random Forest Analysis</h3>
+                        <p>Comparative performance analysis of SVM and Random Forest on US hospital diabetes patient data — final thesis research.</p>
+                    </div>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="project-img">
+                        <img src="images/golektruk.png" alt="Golek Truk">
+                        <div class="project-overlay">
+                            <span class="overlay-btn private"><i class="fas fa-lock"></i> Private Repo</span>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">PostgreSQL</span>
+                            <span class="tag">REST API</span>
+                        </div>
+                        <h3>Golek Truk — Internship</h3>
+                        <p>Developed HR System API at PT Golek Truk Dot Com. Built ML-based phone number detector for automated poster rejection.</p>
+                    </div>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="project-img">
+                        <img src="images/EmailDetection.png" alt="Email Spam Detection">
+                        <div class="project-overlay">
+                            <a href="https://github.com/darmstater/Project/tree/main/EmailSpamDetection/Email%20Spam%20Detection" target="_blank" class="overlay-btn"><i class="fas fa-external-link-alt"></i> View Project</a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">Machine Learning</span>
+                            <span class="tag">NLP</span>
+                        </div>
+                        <h3>Email Spam Detection</h3>
+                        <p>ML model using Python and POS tagging to detect spam emails, trained on Kaggle dataset with improved accuracy over prior research.</p>
+                    </div>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="project-img">
+                        <img src="images/Siega.png" alt="Siega Auto Box">
+                        <div class="project-overlay">
+                            <a href="https://github.com/darmstater/Project/tree/main/UIUXSiegaAutoBox" target="_blank" class="overlay-btn"><i class="fas fa-external-link-alt"></i> View Project</a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag">UI/UX</span>
+                            <span class="tag">Android</span>
+                            <span class="tag">Figma</span>
+                        </div>
+                        <h3>Siega Auto Box UI/UX</h3>
+                        <p>Modern Android app UI/UX design for smart locker rental with security & loyalty programs — FICPACT CUP 2023 Competition.</p>
+                    </div>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="project-img">
+                        <img src="images/IOT_Garasi.png" alt="Automatic Garage">
+                        <div class="project-overlay">
+                            <a href="https://github.com/darmstater/Project/tree/main/Automatic%20Garage" target="_blank" class="overlay-btn"><i class="fas fa-external-link-alt"></i> View Project</a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag">Arduino</span>
+                            <span class="tag">IoT</span>
+                            <span class="tag">C++</span>
+                        </div>
+                        <h3>Automatic Garage System</h3>
+                        <p>Arduino-based IoT garage using IR and ultrasonic sensors for automated door control with mobile app integration.</p>
+                    </div>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="project-img">
+                        <img src="images/DataMining.png" alt="Apriori Algorithm">
+                        <div class="project-overlay">
+                            <a href="https://github.com/darmstater/Project" target="_blank" class="overlay-btn"><i class="fas fa-external-link-alt"></i> View Project</a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">Data Mining</span>
+                            <span class="tag">Algorithm</span>
+                        </div>
+                        <h3>Apriori Algorithm</h3>
+                        <p>Market basket analysis implementation — predicting customer purchase patterns through association rule mining on retail data.</p>
+                    </div>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="project-img">
+                        <img src="images/SoftwareEng.png" alt="Hosis">
+                        <div class="project-overlay">
+                            <a href="#" class="overlay-btn"><i class="fas fa-external-link-alt"></i> View Project</a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag">Web App</span>
+                            <span class="tag">Healthcare</span>
+                            <span class="tag">Software Eng</span>
+                        </div>
+                        <h3>Hosis — Hospital Assistant</h3>
+                        <p>Telemedicine web app for remote patient consultations, medical record management, diagnosis, and digital prescription.</p>
+                    </div>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="project-img">
+                        <img src="images/RaceCarJava.png" alt="Race Car Game">
+                        <div class="project-overlay">
+                            <a href="https://github.com/darmstater/Project/tree/main/CSC%20Race%20Car" target="_blank" class="overlay-btn"><i class="fas fa-external-link-alt"></i> View Project</a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag">Java</span>
+                            <span class="tag">Game Dev</span>
+                            <span class="tag">OOP</span>
+                        </div>
+                        <h3>Race Car Game</h3>
+                        <p>2D racing game built in Java with AI-controlled opponents and classic arcade gameplay using object-oriented design.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="section-tag">Get in touch</p>
+                <h2 class="section-title">Contact <span class="accent">Me</span></h2>
+            </div>
+            <div class="contact-wrapper">
+                <div class="contact-info reveal">
+                    <h3>Let's work together</h3>
+                    <p>
+                        I'm currently open to new opportunities. Whether you have a project, a job offer,
+                        or just want to say hi — my inbox is always open!
+                    </p>
+                    <div class="contact-details">
+                        <a href="mailto:darmstater12@gmail.com" class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                            <span>darmstater12@gmail.com</span>
+                        </a>
+                        <a href="tel:+6285865724007" class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                            <span>+62 858-6572-4007</span>
+                        </a>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <span>Semarang, Indonesia</span>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/darmstater-albertus-albert-donatus-14bb44256/" target="_blank" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/darmstater" target="_blank" class="social-btn github"><i class="fab fa-github"></i></a>
+                        <a href="https://www.instagram.com/darmstater/" target="_blank" class="social-btn instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/darmstateralbertus.albertdonatus" target="_blank" class="social-btn facebook"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                    <a href="CV_Albert.pdf" download class="btn btn-primary download-cv">
+                        <i class="fas fa-download"></i> Download CV
+                    </a>
+                </div>
+
+                <div class="contact-form reveal">
+                    <form action="https://formspree.io/f/mleylerw" method="POST">
+                        <div class="form-group">
+                            <label>Your Name</label>
+                            <input type="text" name="Name" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Your Email</label>
+                            <input type="email" name="Email" placeholder="john@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea name="Message" rows="5" placeholder="Tell me about your project..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
                     </form>
                 </div>
             </div>
         </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+    </section>
 
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="footer-content">
+            <p>Designed & Built by <span class="accent">Darmstater Albertus Albert Donatus</span></p>
+            <p class="footer-copy">© 2024 All rights reserved.</p>
+        </div>
+    </footer>
 
-    <script>
-        var tabLinks = document.getElementsByClassName('tab-links');
-        var tabContents = document.getElementsByClassName('tab-contents');
+    <!-- Scroll to Top -->
+    <button id="scroll-top" title="Back to top"><i class="fas fa-arrow-up"></i></button>
 
-        function openTab(tabName) {
-            for (tabLink of tabLinks) {
-                tabLink.classList.remove('active-link');
-            }
-            for (tabContent of tabContents) {
-                tabContent.classList.remove('active-tab');
-            }
-            event.currentTarget.classList.add('active-link');
-            document.getElementById(tabName).classList.add('active-tab');
-        }
-        
-        document.getElementById('see-more-btn').addEventListener('click', function() {
-            // Tampilkan segmen-segmen tambahan saat tombol "See more" diklik
-            document.getElementById('segment1').style.display = 'block';
-            document.getElementById('segment2').style.display = 'block';
-
-            // Sembunyikan tombol "See more" setelah diklik
-            this.style.display = 'none';
-        });
-
-
-        // JavaScript for handling the mobile navigation menu
-        document.querySelector('.fas.fa-bars').addEventListener('click', function () {
-            document.querySelector('nav ul').classList.toggle('show');
-        });
-
-        document.querySelector('.fas.fa-times').addEventListener('click', function () {
-            document.querySelector('nav ul').classList.remove('show');
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-        // Mendapatkan semua tautan menu dengan hash
-        const links = document.querySelectorAll("a[href^='#']");
-
-        // Menambahkan event listener untuk setiap tautan
-        links.forEach(link => {
-            link.addEventListener("click", function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute("href").substring(1);
-                const targetElement = document.getElementById(targetId);
-                
-                if (targetElement) {
-                    // Scroll dengan animasi ke elemen target
-                    window.scrollTo({
-                        top: targetElement.offsetTop,
-                        behavior: "smooth"
-                    });
-                }
-            });
-        });
-    });
-    </script>
+    <script src="script.js"></script>
 </body>
 
 </html>
