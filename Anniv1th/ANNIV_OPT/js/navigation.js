@@ -1,4 +1,43 @@
 // ============================================================
+//  LOCKED SCREEN — unlock 1 April 2026 jam 17:35 WIB
+// ============================================================
+const UNLOCK_TIME = new Date("2026-04-01T17:36:00+07:00");
+
+function checkLock() {
+  const screen = document.getElementById('lockedScreen');
+  if (!screen) return;
+
+  const now  = new Date();
+  const diff = UNLOCK_TIME - now;
+
+  if (diff <= 0) {
+    // Waktunya udah tiba — unlock!
+    screen.classList.add('unlocked');
+    setTimeout(() => screen.remove(), 900);
+    return;
+  }
+
+  // Hitung sisa waktu
+  const totalSec = Math.floor(diff / 1000);
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = totalSec % 60;
+
+  const pad = n => String(n).padStart(2, '0');
+  document.getElementById('lkH').textContent = pad(h);
+  document.getElementById('lkM').textContent = pad(m);
+  document.getElementById('lkS').textContent = pad(s);
+}
+
+// Jalankan setiap detik
+checkLock();
+const lockInterval = setInterval(() => {
+  const screen = document.getElementById('lockedScreen');
+  if (!screen) { clearInterval(lockInterval); return; }
+  checkLock();
+}, 1000);
+
+// ============================================================
 //  NAVIGASI HALAMAN + PAGINATION
 // ============================================================
 const PAGES = ['intro', 'timeline', 'puzzle', 'cardgame', 'gallery', 'finale'];

@@ -177,3 +177,52 @@ p { font-size: clamp(.85rem, 2.4vw, 1rem); color: var(--dim); text-align: center
   0%,100% { transform: translateY(0) rotate(-8deg); }
   50%     { transform: translateY(-4px) rotate(8deg); }
 }
+
+/* ========================
+   LOCKED SCREEN
+======================== */
+#lockedScreen {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .8s ease;
+}
+#lockedScreen.unlocked {
+  opacity: 0; pointer-events: none;
+}
+.lock-box {
+  text-align: center; padding: 2.5rem 2rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,182,200,0.25);
+  border-radius: 20px; backdrop-filter: blur(10px);
+  max-width: 340px; width: 90%;
+}
+.lock-icon { font-size: 3rem; margin-bottom: .8rem; }
+.lock-title {
+  font-family: Georgia, serif; font-size: 1.5rem;
+  color: var(--text); margin-bottom: .5rem;
+}
+.lock-sub {
+  font-size: .85rem; color: var(--dim);
+  line-height: 1.7; margin-bottom: 1.5rem;
+}
+.lock-countdown {
+  display: flex; align-items: center; justify-content: center;
+  gap: .5rem; margin-bottom: 1rem;
+}
+.lock-unit {
+  display: flex; flex-direction: column; align-items: center;
+  background: rgba(255,255,255,0.06);
+  border-radius: 10px; padding: .6rem .9rem;
+  min-width: 62px;
+}
+.lock-unit span {
+  font-size: 2rem; font-weight: bold;
+  color: var(--gold); line-height: 1;
+}
+.lock-unit small {
+  font-size: .65rem; color: var(--dim);
+  text-transform: uppercase; letter-spacing: 1px; margin-top: .2rem;
+}
+.lock-sep { font-size: 1.8rem; color: var(--rose); font-weight: bold; margin-bottom: .5rem; }
+.lock-hint { font-size: .75rem; color: var(--dim); letter-spacing: .5px; }
