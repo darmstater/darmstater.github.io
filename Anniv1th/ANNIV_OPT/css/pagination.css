@@ -1,0 +1,147 @@
+/* ========================
+   PAGINATION
+======================== */
+.pagination {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .55rem .9rem;
+  background: rgba(7,7,26,0.78);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,182,200,0.22);
+  border-radius: 50px;
+  box-shadow: 0 8px 36px rgba(0,0,0,.45);
+  transition: opacity .4s ease, transform .4s ease;
+}
+
+.pagination.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(14px);
+}
+
+/* Page label above pill */
+.pag-label {
+  position: absolute;
+  top: -1.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: .72rem;
+  font-family: Georgia, serif;
+  font-style: italic;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, var(--gold), var(--rose));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  pointer-events: none;
+}
+
+/* Prev / Next buttons */
+.pag-btn {
+  background: none;
+  border: none;
+  color: rgba(255,182,200,0.7);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 .15rem;
+  transition: color .2s, transform .2s;
+  font-family: Georgia, serif;
+  display: flex;
+  align-items: center;
+}
+.pag-btn:hover:not(:disabled) {
+  color: var(--rose);
+  transform: scale(1.2);
+}
+.pag-btn:disabled {
+  opacity: .25;
+  cursor: default;
+}
+
+/* Dots container */
+.pag-dots {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+}
+
+/* Individual dot */
+.pag-dot {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background: rgba(255,182,200,0.22);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: width .3s ease, border-radius .3s ease, background .3s ease,
+              box-shadow .3s ease, transform .2s ease, opacity .2s ease;
+  position: relative;
+  flex-shrink: 0;
+}
+.pag-dot:hover {
+  transform: scale(1.25);
+  opacity: 1;
+  background: rgba(255,182,200,0.5);
+}
+.pag-dot.active {
+  width: 24px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--rose), var(--purple));
+  box-shadow: 0 0 10px rgba(255,107,157,.5);
+}
+
+/* Tooltip via data-label */
+.pag-dot::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: calc(100% + .55rem);
+  left: 50%;
+  transform: translateX(-50%) scale(.85);
+  background: rgba(7,7,26,0.9);
+  border: 1px solid rgba(255,182,200,0.2);
+  border-radius: 8px;
+  padding: .28rem .65rem;
+  font-size: .7rem;
+  font-family: Georgia, serif;
+  color: var(--pink);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.pag-dot:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* Mobile responsive */
+@media (max-width: 520px) {
+  .pagination {
+    padding: .45rem .7rem;
+    gap: .45rem;
+    bottom: 1rem;
+  }
+  .pag-dot {
+    height: 7px;
+    width: 7px;
+  }
+  .pag-dot.active {
+    width: 20px;
+  }
+  .pag-btn {
+    font-size: 1.1rem;
+  }
+  .pag-label {
+    font-size: .65rem;
+  }
+}

@@ -1,0 +1,108 @@
+/* ========================
+   GALLERY MASONRY
+======================== */
+.gal-masonry-wrap {
+  width: 100%;
+  max-height: 62vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--rose) transparent;
+  margin: 1rem 0;
+  border-radius: 10px;
+}
+.gal-masonry-wrap::-webkit-scrollbar { width: 4px; }
+.gal-masonry-wrap::-webkit-scrollbar-thumb { background: var(--rose); border-radius: 4px; }
+.gal-masonry-wrap::-webkit-scrollbar-track { background: transparent; }
+
+.gal-masonry {
+  columns: 3;
+  column-gap: 4px;
+  padding: 2px;
+}
+
+.gal-item {
+  break-inside: avoid;
+  margin-bottom: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  background: var(--surface);
+  transition: transform .25s, box-shadow .25s;
+  display: block;
+}
+.gal-item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 20px rgba(255,107,157,.35);
+}
+.gal-item img, .gal-item video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.gal-ph {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-size: 2rem;
+  background: linear-gradient(135deg, rgba(255,107,157,.08), rgba(192,132,252,.08));
+}
+.gal-ph span { font-size: .55rem; color: var(--dim); margin-top: .2rem; text-align: center; padding: 0 .3rem; }
+
+.gal-ov {
+  position: absolute; inset: 0; opacity: 0; transition: opacity .25s;
+  background: linear-gradient(to top, rgba(0,0,0,.7), transparent 60%);
+  display: flex; align-items: flex-end; padding: .4rem .5rem;
+}
+.gal-item:hover .gal-ov { opacity: 1; }
+.gal-cap { font-size: .62rem; color: #fff; letter-spacing: .02em; }
+
+.gal-vid-icon {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  font-size: 1.4rem; pointer-events: none; transition: opacity .2s;
+  text-shadow: 0 2px 6px rgba(0,0,0,.5);
+}
+.gal-item:hover .gal-vid-icon { opacity: 0; }
+
+/* month separator label */
+.gal-month-label {
+  column-span: all;
+  font-size: .65rem;
+  color: var(--pink);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .4rem .2rem .2rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 3px;
+  break-inside: avoid;
+}
+
+/* Lightbox */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(0,0,0,.93); z-index: 200;
+  display: none; align-items: center; justify-content: center; flex-direction: column;
+}
+#lightbox.open { display: flex; }
+#lightbox img, #lightbox video {
+  max-width: 88vw; max-height: 72vh;
+  border-radius: 12px; object-fit: contain;
+}
+.lb-ph {
+  width: min(280px, 75vw); height: min(280px, 75vw);
+  background: var(--surface); border-radius: 14px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; font-size: 4rem;
+}
+.lb-ph p { font-size: .8rem; color: var(--dim); margin-top: .5rem; }
+.lb-cap  { margin-top: .8rem; font-style: italic; color: var(--pink); font-size: .85rem; }
+.lb-close {
+  position: absolute; top: 1rem; right: 1.5rem;
+  font-size: 2rem; cursor: pointer; color: #fff;
+  background: none; border: none; line-height: 1;
+}
+
+@media (max-width: 400px) {
+  .gal-masonry { columns: 2; }
+}

@@ -1,0 +1,96 @@
+/* ========================
+   FINALE
+======================== */
+.env-wrap { position: relative; width: min(280px, 80vw); margin-bottom: 1.5rem; cursor: pointer; }
+.env-body {
+  padding-top: 45%;
+  background: linear-gradient(135deg, #2d1a4e, #1a0a2e);
+  border: 2px solid var(--rose); border-radius: 0 0 12px 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+.env-top {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 55%; overflow: hidden; transform-origin: top center;
+  transition: transform .9s ease; z-index: 2;
+}
+.env-top svg { width: 100%; height: 100%; display: block; }
+.env-top.open { transform: rotateX(180deg) scaleY(1); }
+.env-heart {
+  position: absolute; top: 52%; left: 50%;
+  transform: translate(-50%,-50%);
+  font-size: 2rem; z-index: 3; pointer-events: none;
+}
+.env-hint { font-size: .82rem; color: var(--dim); animation: blink 2s infinite; margin-top: .3rem; }
+
+.letter {
+  max-width: 520px; width: 100%;
+  background: linear-gradient(to bottom, #fef9f0, #fff5f8);
+  color: #333; border-radius: 4px; padding: 2.2rem;
+  font-family: Georgia, serif; line-height: 1.9;
+  box-shadow: 0 18px 55px rgba(0,0,0,.6);
+  display: none; max-height: 58vh; overflow-y: auto;
+  animation: letterIn .9s ease forwards;
+}
+@keyframes letterIn { from{opacity:0;transform:translateY(25px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
+.letter.show { display: block; }
+.letter h3   { font-style: italic; color: var(--rose); margin-bottom: .8rem; font-size: 1.2rem; }
+.letter p    { color: #4a3f4f; text-align: left; font-size: .92rem; margin-top: .9rem; }
+.letter .sig { text-align: right; margin-top: 1.5rem; font-style: italic; color: var(--rose); }
+
+/* ========================
+   CONFETTI
+======================== */
+.cpiece {
+  position: fixed; top: -10px; width: 10px; height: 10px;
+  border-radius: 2px; z-index: 999; pointer-events: none;
+  animation: cfall linear forwards;
+}
+@keyframes cfall { to { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+
+/* ========================
+   QR MODAL
+======================== */
+#qrModal {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(0,0,0,.88);
+  display: none; align-items: center; justify-content: center;
+  flex-direction: column; gap: 1.2rem;
+  backdrop-filter: blur(6px);
+}
+#qrModal.open { display: flex; }
+.qr-card {
+  background: linear-gradient(145deg, #12122a, #1e0a3e);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 2rem 2rem 1.6rem;
+  text-align: center;
+  box-shadow: 0 0 60px rgba(255,107,157,.2);
+  max-width: 320px; width: 90%;
+}
+.qr-card h3 { color: var(--gold); font-style: italic; margin-bottom: .4rem; }
+.qr-card p  { font-size: .78rem; color: var(--dim); margin-bottom: 1.2rem; }
+#qrCanvas   { display: flex; justify-content: center; border-radius: 16px; overflow: hidden; }
+#qrCanvas canvas, #qrCanvas svg { border-radius: 16px; }
+.qr-url-wrap {
+  display: flex; gap: .5rem; margin-top: 1.2rem;
+}
+.qr-url-inp {
+  flex: 1; background: rgba(255,255,255,.05);
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: .5rem .8rem; color: var(--text); font-size: .78rem;
+  outline: none; transition: border-color .3s;
+}
+.qr-url-inp:focus { border-color: var(--rose); }
+.qr-url-btn {
+  padding: .5rem .9rem; border: 1px solid var(--rose);
+  border-radius: 8px; background: transparent; color: var(--rose);
+  cursor: pointer; font-size: .78rem; white-space: nowrap;
+  transition: all .2s;
+}
+.qr-url-btn:hover { background: var(--rose); color: #fff; }
+.qr-hint { font-size: .72rem; color: var(--dim); margin-top: .5rem; line-height: 1.5; }
+.qr-close {
+  position: absolute; top: 1rem; right: 1.5rem;
+  font-size: 2rem; background: none; border: none;
+  color: #fff; cursor: pointer; line-height: 1; z-index: 301;
+}

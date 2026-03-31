@@ -1,0 +1,35 @@
+/* ========================
+   CANVAS (BINTANG)
+======================== */
+#starCanvas {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+}
+
+/* ========================
+   HATI TERBANG
+======================== */
+#heartsWrap { position: fixed; inset: 0; pointer-events: none; z-index: 5; overflow: hidden; }
+.fheart {
+  position: absolute; bottom: -2rem; font-size: 1.4rem; opacity: .75;
+  animation: floatUp linear infinite;
+}
+@keyframes floatUp {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+  8%   { opacity: .75; }
+  92%  { opacity: .4; }
+  100% { transform: translateY(-105vh) rotate(600deg); opacity: 0; }
+}
+
+/* ========================
+   SPLASH
+======================== */
+#splash { background: radial-gradient(ellipse at center, #1a0a2e 0%, var(--bg) 70%); }
+.pulse-heart { font-size: 5rem; display: block; margin-bottom: 1.2rem; animation: hbeat 1.3s ease infinite; }
+@keyframes hbeat {
+  0%,100% { transform: scale(1); }
+  15%     { transform: scale(1.22); }
+  30%     { transform: scale(1); }
+  45%     { transform: scale(1.1); }
+}
+.loading-txt { font-size: 1.1rem; color: var(--pink); letter-spacing: 3px; animation: blink 2s ease infinite; }
+@keyframes blink { 0%,100%{opacity:.3}50%{opacity:1} }

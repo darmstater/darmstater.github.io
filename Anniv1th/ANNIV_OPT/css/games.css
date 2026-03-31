@@ -1,0 +1,86 @@
+/* ========================
+   PUZZLE
+======================== */
+.prog-bar { width: 100%; max-width: 480px; height: 5px; background: var(--surface); border-radius: 3px; margin-bottom: 1.5rem; overflow: hidden; }
+.prog-fill { height: 100%; background: linear-gradient(90deg, var(--rose), var(--purple)); border-radius: 3px; transition: width .5s ease; }
+
+.pcard {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 2rem 1.6rem; max-width: 480px;
+  width: 100%; text-align: center; backdrop-filter: blur(12px);
+}
+.pnum  { font-size: .75rem; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; }
+.pq    { font-size: 1.1rem; line-height: 1.65; color: var(--text); font-style: italic; margin: 1rem 0 1.4rem; }
+.phint { font-size: .8rem; color: var(--purple); min-height: 1.2rem; margin-top: .5rem; transition: opacity .3s; }
+
+.pinput {
+  width: 100%; background: rgba(255,255,255,.05);
+  border: 2px solid var(--border); border-radius: 10px;
+  padding: .75rem 1rem; color: var(--text);
+  font-size: 1rem; font-family: Georgia, serif;
+  text-align: center; outline: none; transition: border-color .3s;
+}
+.pinput:focus  { border-color: var(--rose); }
+.pinput.wrong  { border-color: #ff4757; animation: shake .45s ease; }
+.pinput.ok     { border-color: #2ecc71; }
+@keyframes shake { 0%,100%{transform:translateX(0)}25%{transform:translateX(-9px)}75%{transform:translateX(9px)} }
+
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; margin: 1rem 0; }
+.cbtn {
+  background: rgba(255,255,255,.04); border: 1px solid var(--border);
+  border-radius: 10px; padding: .75rem .5rem; color: var(--text);
+  cursor: pointer; font-size: .88rem; transition: all .25s;
+}
+.cbtn:hover   { border-color: var(--rose); background: rgba(255,107,157,.1); }
+.cbtn.cok     { border-color: #2ecc71; background: rgba(46,204,113,.12); }
+.cbtn.cwrong  { border-color: #ff4757; background: rgba(255,71,87,.12); }
+
+/* scramble */
+.scramble-wrap { display: flex; flex-wrap: wrap; gap: .4rem; justify-content: center; margin: 1rem 0; }
+.sletter {
+  width: 2.2rem; height: 2.6rem; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; cursor: pointer; transition: all .2s; user-select: none;
+}
+.sletter:hover { border-color: var(--rose); background: rgba(255,107,157,.1); transform: translateY(-2px); }
+.sletter.used  { opacity: .25; cursor: default; pointer-events: none; }
+.answer-slots  { display: flex; gap: .4rem; justify-content: center; margin-bottom: .8rem; flex-wrap: wrap; }
+.aslot {
+  min-width: 2.2rem; height: 2.6rem; border-bottom: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; cursor: pointer; transition: all .2s; position: relative;
+}
+.aslot:hover { border-color: var(--rose); }
+.aslot.filled { border-color: var(--pink); }
+
+/* ========================
+   CARD GAME
+======================== */
+.ginfo { display: flex; gap: 1.8rem; margin-bottom: 1.2rem; font-size: .88rem; color: var(--dim); }
+.ginfo b { color: var(--gold); }
+
+.card-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: .6rem; max-width: 440px; width: 100%;
+}
+.mcard { aspect-ratio: 1; cursor: pointer; perspective: 600px; }
+.mcard-inner {
+  width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform .45s ease; position: relative;
+}
+.mcard.flipped .mcard-inner { transform: rotateY(180deg); }
+.mcard-front, .mcard-back {
+  position: absolute; inset: 0; backface-visibility: hidden;
+  border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem;
+}
+.mcard-front {
+  background: linear-gradient(135deg, rgba(255,107,157,.18), rgba(192,132,252,.18));
+  border: 1px solid var(--border); color: var(--rose); font-size: 1.3rem;
+}
+.mcard-back {
+  background: linear-gradient(135deg, #1a0a2e, #12122a);
+  border: 1px solid var(--rose); transform: rotateY(180deg);
+}
+.mcard.matched .mcard-front { border-color: #2ecc71; box-shadow: 0 0 12px rgba(46,204,113,.3); }

@@ -1,0 +1,69 @@
+/* ========================
+   INTRO
+======================== */
+.badge {
+  display: inline-block; margin-bottom: 1.2rem;
+  padding: .35rem 1.1rem; border: 1px solid var(--gold);
+  border-radius: 50px; font-size: .8rem; color: var(--gold);
+  letter-spacing: 2px; text-transform: uppercase;
+  background: rgba(255,209,102,.08);
+}
+.counters { display: flex; gap: 1.2rem; margin: 1.5rem 0; flex-wrap: wrap; justify-content: center; }
+.cnt-box {
+  text-align: center; padding: .9rem 1.4rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; backdrop-filter: blur(8px); min-width: 80px;
+}
+.cnt-num { font-size: 2.2rem; font-weight: bold; color: var(--gold); display: block; }
+.cnt-lbl { font-size: .7rem; color: var(--dim); text-transform: uppercase; letter-spacing: 1px; }
+
+/* ========================
+   TIMELINE
+======================== */
+.tl-wrap {
+  position: relative; width: 100%; max-width: 680px;
+  padding: 0 .5rem; margin: 1.2rem 0;
+  max-height: 54vh; overflow-y: auto;
+}
+.tl-line {
+  position: absolute; left: 50%; top: 0; bottom: 0; width: 2px;
+  background: linear-gradient(to bottom, transparent, var(--rose), var(--purple), transparent);
+  transform: translateX(-50%);
+}
+.tl-item {
+  display: flex; align-items: flex-start; gap: .8rem;
+  margin-bottom: 1.8rem; padding: 0 calc(50% + .6rem) 0 0;
+  opacity: 0; transform: translateX(-25px); transition: all .5s ease;
+}
+.tl-item:nth-child(even) {
+  flex-direction: row-reverse;
+  padding: 0 0 0 calc(50% + .6rem);
+  transform: translateX(25px);
+}
+.tl-item.vis { opacity: 1; transform: translateX(0); }
+.tl-dot {
+  flex-shrink: 0; width: 12px; height: 12px; border-radius: 50%;
+  background: var(--rose); box-shadow: 0 0 12px var(--rose);
+  margin-top: .35rem; position: relative; z-index: 2;
+}
+.tl-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: .85rem 1.1rem; max-width: 240px;
+  backdrop-filter: blur(8px); text-align: left;
+}
+.tl-date { font-size: .7rem; color: var(--gold); letter-spacing: 1px; margin-bottom: .2rem; }
+.tl-title { font-size: .95rem; color: var(--text); font-style: italic; }
+.tl-desc  { font-size: .78rem; color: var(--dim); margin-top: .2rem; text-align: left; }
+
+/* ========================
+   RESPONSIVE
+======================== */
+@media (max-width: 520px) {
+  .tl-line  { left: 16px; }
+  .tl-item  { padding: 0 0 0 32px !important; flex-direction: column !important; position: relative; }
+  .tl-item:nth-child(even) { flex-direction: column !important; }
+  .tl-dot   { position: absolute; left: 11px; top: .35rem; }
+  .counters { gap: .7rem; }
+  .cnt-box  { padding: .7rem 1rem; }
+  .cnt-num  { font-size: 1.8rem; }
+}
