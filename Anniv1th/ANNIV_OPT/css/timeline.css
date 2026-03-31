@@ -55,6 +55,41 @@
 .tl-title { font-size: .95rem; color: var(--text); font-style: italic; }
 .tl-desc  { font-size: .78rem; color: var(--dim); margin-top: .2rem; text-align: left; }
 
+/* Timeline photo thumbnail */
+.tl-img-wrap {
+  width: 100%; margin: .6rem 0 .4rem;
+  border-radius: 8px; overflow: hidden;
+  max-height: 110px;
+  border: 1px solid var(--border);
+  cursor: zoom-in;
+}
+.tl-img {
+  width: 100%; height: 110px;
+  object-fit: cover; display: block;
+  transition: transform .35s ease, filter .35s ease;
+  filter: brightness(.9);
+}
+.tl-img-wrap:hover .tl-img {
+  transform: scale(1.12);
+  filter: brightness(1.05);
+}
+
+/* Duo foto side by side */
+.tl-img-duo {
+  display: flex; gap: 3px;
+  max-height: 110px;
+}
+.tl-img-duo .tl-img {
+  width: 50%; height: 110px;
+  flex-shrink: 0;
+}
+.tl-img-duo .tl-img:first-child { border-radius: 8px 0 0 8px; }
+.tl-img-duo .tl-img:last-child  { border-radius: 0 8px 8px 0; }
+.tl-img-duo:hover .tl-img {
+  transform: scale(1.12);
+  filter: brightness(1.05);
+}
+
 /* ========================
    RESPONSIVE
 ======================== */

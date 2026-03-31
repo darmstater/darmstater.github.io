@@ -49,10 +49,27 @@ updateCounter();
 // ============================================================
 //  TIMELINE
 // ============================================================
+let timelineRead = false;
+
 function initTimeline() {
+  timelineRead = false;
   document.querySelectorAll('.tl-item').forEach((el, i) => {
     setTimeout(() => el.classList.add('vis'), i * 220);
   });
+
+  const wrap = document.getElementById('tlWrap');
+  if (!wrap) return;
+
+  function onTlScroll() {
+    if (timelineRead) return;
+    const nearBottom = wrap.scrollTop + wrap.clientHeight >= wrap.scrollHeight - 40;
+    if (nearBottom) {
+      timelineRead = true;
+      updatePagination();
+      wrap.removeEventListener('scroll', onTlScroll);
+    }
+  }
+  wrap.addEventListener('scroll', onTlScroll);
 }
 
 // ============================================================
@@ -114,7 +131,16 @@ function updatePagination() {
   // Update arrow disabled state
   const idx = PAGES.indexOf(cur);
   if (prevBtn) prevBtn.disabled = (idx <= 0);
-  if (nextBtn) nextBtn.disabled = (idx >= PAGES.length - 1);
+  const isLastPage   = idx >= PAGES.length - 1;
+  const timelineLock = (cur === 'timeline' && !timelineRead);
+  if (nextBtn) nextBtn.disabled = isLastPage || timelineLock;
+
+  // Kasih hint visual kalau masih terkunci
+  if (timelineLock) {
+    nextBtn.title = 'Scroll dulu sampai bawah... 👇';
+  } else {
+    nextBtn.title = '';
+  }
 }
 
 function pagBack() {
