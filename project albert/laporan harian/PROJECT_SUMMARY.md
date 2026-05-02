@@ -1,6 +1,7 @@
 # Project Summary — Bot Laporan Harian
 > Dokumen ini dibuat sebagai konteks lengkap untuk melanjutkan development di sesi Claude lain.
 > Dibuat: 2 Mei 2026
+> Diupdate: 2 Mei 2026 (Sesi 2)
 
 ---
 
@@ -139,11 +140,18 @@ project albert/laporan harian/
 - [x] Service account `bot-laporan@laporan-harian-495106.iam.gserviceaccount.com` dibuat
 - [x] Spreadsheet `CATATAN FINANCE` di-share ke service account (Editor)
 - [x] Code di-push ke GitHub: `darmstater/darmstater.github.io` → `project albert/laporan harian/`
-- [x] VM e2-micro di-deploy di GCP us-central1
+- [x] VM e2-micro di-deploy di GCP us-central1-f
+- [x] Python 3.11.2 + pip + venv + git terinstall di VM
 - [x] Dependencies terinstall di VM
 - [x] `.env` dikonfigurasi di VM
 - [x] systemd service `bot-laporan` aktif & running
 - [x] Bot sudah test jalan & reply di Telegram
+
+### Yang Sedang Dikerjakan (Sesi 2 — 2 Mei 2026)
+- [ ] Clone repo dari GitHub ke VM
+- [ ] Setup venv & install requirements di folder yang benar
+- [ ] Konfigurasi `.env` di VM
+- [ ] Jalankan bot via systemd
 
 ---
 
@@ -156,8 +164,9 @@ project albert/laporan harian/
 | GCP Project ID | laporan-harian-495106 |
 | Service Account | bot-laporan@laporan-harian-495106.iam.gserviceaccount.com |
 | VM Name | bot-laporan |
-| VM Region | us-central1-a |
+| VM Region | us-central1-f (bukan us-central1-a, Google auto-assign) |
 | VM User | darmstater12 |
+| VM External IP | 136.116.131.170 |
 | Bot path di VM | `/home/darmstater12/darmstater.github.io/project albert/laporan harian` |
 | Symlink | `/home/darmstater12/bot-laporan` |
 
@@ -175,6 +184,57 @@ project albert/laporan harian/
 
 4. **python-dotenv warning** di line 12 → GOOGLE_CREDENTIALS_JSON terlalu panjang
    - Non-critical, bot tetap jalan normal
+
+5. **Telegram getUpdates result kosong `[]`** (Sesi 2)
+   - Penyebab: bot belum pernah dikirimi pesan, bukan salah token
+   - Solusi: buka bot di Telegram → klik START atau kirim pesan dulu → baru refresh getUpdates
+   - Token benar ditandai dengan response `"ok": true`
+
+6. **Google Cloud 2-Step Verification wajib** sejak 13 Mei 2025 (Sesi 2)
+   - Semua akun Google Cloud wajib aktifkan 2SV/MFA
+   - Solusi: aktifkan di myaccount.google.com/security → pakai nomor HP
+   - Setelah aktif tunggu ~60 detik lalu refresh console.cloud.google.com
+
+7. **Bingung Select Project / New Project** di Google Cloud Console (Sesi 2)
+   - Tombol dropdown ada di pojok kiri atas: `[Select a project]` di sebelah logo Google Cloud
+   - Klik tombol itu → popup muncul → ada tombol "New Project" di pojok kanan atas popup
+
+8. **Compute Engine API minta billing** padahal mau pakai yang gratis (Sesi 2)
+   - Ini normal — billing account wajib diaktifkan meski mau pakai free tier
+   - Billing account ≠ langsung dicharge
+   - Solusi: klik "Enable billing" → isi data kartu (hanya verifikasi identitas)
+   - e2-micro di us-central1 tetap $0 karena masuk always-free tier
+
+9. **Bingung memilih machine type e2-micro** di halaman Create Instance (Sesi 2)
+   - Tampilan baru GCP menampilkan daftar Series (C4, N4, E2, N2, dst)
+   - Harus klik **E2** di kolom Series terlebih dahulu
+   - Setelah itu muncul dropdown Machine type → pilih **e2-micro**
+   - Jangan salah pilih e2-small atau e2-medium (berbayar!)
+
+10. **Estimasi harga masih $7-9 padahal pakai e2-micro** (Sesi 2)
+    - Google tidak otomatis tampilkan free tier discount di estimasi
+    - Tagihan asli = $0 untuk e2-micro di us-central1
+    - Disk 30GB dari $300 kredit (bukan from pocket)
+    - Kredit penuh IDR 5,172,751 — belum terpakai sama sekali per 2 Mei 2026
+
+11. **Boot disk tidak ditemukan saat scroll** di halaman Create Instance (Sesi 2)
+    - Tampilan baru GCP: Boot disk ada di menu sidebar kiri → **"OS and storage"**
+    - Bukan di scroll bawah seperti tampilan lama
+
+12. **Firewall (Allow HTTP/HTTPS) letaknya** (Sesi 2)
+    - Ada di menu sidebar kiri → **"Networking"**
+    - Centang: Allow HTTP traffic ✅ dan Allow HTTPS traffic ✅
+
+---
+
+## Catatan Penting Soal Billing GCP
+
+> Untuk Claude di sesi berikutnya: user sempat panik soal billing. Jelaskan dengan tenang:
+- **e2-micro di us-central1** = always-free, tidak perlu kredit $300
+- **$300 kredit** = backup untuk resource lain (disk, network, dsb)
+- **Billing account wajib ada** tapi tidak berarti langsung bayar
+- **Kredit user masih penuh** IDR 5,172,751, berlaku sampai Agustus 2026
+- VM bisa dihapus kapan saja → billing otomatis berhenti
 
 ---
 
@@ -211,3 +271,11 @@ sudo systemctl restart bot-laporan
 ```bash
 sudo journalctl -u bot-laporan -f
 ```
+
+### Akses SSH ke VM:
+- Buka console.cloud.google.com → VM Instances → klik tombol **SSH** di baris bot-laporan
+- Terminal langsung muncul di browser, tidak perlu software tambahan
+
+### Hapus VM (kalau mau stop semua):
+- VM Instances → centang bot-laporan → klik Delete
+- Billing otomatis berhenti
