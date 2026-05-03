@@ -145,6 +145,10 @@ def get_transaction_by_id(trans_id, user_id: str = None):
 def get_today_transactions(user_id: str = None):
     now = datetime.now(TZ)
     date_str = now.strftime("%Y-%m-%d")
+    return get_date_transactions(date_str, user_id=user_id)
+
+
+def get_date_transactions(date_str: str, user_id: str = None):
     conn = get_conn()
     c = conn.cursor()
     if user_id:

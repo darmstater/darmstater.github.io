@@ -18,7 +18,7 @@ from config import (
 )
 from database import (
     init_db, add_transaction, delete_transaction,
-    get_today_transactions, get_transaction_by_id,
+    get_today_transactions, get_date_transactions, get_transaction_by_id,
     get_user, register_user,
 )
 from sheets_service import (
@@ -473,13 +473,23 @@ async def cmd_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     uid  = _uid(update)
-    txns = get_today_transactions(user_id=uid)
+    args = list(context.args)
+
+    date_str, day_name, _ = parse_date_prefix(args)
+    if date_str is None:
+        now      = datetime.now(TZ)
+        date_str = now.strftime("%Y-%m-%d")
+        day_name = DAY_NAMES_ID.get(now.strftime("%A"), now.strftime("%A").upper())
+
+    txns   = get_date_transactions(date_str, user_id=uid)
+    dlabel = _format_date_label(date_str)
+
     if not txns:
-        await update.message.reply_text("Belum ada transaksi hari ini.")
+        await update.message.reply_text(f"Belum ada transaksi {dlabel}.")
         return
 
-    now   = datetime.now(TZ)
-    lines = [f"📋 *Transaksi {now.day}/{now.month}/{now.year}:*\n"]
+    d     = datetime.strptime(date_str, "%Y-%m-%d")
+    lines = [f"📋 *Transaksi {day_name}, {dlabel}:*\n"]
     for t in txns:
         icon = "💰" if t["type"] == "IN" else "💸"
         qty  = int(t["quantity"]) if float(t["quantity"]).is_integer() else float(t["quantity"])
