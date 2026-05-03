@@ -17,7 +17,7 @@ from config import (
     MONTH_NAMES_ID, DAY_NAMES_ID,
 )
 from database import (
-    init_db, add_transaction, delete_transaction,
+    init_db, add_transaction, delete_transaction, update_transaction,
     get_today_transactions, get_date_transactions, get_transaction_by_id,
     get_user, register_user,
 )
@@ -170,6 +170,7 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "`/today` — ringkasan hari ini\n"
         "`/week` — ringkasan minggu ini\n\n"
         "*Lainnya:*\n"
+        "`/edit [id] [field] [nilai]` — edit transaksi\n"
         "`/hapus [id]` — hapus transaksi\n"
         "`/list` — daftar transaksi hari ini\n"
         "`/sync` — sinkronkan ke Google Sheets\n"
@@ -605,6 +606,208 @@ async def hapus_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
 
+# ─── /edit ────────────────────────────────────────────────────────────────────
+
+_EDIT_FIELD_MAP = {
+    "jumlah":     "unit_price",
+    "harga":      "unit_price",
+    "nominal":    "unit_price",
+    "qty":        "quantity",
+    "kuantitas":  "quantity",
+    "kategori":   "category",
+    "keterangan": "description",
+    "deskripsi":  "description",
+    "tanggal":    "date",
+}
+
+
+async def cmd_edit(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = await _require_registered(update)
+    if not user:
+        return
+
+    args = list(context.args)
+    if len(args) < 3:
+        await update.message.reply_text(
+            "Format: `/edit <id> <field> <nilai baru>`\n\n"
+            "Field yang bisa diubah:\n"
+            "`jumlah` — harga satuan\n"
+            "`qty` — kuantitas (khusus pengeluaran)\n"
+            "`kategori` — kategori transaksi\n"
+            "`keterangan` — deskripsi/keterangan\n"
+            "`tanggal` — tanggal (`kemarin` `2hari` `15` `01/05`)\n\n"
+            "Contoh:\n"
+            "`/edit 5 jumlah 150000`\n"
+            "`/edit 5 keterangan makan siang bareng temen`\n"
+            "`/edit 5 kategori transport`\n\n"
+            "Gunakan /list untuk melihat ID transaksi.",
+            parse_mode="Markdown"
+        )
+        return
+
+    try:
+        trans_id = int(args[0].lstrip("#"))
+    except ValueError:
+        await update.message.reply_text("❌ ID harus angka.", parse_mode="Markdown")
+        return
+
+    uid = _uid(update)
+    txn = get_transaction_by_id(trans_id, user_id=uid)
+    if not txn:
+        await update.message.reply_text(
+            f"❌ Transaksi `#{trans_id}` tidak ditemukan.", parse_mode="Markdown"
+        )
+        return
+
+    field_raw    = args[1].lower()
+    new_value_raw = " ".join(args[2:])
+    db_field     = _EDIT_FIELD_MAP.get(field_raw)
+
+    if not db_field:
+        await update.message.reply_text(
+            "❌ Field tidak dikenal.\n\n"
+            "Field yang valid: `jumlah` `qty` `kategori` `keterangan` `tanggal`",
+            parse_mode="Markdown"
+        )
+        return
+
+    updates      = {}
+    display_old  = ""
+    display_new  = ""
+    new_date_str = txn["date"]
+
+    if db_field == "unit_price":
+        try:
+            new_price = float(new_value_raw)
+        except ValueError:
+            await update.message.reply_text("❌ Jumlah harus angka.", parse_mode="Markdown")
+            return
+        if new_price <= 0:
+            await update.message.reply_text("❌ Jumlah harus lebih dari 0.", parse_mode="Markdown")
+            return
+        updates     = {"unit_price": new_price, "total_price": txn["quantity"] * new_price}
+        display_old = fmt_rp(txn["unit_price"])
+        display_new = fmt_rp(new_price)
+
+    elif db_field == "quantity":
+        if txn["type"] != "OUT":
+            await update.message.reply_text(
+                "❌ Qty hanya bisa diubah untuk transaksi pengeluaran (/out).",
+                parse_mode="Markdown"
+            )
+            return
+        try:
+            new_qty = float(new_value_raw)
+        except ValueError:
+            await update.message.reply_text("❌ Qty harus angka.", parse_mode="Markdown")
+            return
+        if new_qty <= 0:
+            await update.message.reply_text("❌ Qty harus lebih dari 0.", parse_mode="Markdown")
+            return
+        old_qty_d = int(txn["quantity"]) if float(txn["quantity"]).is_integer() else float(txn["quantity"])
+        new_qty_d = int(new_qty) if new_qty.is_integer() else new_qty
+        updates     = {"quantity": new_qty, "total_price": new_qty * txn["unit_price"]}
+        display_old = str(old_qty_d)
+        display_new = str(new_qty_d)
+
+    elif db_field == "category":
+        cat_map     = CATEGORIES_OUT if txn["type"] == "OUT" else CATEGORIES_IN
+        new_cat     = cat_map.get(new_value_raw.lower(), "Lain-lain")
+        updates     = {"category": new_cat}
+        display_old = txn["category"]
+        display_new = new_cat
+
+    elif db_field == "description":
+        if not new_value_raw.strip():
+            await update.message.reply_text("❌ Keterangan tidak boleh kosong.", parse_mode="Markdown")
+            return
+        updates     = {"description": new_value_raw.strip()}
+        display_old = txn["description"]
+        display_new = new_value_raw.strip()
+
+    elif db_field == "date":
+        new_date_str, new_day_name, _ = parse_date_prefix([new_value_raw])
+        if new_date_str is None:
+            await update.message.reply_text(
+                "❌ Format tanggal tidak valid.\n"
+                "Gunakan: `kemarin` `besok` `2hari` `15` `01/05`",
+                parse_mode="Markdown"
+            )
+            return
+        updates     = {"date": new_date_str, "day_name": new_day_name}
+        display_old = _format_date_label(txn["date"])
+        display_new = _format_date_label(new_date_str)
+
+    context.user_data["pending_edit"] = {
+        "trans_id":       trans_id,
+        "user_id":        uid,
+        "spreadsheet_id": user["spreadsheet_id"],
+        "updates":        updates,
+        "field_label":    field_raw,
+        "display_old":    display_old,
+        "display_new":    display_new,
+        "orig_date":      txn["date"],
+        "new_date":       new_date_str,
+    }
+
+    icon  = "💰" if txn["type"] == "IN" else "💸"
+    ttype = "Pemasukan" if txn["type"] == "IN" else "Pengeluaran"
+    keyboard = InlineKeyboardMarkup([[
+        InlineKeyboardButton("✅ Ya, ubah", callback_data="edit_confirm"),
+        InlineKeyboardButton("❌ Batal",    callback_data="edit_cancel"),
+    ]])
+    await update.message.reply_text(
+        f"{icon} *Edit Transaksi `#{trans_id}`* ({ttype})\n\n"
+        f"Field   : *{field_raw}*\n"
+        f"Sebelum : {display_old}\n"
+        f"Sesudah : {display_new}\n\n"
+        f"Konfirmasi perubahan?",
+        reply_markup=keyboard,
+        parse_mode="Markdown"
+    )
+
+
+async def edit_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+
+    if query.data == "edit_cancel":
+        context.user_data.pop("pending_edit", None)
+        await query.edit_message_text("Dibatalkan.")
+        return
+
+    pending = context.user_data.pop("pending_edit", None)
+    if not pending:
+        await query.edit_message_text("❌ Sesi kadaluarsa, silakan input ulang.")
+        return
+
+    ok = update_transaction(pending["trans_id"], pending["user_id"], **pending["updates"])
+    if not ok:
+        await query.edit_message_text("❌ Gagal mengubah transaksi. Mungkin sudah dihapus.")
+        return
+
+    loop = asyncio.get_event_loop()
+    uid  = pending["user_id"]
+    sid  = pending["spreadsheet_id"]
+
+    def _rebuild():
+        months_to_rebuild = set()
+        for ds in {pending["orig_date"], pending["new_date"]}:
+            d = datetime.strptime(ds, "%Y-%m-%d")
+            months_to_rebuild.add((d.year, d.month))
+        for year, month in months_to_rebuild:
+            rebuild_month_sheet(year, month, user_id=uid, spreadsheet_id=sid)
+        update_summary_sheet(user_id=uid, spreadsheet_id=sid)
+
+    loop.run_in_executor(None, _rebuild)
+
+    await query.edit_message_text(
+        f"✅ Transaksi `#{pending['trans_id']}` berhasil diubah.\n"
+        f"*{pending['field_label']}*: {pending['display_old']} → {pending['display_new']}",
+        parse_mode="Markdown"
+    )
+
+
 # ─── /kategori ────────────────────────────────────────────────────────────────
 
 async def cmd_kategori(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -687,10 +890,12 @@ def main():
     app.add_handler(CommandHandler("week",     cmd_week))
     app.add_handler(CommandHandler("list",     cmd_list))
     app.add_handler(CommandHandler("hapus",    cmd_hapus))
+    app.add_handler(CommandHandler("edit",     cmd_edit))
     app.add_handler(CommandHandler("kategori", cmd_kategori))
     app.add_handler(CommandHandler("sync",     cmd_sync))
     app.add_handler(CallbackQueryHandler(confirm_txn_callback, pattern=r"^txn_"))
     app.add_handler(CallbackQueryHandler(hapus_callback,       pattern=r"^del_"))
+    app.add_handler(CallbackQueryHandler(edit_callback,        pattern=r"^edit_"))
     app.add_handler(MessageHandler(filters.COMMAND, unknown))
 
     scheduler = AsyncIOScheduler(timezone=TZ)

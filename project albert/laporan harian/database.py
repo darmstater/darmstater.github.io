@@ -115,6 +115,22 @@ def add_transaction(user_id: str, type_, category, quantity, unit_price, descrip
     return row_id
 
 
+def update_transaction(trans_id, user_id: str, **fields):
+    allowed = {"category", "quantity", "unit_price", "total_price", "description", "date", "day_name"}
+    updates = {k: v for k, v in fields.items() if k in allowed}
+    if not updates:
+        return False
+    set_clause = ", ".join(f"{k} = ?" for k in updates)
+    values = list(updates.values()) + [trans_id, str(user_id)]
+    conn = get_conn()
+    c = conn.cursor()
+    c.execute(f"UPDATE transactions SET {set_clause} WHERE id = ? AND user_id = ?", values)
+    conn.commit()
+    affected = c.rowcount
+    conn.close()
+    return affected > 0
+
+
 def delete_transaction(trans_id, user_id: str = None):
     conn = get_conn()
     c = conn.cursor()
