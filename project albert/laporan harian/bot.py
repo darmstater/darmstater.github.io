@@ -511,32 +511,67 @@ async def cmd_hapus(update: Update, context: ContextTypes.DEFAULT_TYPE):
     args = context.args
     if not args:
         await update.message.reply_text(
-            "Format: `/hapus [id]`\nContoh: `/hapus 5`\n\nGunakan /list untuk melihat ID transaksi.",
+            "Format: `/hapus [id] [id] ...`\n\n"
+            "Contoh:\n"
+            "`/hapus 5` — hapus satu\n"
+            "`/hapus 5 6 7` — hapus beberapa\n"
+            "`/hapus 5,6,7` — boleh pakai koma\n\n"
+            "Gunakan /list untuk melihat ID transaksi.",
             parse_mode="Markdown"
         )
         return
 
-    try:
-        trans_id = int(args[0].lstrip("#"))
-    except ValueError:
-        await update.message.reply_text("❌ ID harus angka. Contoh: `/hapus 5`", parse_mode="Markdown")
+    # Support both space-separated and comma-separated IDs
+    raw = " ".join(args).replace(",", " ").split()
+    ids = []
+    for token in raw:
+        try:
+            ids.append(int(token.lstrip("#")))
+        except ValueError:
+            await update.message.reply_text(
+                f"❌ `{token}` bukan ID yang valid. ID harus angka.",
+                parse_mode="Markdown"
+            )
+            return
+
+    uid   = _uid(update)
+    found = []
+    not_found = []
+    for tid in ids:
+        t = get_transaction_by_id(tid, user_id=uid)
+        if t:
+            found.append(t)
+        else:
+            not_found.append(tid)
+
+    if not found:
+        await update.message.reply_text(
+            "❌ Tidak ada transaksi yang ditemukan untuk ID tersebut."
+        )
         return
 
-    uid = _uid(update)
-    t   = get_transaction_by_id(trans_id, user_id=uid)
-    if not t:
-        await update.message.reply_text(f"❌ Transaksi `#{trans_id}` tidak ditemukan.", parse_mode="Markdown")
-        return
+    # Store pending delete IDs
+    context.user_data["pending_hapus"] = [t["id"] for t in found]
+
+    lines = [f"Hapus {len(found)} transaksi berikut?\n"]
+    for t in found:
+        qty  = int(t["quantity"]) if float(t["quantity"]).is_integer() else float(t["quantity"])
+        icon = "💰" if t["type"] == "IN" else "💸"
+        lines.append(
+            f"{icon} `#{t['id']}` {t['category']} — "
+            f"{qty} × {fmt_rp(t['unit_price'])} = *{fmt_rp(t['total_price'])}*\n"
+            f"    _{t['description']}_"
+        )
+
+    if not_found:
+        lines.append(f"\n_ID tidak ditemukan: {', '.join(f'#{i}' for i in not_found)}_")
 
     keyboard = InlineKeyboardMarkup([[
-        InlineKeyboardButton("✅ Ya, hapus", callback_data=f"del_confirm_{trans_id}"),
+        InlineKeyboardButton("✅ Ya, hapus", callback_data="del_confirm_multi"),
         InlineKeyboardButton("❌ Batal",     callback_data="del_cancel"),
     ]])
-    qty = int(t["quantity"]) if float(t["quantity"]).is_integer() else float(t["quantity"])
     await update.message.reply_text(
-        f"Hapus transaksi ini?\n\n"
-        f"`#{t['id']}` {t['category']} — {qty} × {fmt_rp(t['unit_price'])} = *{fmt_rp(t['total_price'])}*\n"
-        f"_{t['description']}_",
+        "\n".join(lines),
         reply_markup=keyboard,
         parse_mode="Markdown"
     )
@@ -547,16 +582,27 @@ async def hapus_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
 
     if query.data == "del_cancel":
+        context.user_data.pop("pending_hapus", None)
         await query.edit_message_text("Dibatalkan.")
         return
 
-    trans_id = int(query.data.split("_")[-1])
-    uid      = str(query.from_user.id)
-    success  = delete_transaction(trans_id, user_id=uid)
-    if success:
-        await query.edit_message_text(f"✅ Transaksi `#{trans_id}` dihapus.", parse_mode="Markdown")
+    ids = context.user_data.pop("pending_hapus", None)
+    if not ids:
+        await query.edit_message_text("❌ Sesi kadaluarsa, silakan input ulang.")
+        return
+
+    uid     = str(query.from_user.id)
+    deleted = [tid for tid in ids if delete_transaction(tid, user_id=uid)]
+
+    if len(deleted) == 1:
+        await query.edit_message_text(
+            f"✅ Transaksi `#{deleted[0]}` dihapus.", parse_mode="Markdown"
+        )
     else:
-        await query.edit_message_text(f"❌ Transaksi `#{trans_id}` tidak ditemukan.", parse_mode="Markdown")
+        id_list = ", ".join(f"`#{i}`" for i in deleted)
+        await query.edit_message_text(
+            f"✅ {len(deleted)} transaksi dihapus: {id_list}", parse_mode="Markdown"
+        )
 
 
 # ─── /kategori ────────────────────────────────────────────────────────────────
