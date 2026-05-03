@@ -1,174 +1,96 @@
-# Deploy Bot untuk User Baru
-> Panduan ini untuk menambahkan teman ke bot laporan harian yang sudah jalan.
-> Tidak perlu setup Google Cloud / VM baru — semua reuse yang sudah ada.
+# Panduan untuk User Baru
+> Bot sudah jalan — teman kamu cukup ikuti 3 langkah ini sendiri, tidak perlu bantuan teknis dari kamu.
 
 ---
 
-## Yang Teman Kamu Siapkan (mereka kerjakan sendiri)
+## Langkah 1 — Buat Google Spreadsheet
 
-### 1. Buat Telegram Bot
-1. Buka Telegram → cari **@BotFather**
-2. Ketik `/newbot` → ikuti instruksi → kasih nama bot
-3. Salin **TOKEN** yang diberikan BotFather → kirim ke kamu
-
-### 2. Dapat Chat ID
-1. Buka bot mereka di Telegram → klik **Start**
-2. Buka browser, akses URL ini (ganti TOKEN):
-   ```
-   https://api.telegram.org/bot[TOKEN]/getUpdates
-   ```
-3. Cari nilai `"id"` di dalam `"chat"` → itu **CHAT_ID** mereka → kirim ke kamu
-
-### 3. Siapkan Google Spreadsheet
-1. Buat spreadsheet baru di Google Sheets (boleh kosong)
-2. Klik **Share** → paste email ini → set **Editor** → klik Send:
+1. Buka [Google Sheets](https://sheets.google.com) → buat spreadsheet baru (boleh kosong)
+2. Klik tombol **Share** (pojok kanan atas)
+3. Di kolom "Add people", paste email berikut lalu set akses **Editor**:
    ```
    bot-laporan@laporan-harian-495106.iam.gserviceaccount.com
    ```
-3. Copy **Spreadsheet ID** dari URL:
-   ```
-   https://docs.google.com/spreadsheets/d/[INI_YANG_DICOPY]/edit
-   ```
-4. Kirim Spreadsheet ID ke kamu
+4. Klik **Send**
 
 ---
 
-## Checklist Info yang Harus Diterima
+## Langkah 2 — Ambil Spreadsheet ID
 
-Sebelum mulai setup di VM, pastikan sudah punya:
+Lihat URL spreadsheet, ambil bagian yang di-highlight:
+
 ```
-[ ] TELEGRAM_TOKEN   = ...
-[ ] TELEGRAM_CHAT_ID = ...
-[ ] SPREADSHEET_ID   = ...
-[ ] Nama teman       = ... (untuk penamaan folder & service)
+https://docs.google.com/spreadsheets/d/  >>>INI_SPREADSHEET_ID<<<  /edit
 ```
 
----
-
-## Setup di VM (kamu yang kerjakan)
-
-### Akses VM
-Buka **console.cloud.google.com** → VM Instances → klik **SSH** di baris `bot-laporan`
-
-### Jalankan perintah berikut (ganti `[nama]` dengan nama teman, tanpa spasi)
-
-**Step 1 — Copy folder bot**
-```bash
-cp -r ~/bot-laporan ~/bot-laporan-[nama]
+Contoh:
 ```
-
-**Step 2 — Edit .env**
-```bash
-nano ~/bot-laporan-[nama]/.env
-```
-Ganti 3 baris ini dengan data teman:
-```
-TELEGRAM_TOKEN=[token_mereka]
-TELEGRAM_CHAT_ID=[chatid_mereka]
-SPREADSHEET_ID=[spreadsheetid_mereka]
-```
-Simpan: **Ctrl+X → Y → Enter**
-
-**Step 3 — Buat script runner**
-```bash
-nano ~/run-bot-[nama].sh
-```
-Isi:
-```bash
-#!/bin/bash
-cd /home/darmstater12/bot-laporan-[nama]
-source venv/bin/activate
-exec python3 bot.py
-```
-Simpan: **Ctrl+X → Y → Enter**
-
-```bash
-chmod +x ~/run-bot-[nama].sh
-```
-
-**Step 4 — Buat systemd service**
-```bash
-sudo nano /etc/systemd/system/bot-[nama].service
-```
-Isi:
-```ini
-[Unit]
-Description=Bot Laporan Harian - [nama]
-After=network.target
-
-[Service]
-Type=simple
-User=darmstater12
-ExecStart=/bin/bash /home/darmstater12/run-bot-[nama].sh
-Restart=always
-RestartSec=10
-
-[Install]
-WantedBy=multi-user.target
-```
-Simpan: **Ctrl+X → Y → Enter**
-
-**Step 5 — Aktifkan & jalankan**
-```bash
-sudo systemctl daemon-reload
-sudo systemctl enable bot-[nama]
-sudo systemctl start bot-[nama]
-sudo systemctl status bot-[nama]
-```
-
-Kalau statusnya **`active (running)`** → selesai!
-
----
-
-## Verifikasi
-
-Minta teman kirim `/start` ke bot mereka. Kalau bot reply → sukses.
-
-Cek log kalau ada error:
-```bash
-sudo journalctl -u bot-[nama] -n 50
+https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms/edit
+                                        ↑ salin bagian ini ↑
 ```
 
 ---
 
-## Manage Bot Teman
+## Langkah 3 — Daftar ke Bot
 
-```bash
-# Cek status
-sudo systemctl status bot-[nama]
+Buka bot di Telegram, ketik:
+```
+/register [spreadsheet_id_kamu]
+```
 
-# Restart
-sudo systemctl restart bot-[nama]
+Contoh:
+```
+/register 1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms
+```
 
-# Stop permanen
-sudo systemctl stop bot-[nama]
-sudo systemctl disable bot-[nama]
+Kalau muncul ✅ **Berhasil terdaftar!** → langsung bisa pakai.
 
-# Lihat semua bot yang jalan
-sudo systemctl list-units --type=service | grep bot-
+---
+
+## Cara Pakai Bot
+
+**Catat pengeluaran:**
+```
+/out [kategori] [qty] [harga_satuan] [keterangan]
+/out makan 2 25000 makan siang
+/out transport 1 35000 grab ke kantor
+```
+
+**Catat pemasukan:**
+```
+/in [kategori] [nominal] [keterangan]
+/in freelance 500000 transfer klien
+```
+
+**Input ke hari lain (kalau lupa mencatat):**
+```
+/out kemarin makan 2 25000 makan siang
+/out 2hari transport 1 35000 ojek
+/out 01/05 makan 1 50000 makan malam
+```
+
+Format tanggal yang bisa dipakai: `kemarin` `besok` `2hari` `15` `01/05`
+
+**Lihat summary:**
+```
+/today   — ringkasan hari ini
+/week    — ringkasan minggu ini
+/list    — daftar transaksi hari ini
+```
+
+**Lainnya:**
+```
+/hapus [id]   — hapus transaksi (ada konfirmasi)
+/sync         — sinkronkan ulang ke Google Sheets
+/kategori     — daftar semua kategori
+/start        — panduan lengkap
 ```
 
 ---
 
-## Catatan Penting
+## Catatan
 
-- **Satu VM bisa handle banyak bot** — tidak perlu VM baru
-- **Service account Google sama** — cukup share spreadsheet baru ke email yang sama
-- **Database masing-masing terpisah** — data tidak tercampur antar user
-- **Kalau teman berhenti pakai** → stop & disable service-nya, hapus foldernya
-
----
-
-## Contoh Nyata (misal nama teman: budi)
-
-```bash
-cp -r ~/bot-laporan ~/bot-laporan-budi
-nano ~/bot-laporan-budi/.env          # isi token/chatid/spreadsheet budi
-nano ~/run-bot-budi.sh                # buat script runner
-chmod +x ~/run-bot-budi.sh
-sudo nano /etc/systemd/system/bot-budi.service
-sudo systemctl daemon-reload
-sudo systemctl enable bot-budi
-sudo systemctl start bot-budi
-sudo systemctl status bot-budi
-```
+- Setiap transaksi akan minta konfirmasi dulu sebelum disimpan
+- Data kamu tersimpan di spreadsheet Google Sheets milikmu sendiri, terpisah dari user lain
+- Ringkasan harian dikirim otomatis tiap malam pukul 23:59
+- Ringkasan mingguan + sync spreadsheet otomatis tiap Minggu 23:59
