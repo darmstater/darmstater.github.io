@@ -21,7 +21,7 @@ C_OUT_ROW        = {"red": 1.0,   "green": 0.922, "blue": 0.925}   # light pink
 C_TOTAL_NET_POS  = {"red": 0.831, "green": 0.953, "blue": 0.831}   # green-ish
 C_TOTAL_NET_NEG  = {"red": 1.0,   "green": 0.831, "blue": 0.831}   # red-ish
 C_WEEK_BG        = {"red": 0.824, "green": 0.898, "blue": 0.980}   # light blue
-C_WEEK_CAT_BG   = {"red": 0.906, "green": 0.937, "blue": 0.992}   # lighter blue
+C_WEEK_CAT_BG    = {"red": 0.906, "green": 0.937, "blue": 0.992}   # lighter blue
 C_SUMMARY_TOTAL  = {"red": 1.0,   "green": 0.867, "blue": 0.557}   # light orange
 C_GRAY_TEXT      = {"red": 0.4,   "green": 0.4,   "blue": 0.4}
 
@@ -120,12 +120,15 @@ def _row_height(sheet_id, r0, r1, px):
 
 # ─── Auth ─────────────────────────────────────────────────────────────────────
 
-def _get_spreadsheet():
+def _get_spreadsheet(spreadsheet_id=None):
     if not GOOGLE_CREDENTIALS_JSON:
         raise ValueError("GOOGLE_CREDENTIALS_JSON is not set")
+    sid = spreadsheet_id or SPREADSHEET_ID
+    if not sid:
+        raise ValueError("No spreadsheet_id provided")
     creds = json.loads(GOOGLE_CREDENTIALS_JSON)
     gc = gspread.service_account_from_dict(creds)
-    return gc.open_by_key(SPREADSHEET_ID)
+    return gc.open_by_key(sid)
 
 
 def _get_or_create_ws(spreadsheet, name, rows=600, cols=10):
@@ -133,6 +136,14 @@ def _get_or_create_ws(spreadsheet, name, rows=600, cols=10):
         return spreadsheet.worksheet(name)
     except gspread.WorksheetNotFound:
         return spreadsheet.add_worksheet(title=name, rows=rows, cols=cols)
+
+
+def verify_spreadsheet_access(spreadsheet_id: str) -> bool:
+    try:
+        _get_spreadsheet(spreadsheet_id)
+        return True
+    except Exception:
+        return False
 
 
 # ─── Week utils ───────────────────────────────────────────────────────────────
@@ -143,16 +154,43 @@ def _week_bounds(d: date_type):
     return monday, sunday
 
 
+# ─── Data row formatting helpers ──────────────────────────────────────────────
+
+_FULL_FIELDS = "userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment,wrapStrategy,borders)"
+
+# Column groups with their alignment: (start_col, end_col, h_align)
+_DATA_COL_ALIGNS = [
+    (0, 3, "CENTER"),   # NO, HARI, TANGGAL
+    (3, 4, "LEFT"),     # KATEGORI
+    (4, 5, "CENTER"),   # JUMLAH
+    (5, 7, "RIGHT"),    # HARGA SATUAN, HARGA TOTAL
+    (7, 8, "LEFT"),     # KETERANGAN
+]
+
+
+def _data_row_reqs(sid, row_0i, bg):
+    """Returns format requests for one transaction data row (0-indexed row_0i)."""
+    reqs = []
+    for c0, c1, align in _DATA_COL_ALIGNS:
+        reqs.append(_repeat_cell(
+            sid, row_0i, row_0i + 1, c0, c1,
+            _cell_fmt(bg=bg, bold=False, italic=False, font_size=10,
+                      h_align=align, v_align="MIDDLE", borders=_border()),
+            fields=_FULL_FIELDS
+        ))
+    return reqs
+
+
 # ─── Main rebuild ─────────────────────────────────────────────────────────────
 
-def rebuild_month_sheet(year=None, month=None) -> bool:
+def rebuild_month_sheet(year=None, month=None, user_id=None, spreadsheet_id=None) -> bool:
     now = datetime.now(TZ)
     year  = year  or now.year
     month = month or now.month
     today = now.date()
 
     try:
-        ss = _get_spreadsheet()
+        ss = _get_spreadsheet(spreadsheet_id)
     except Exception as e:
         logger.error(f"Sheets auth failed: {e}")
         return False
@@ -160,13 +198,14 @@ def rebuild_month_sheet(year=None, month=None) -> bool:
     month_name  = MONTH_NAMES_ID[month]
     sheet_title = f"{month_name} {year}"
     ws = _get_or_create_ws(ss, sheet_title)
+    sid = ws.id
 
-    # Clear & unmerge
+    # Clear values and unmerge
     ws.clear()
     try:
         ss.batch_update({"requests": [{
             "unmergeCells": {"range": {
-                "sheetId": ws.id,
+                "sheetId": sid,
                 "startRowIndex": 0, "endRowIndex": 1000,
                 "startColumnIndex": 0, "endColumnIndex": 10,
             }}
@@ -175,19 +214,30 @@ def rebuild_month_sheet(year=None, month=None) -> bool:
         pass
 
     # Load & group transactions
-    transactions = get_month_transactions(year, month)
+    transactions = get_month_transactions(year, month, user_id=user_id)
     by_date: OrderedDict = OrderedDict()
     for t in sorted(transactions, key=lambda x: (x["date"], x["created_at"])):
         by_date.setdefault(t["date"], []).append(t)
 
-    # ── Build rows & collect batch requests ──────────────────────────────────
     DATA_START = 3   # 1-indexed (row 1 = title, row 2 = headers)
-    all_rows   = []  # appended in order, written starting at DATA_START
-    reqs       = []  # batch_update requests
+    all_rows   = []
+    reqs       = []
 
-    sid        = ws.id
+    # Reset all existing cell formatting before applying new styles
+    reqs.append({
+        "repeatCell": {
+            "range": {
+                "sheetId": sid,
+                "startRowIndex": 0, "endRowIndex": 1000,
+                "startColumnIndex": 0, "endColumnIndex": 10,
+            },
+            "cell": {"userEnteredFormat": {}},
+            "fields": "userEnteredFormat",
+        }
+    })
+
     trans_no   = 1
-    cur_row    = DATA_START  # 1-indexed, advances as we add rows
+    cur_row    = DATA_START   # 1-indexed
 
     # Group dates by ISO-week
     week_groups: OrderedDict = OrderedDict()
@@ -239,38 +289,29 @@ def rebuild_month_sheet(year=None, month=None) -> bool:
                 ]
                 all_rows.append(row)
 
-                # Color per-row (A–H)
                 bg = C_IN_ROW if t["type"] == "IN" else C_OUT_ROW
-                reqs.append(_repeat_cell(sid,
-                    cur_row - 1, cur_row,  # 0-indexed
-                    0, 8,
-                    _cell_fmt(bg=bg, v_align="MIDDLE", borders=_border()),
-                    fields="userEnteredFormat(backgroundColor,verticalAlignment,borders)"
-                ))
+                reqs.extend(_data_row_reqs(sid, cur_row - 1, bg))
 
                 trans_no += 1
                 cur_row  += 1
                 week_trans.append(t)
 
-            day_end_row = cur_row  # exclusive, 0-indexed = cur_row-1
+            day_end_row = cur_row  # exclusive
 
-            # Merge TOTAL HARIAN (col I = index 8) for this day
-            r0 = day_start_row - 1  # 0-indexed
-            r1 = day_end_row - 1    # 0-indexed exclusive
+            # Merge & format TOTAL HARIAN for this day
+            r0 = day_start_row - 1
+            r1 = day_end_row - 1
             if r1 - r0 >= 1:
                 reqs.append(_merge(sid, r0, r1, 8, 9))
-
             net_bg = C_TOTAL_NET_POS if day_net >= 0 else C_TOTAL_NET_NEG
             reqs.append(_repeat_cell(sid, r0, r1, 8, 9,
-                _cell_fmt(
-                    bg=net_bg, bold=True, font_size=9,
-                    h_align="CENTER", v_align="MIDDLE",
-                    wrap=True, borders=_thick_border()
-                ),
-                fields="userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment,wrapStrategy,borders)"
+                _cell_fmt(bg=net_bg, bold=True, font_size=9,
+                          h_align="CENTER", v_align="MIDDLE",
+                          wrap=True, borders=_thick_border()),
+                fields=_FULL_FIELDS
             ))
 
-        # ── Weekly summary (add when week is complete or last week of data) ──
+        # ── Weekly summary ────────────────────────────────────────────────────
         is_last_week = week_key == list(week_groups.keys())[-1]
         if sunday <= today or is_last_week:
             week_in  = sum(t["total_price"] for t in week_trans if t["type"] == "IN")
@@ -278,7 +319,6 @@ def rebuild_month_sheet(year=None, month=None) -> bool:
             week_net = week_in - week_out
             sign     = "+" if week_net >= 0 else ""
 
-            # Most expensive day
             day_spend: dict = defaultdict(float)
             for t in week_trans:
                 if t["type"] == "OUT":
@@ -292,7 +332,6 @@ def rebuild_month_sheet(year=None, month=None) -> bool:
             else:
                 terboros_str = "-"
 
-            # Category breakdown
             cat_spend: dict = defaultdict(float)
             for t in week_trans:
                 if t["type"] == "OUT":
@@ -303,10 +342,9 @@ def rebuild_month_sheet(year=None, month=None) -> bool:
             ]
             cat_text = "  |  ".join(cat_parts) if cat_parts else "-"
 
-            # Week label: e.g. "TOTAL MINGGU 1  (1 – 7 Mei)"
-            mon_day = monday.day if monday.month == month else f"1"
-            sun_day = sunday.day if sunday.month == month else \
-                      __import__("calendar").monthrange(year, month)[1]
+            mon_day = monday.day if monday.month == month else 1
+            import calendar as _cal
+            sun_day = sunday.day if sunday.month == month else _cal.monthrange(year, month)[1]
             week_label = (
                 f"TOTAL MINGGU {week_num}"
                 f"   ({mon_day} – {sun_day} {MONTH_NAMES_ID[month]})"
@@ -317,45 +355,38 @@ def rebuild_month_sheet(year=None, month=None) -> bool:
                 f"NET      : {sign}{fmt_rp(abs(week_net))}"
             )
 
-            # Row: summary
             summary_row = [
                 week_label, "", "", "", "", "", "",
                 f"Terboros: {terboros_str}",
                 total_harian_week
             ]
-            # Row: category breakdown
             cat_row = ["", "", "", "Breakdown:", "", "", cat_text, "", ""]
 
             all_rows.append(summary_row)
             all_rows.append(cat_row)
 
-            sr0 = cur_row - 1   # 0-indexed summary row
-            cr0 = cur_row       # 0-indexed cat row
+            sr0 = cur_row - 1
+            cr0 = cur_row
 
-            # Merge A–G of summary row (label)
             reqs.append(_merge(sid, sr0, sr0 + 1, 0, 7))
-            # Merge G–I of cat row (breakdown text)
             reqs.append(_merge(sid, cr0, cr0 + 1, 6, 9))
 
-            # Format summary row
             reqs.append(_repeat_cell(sid, sr0, sr0 + 1, 0, 9,
                 _cell_fmt(bg=C_WEEK_BG, bold=True, h_align="CENTER",
                           v_align="MIDDLE", borders=_thick_border()),
-                fields="userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment,borders)"
+                fields=_FULL_FIELDS
             ))
-            # TOTAL HARIAN of summary row
             net_bg = C_TOTAL_NET_POS if week_net >= 0 else C_TOTAL_NET_NEG
             reqs.append(_repeat_cell(sid, sr0, sr0 + 1, 8, 9,
                 _cell_fmt(bg=net_bg, bold=True, font_size=9,
                           h_align="CENTER", v_align="MIDDLE", wrap=True,
                           borders=_thick_border()),
-                fields="userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment,wrapStrategy,borders)"
+                fields=_FULL_FIELDS
             ))
-            # Format cat row
             reqs.append(_repeat_cell(sid, cr0, cr0 + 1, 0, 9,
                 _cell_fmt(bg=C_WEEK_CAT_BG, italic=True, font_size=9,
-                          v_align="MIDDLE"),
-                fields="userEnteredFormat(backgroundColor,textFormat,verticalAlignment)"
+                          h_align="LEFT", v_align="MIDDLE"),
+                fields=_FULL_FIELDS
             ))
 
             cur_row  += 2
@@ -370,21 +401,17 @@ def rebuild_month_sheet(year=None, month=None) -> bool:
 
     # ── Static formatting + column widths ────────────────────────────────────
     static_reqs = [
-        # Title merge
         _merge(sid, 0, 1, 0, 9),
-        # Title format
         _repeat_cell(sid, 0, 1, 0, 9,
             _cell_fmt(bg=C_TITLE_BG, bold=True, font_size=14,
                       fg=C_WHITE, h_align="CENTER", v_align="MIDDLE"),
-            fields="userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment)"
+            fields=_FULL_FIELDS
         ),
-        # Column headers format
         _repeat_cell(sid, 1, 2, 0, 9,
             _cell_fmt(bg=C_COL_HEADER_BG, bold=True, fg=C_WHITE,
                       h_align="CENTER", v_align="MIDDLE", borders=_border()),
-            fields="userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment,borders)"
+            fields=_FULL_FIELDS
         ),
-        # Column widths
         _col_width(sid, 0, 1, 50),   # NO
         _col_width(sid, 1, 2, 85),   # HARI
         _col_width(sid, 2, 3, 105),  # TANGGAL
@@ -394,9 +421,7 @@ def rebuild_month_sheet(year=None, month=None) -> bool:
         _col_width(sid, 6, 7, 130),  # HARGA TOTAL
         _col_width(sid, 7, 8, 210),  # KETERANGAN
         _col_width(sid, 8, 9, 165),  # TOTAL HARIAN
-        # Title row height
         _row_height(sid, 0, 1, 45),
-        # Freeze top 2 rows
         {
             "updateSheetProperties": {
                 "properties": {
@@ -415,19 +440,20 @@ def rebuild_month_sheet(year=None, month=None) -> bool:
 
 # ─── SUMMARY sheet ────────────────────────────────────────────────────────────
 
-def update_summary_sheet() -> bool:
+def update_summary_sheet(user_id=None, spreadsheet_id=None) -> bool:
     try:
-        ss = _get_spreadsheet()
+        ss = _get_spreadsheet(spreadsheet_id)
     except Exception as e:
         logger.error(f"Sheets auth failed: {e}")
         return False
 
     ws = _get_or_create_ws(ss, "SUMMARY", rows=500, cols=7)
+    sid = ws.id
     ws.clear()
     try:
         ss.batch_update({"requests": [{
             "unmergeCells": {"range": {
-                "sheetId": ws.id,
+                "sheetId": sid,
                 "startRowIndex": 0, "endRowIndex": 500,
                 "startColumnIndex": 0, "endColumnIndex": 7,
             }}
@@ -435,10 +461,9 @@ def update_summary_sheet() -> bool:
     except Exception:
         pass
 
-    all_transactions = get_all_transactions()
-    sid = ws.id
+    all_transactions = get_all_transactions(user_id=user_id)
 
-    # Group by year-month, then by week
+    # Group by year-month
     by_ym: dict = defaultdict(list)
     for t in all_transactions:
         d = datetime.strptime(t["date"], "%Y-%m-%d").date()
@@ -449,17 +474,38 @@ def update_summary_sheet() -> bool:
     reqs:     list = []
     cur_row   = 3  # 1-indexed (row 1 title, row 2 headers)
 
+    # Reset formatting
+    reqs.append({
+        "repeatCell": {
+            "range": {
+                "sheetId": sid,
+                "startRowIndex": 0, "endRowIndex": 500,
+                "startColumnIndex": 0, "endColumnIndex": 7,
+            },
+            "cell": {"userEnteredFormat": {}},
+            "fields": "userEnteredFormat",
+        }
+    })
+
+    # Column alignment for summary data rows: (c0, c1, align)
+    _SUM_COL_ALIGNS = [
+        (0, 1, "LEFT"),    # PERIODE
+        (1, 4, "RIGHT"),   # MASUK, KELUAR, NET
+        (4, 7, "LEFT"),    # HARI TERBOROS, KATEGORI, PENGELUARAN
+    ]
+    _SUM_FIELDS = "userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment,borders)"
+
     for (year, month) in sorted(by_ym.keys()):
         month_trans = sorted(by_ym[(year, month)], key=lambda x: x["date"])
         month_name  = MONTH_NAMES_ID[month]
 
-        # Section header row for month
+        # Month section header
         all_rows.append([f"── {month_name.upper()} {year} ──", "", "", "", "", "", ""])
-        sec_row = cur_row - 1  # 0-indexed
+        sec_row = cur_row - 1
         reqs.append(_merge(sid, sec_row, sec_row + 1, 0, 7))
         reqs.append(_repeat_cell(sid, sec_row, sec_row + 1, 0, 7,
             _cell_fmt(bg=C_TITLE_BG, bold=True, fg=C_WHITE, h_align="CENTER"),
-            fields="userEnteredFormat(backgroundColor,textFormat,horizontalAlignment)"
+            fields=_SUM_FIELDS
         ))
         cur_row += 1
 
@@ -492,8 +538,8 @@ def update_summary_sheet() -> bool:
                     day_spend[t["date"]] += t["total_price"]
 
             if day_spend:
-                tb_date = max(day_spend, key=day_spend.get)
-                tb_d    = datetime.strptime(tb_date, "%Y-%m-%d").date()
+                tb_date  = max(day_spend, key=day_spend.get)
+                tb_d     = datetime.strptime(tb_date, "%Y-%m-%d").date()
                 terboros = f"{DAY_NAMES_ID.get(tb_d.strftime('%A'), '')} ({fmt_rp(day_spend[tb_date])})"
             else:
                 terboros = "-"
@@ -503,25 +549,22 @@ def update_summary_sheet() -> bool:
                 if t["type"] == "OUT":
                     cat_spend[t["category"]] += t["total_price"]
             if cat_spend:
-                top_cat = max(cat_spend, key=cat_spend.get)
+                top_cat     = max(cat_spend, key=cat_spend.get)
                 top_cat_str = f"{top_cat} ({fmt_rp(cat_spend[top_cat])})"
             else:
                 top_cat_str = "-"
-                top_cat = ""
 
-            # Biggest single expense
             out_items = [t for t in wt if t["type"] == "OUT"]
             if out_items:
-                biggest = max(out_items, key=lambda x: x["total_price"])
+                biggest     = max(out_items, key=lambda x: x["total_price"])
                 biggest_str = f"{biggest['description']} — {fmt_rp(biggest['total_price'])}"
             else:
                 biggest_str = "-"
 
-            # Week range (clamp to month)
-            mon_day = monday.day if monday.month == month else 1
             import calendar as _cal
-            sun_day = sunday.day if sunday.month == month else _cal.monthrange(year, month)[1]
-            periode = f"Minggu {week_num}  ({mon_day}–{sun_day} {month_name})"
+            mon_day  = monday.day if monday.month == month else 1
+            sun_day  = sunday.day if sunday.month == month else _cal.monthrange(year, month)[1]
+            periode  = f"Minggu {week_num}  ({mon_day}–{sun_day} {month_name})"
 
             all_rows.append([
                 periode,
@@ -534,11 +577,12 @@ def update_summary_sheet() -> bool:
             ])
 
             row0 = cur_row - 1
-            bg = C_IN_ROW if w_net >= 0 else C_OUT_ROW
-            reqs.append(_repeat_cell(sid, row0, row0 + 1, 0, 7,
-                _cell_fmt(bg=bg, borders=_border()),
-                fields="userEnteredFormat(backgroundColor,borders)"
-            ))
+            bg   = C_IN_ROW if w_net >= 0 else C_OUT_ROW
+            for c0, c1, align in _SUM_COL_ALIGNS:
+                reqs.append(_repeat_cell(sid, row0, row0 + 1, c0, c1,
+                    _cell_fmt(bg=bg, h_align=align, v_align="MIDDLE", borders=_border()),
+                    fields=_SUM_FIELDS
+                ))
 
             month_in  += w_in
             month_out += w_out
@@ -556,12 +600,13 @@ def update_summary_sheet() -> bool:
             "", "", "",
         ])
         tot_row = cur_row - 1
-        reqs.append(_repeat_cell(sid, tot_row, tot_row + 1, 0, 7,
-            _cell_fmt(bg=C_SUMMARY_TOTAL, bold=True, borders=_thick_border()),
-            fields="userEnteredFormat(backgroundColor,textFormat,borders)"
-        ))
-        cur_row += 2  # blank separator
-
+        for c0, c1, align in _SUM_COL_ALIGNS:
+            reqs.append(_repeat_cell(sid, tot_row, tot_row + 1, c0, c1,
+                _cell_fmt(bg=C_SUMMARY_TOTAL, bold=True, h_align=align,
+                          v_align="MIDDLE", borders=_thick_border()),
+                fields=_SUM_FIELDS
+            ))
+        cur_row += 2
         all_rows.append(["", "", "", "", "", "", ""])
 
     # Write
@@ -574,11 +619,11 @@ def update_summary_sheet() -> bool:
         _merge(sid, 0, 1, 0, 7),
         _repeat_cell(sid, 0, 1, 0, 7,
             _cell_fmt(bg=C_TITLE_BG, bold=True, fg=C_WHITE, font_size=14, h_align="CENTER"),
-            fields="userEnteredFormat(backgroundColor,textFormat,horizontalAlignment)"
+            fields=_SUM_FIELDS
         ),
         _repeat_cell(sid, 1, 2, 0, 7,
             _cell_fmt(bg=C_COL_HEADER_BG, bold=True, fg=C_WHITE, h_align="CENTER"),
-            fields="userEnteredFormat(backgroundColor,textFormat,horizontalAlignment)"
+            fields=_SUM_FIELDS
         ),
         _col_width(sid, 0, 1, 200),
         _col_width(sid, 1, 2, 140),
@@ -604,10 +649,10 @@ def update_summary_sheet() -> bool:
 
 def append_transaction_row(trans_id, date_str, day_name, type_, category,
                            quantity, unit_price, total_price, description,
-                           year, month):
+                           year, month, spreadsheet_id=None):
     """Append a single raw row to the monthly sheet (no fancy formatting)."""
     try:
-        ss = _get_spreadsheet()
+        ss = _get_spreadsheet(spreadsheet_id)
         month_name  = MONTH_NAMES_ID[month]
         sheet_title = f"{month_name} {year}"
         ws = _get_or_create_ws(ss, sheet_title)

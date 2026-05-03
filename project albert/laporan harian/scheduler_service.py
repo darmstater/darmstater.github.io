@@ -1,11 +1,12 @@
+import asyncio
 import logging
 from datetime import datetime, timedelta
 from collections import defaultdict
 
 import pytz
 
-from config import TELEGRAM_CHAT_ID, TIMEZONE, MONTH_NAMES_ID, DAY_NAMES_ID
-from database import get_today_transactions, get_week_transactions
+from config import TIMEZONE, MONTH_NAMES_ID, DAY_NAMES_ID
+from database import get_today_transactions, get_week_transactions, get_all_users
 from sheets_service import rebuild_month_sheet, update_summary_sheet
 
 logger = logging.getLogger(__name__)
@@ -18,9 +19,9 @@ def fmt_rp(amount: float) -> str:
 
 # ─── Formatters ───────────────────────────────────────────────────────────────
 
-def format_daily_summary() -> str:
+def format_daily_summary(user_id: str = None) -> str:
     now  = datetime.now(TZ)
-    txns = get_today_transactions()
+    txns = get_today_transactions(user_id=user_id)
     day  = DAY_NAMES_ID.get(now.strftime("%A"), "")
     date = f"{now.day} {MONTH_NAMES_ID[now.month]} {now.year}"
 
@@ -70,9 +71,9 @@ def format_daily_summary() -> str:
     return "\n".join(lines)
 
 
-def format_weekly_summary() -> str:
+def format_weekly_summary(user_id: str = None) -> str:
     now  = datetime.now(TZ)
-    txns = get_week_transactions()
+    txns = get_week_transactions(user_id=user_id)
 
     monday = now - timedelta(days=now.weekday())
     sunday = monday + timedelta(days=6)
@@ -89,9 +90,9 @@ def format_weekly_summary() -> str:
     net       = total_in - total_out
     sign      = "+" if net >= 0 else ""
 
-    cat_out: dict  = defaultdict(float)
+    cat_out: dict   = defaultdict(float)
     day_spend: dict = defaultdict(float)
-    biggest_item   = None
+    biggest_item    = None
 
     for t in txns:
         if t["type"] == "OUT":
@@ -136,52 +137,51 @@ def format_weekly_summary() -> str:
 # ─── Scheduled jobs ───────────────────────────────────────────────────────────
 
 async def send_daily_summary(bot):
-    try:
-        text = format_daily_summary()
-        await bot.send_message(
-            chat_id=TELEGRAM_CHAT_ID,
-            text=text,
-            parse_mode="Markdown"
-        )
-        logger.info("Daily summary sent")
-    except Exception as e:
-        logger.error(f"send_daily_summary error: {e}")
+    users = get_all_users()
+    for user in users:
+        uid = user["telegram_user_id"]
+        try:
+            text = format_daily_summary(user_id=uid)
+            await bot.send_message(chat_id=uid, text=text, parse_mode="Markdown")
+            logger.info(f"Daily summary sent to {uid}")
+        except Exception as e:
+            logger.error(f"send_daily_summary error for {uid}: {e}")
 
 
 async def send_weekly_summary_and_sync(bot):
-    now = datetime.now(TZ)
-    try:
-        # 1. Send weekly summary text
-        text = format_weekly_summary()
-        await bot.send_message(
-            chat_id=TELEGRAM_CHAT_ID,
-            text=text,
-            parse_mode="Markdown"
-        )
+    now   = datetime.now(TZ)
+    users = get_all_users()
 
-        # 2. Rebuild Google Sheets
-        await bot.send_message(
-            chat_id=TELEGRAM_CHAT_ID,
-            text="🔄 Menyinkronkan ke Google Sheets..."
-        )
+    for user in users:
+        uid            = user["telegram_user_id"]
+        spreadsheet_id = user["spreadsheet_id"]
+        try:
+            text = format_weekly_summary(user_id=uid)
+            await bot.send_message(chat_id=uid, text=text, parse_mode="Markdown")
+            await bot.send_message(chat_id=uid, text="🔄 Menyinkronkan ke Google Sheets...")
 
-        import asyncio
-        loop = asyncio.get_event_loop()
-
-        ok_month   = await loop.run_in_executor(None, lambda: rebuild_month_sheet(now.year, now.month))
-        ok_summary = await loop.run_in_executor(None, update_summary_sheet)
-
-        if ok_month and ok_summary:
-            await bot.send_message(
-                chat_id=TELEGRAM_CHAT_ID,
-                text="✅ Google Sheets berhasil diperbarui!"
+            loop = asyncio.get_event_loop()
+            ok_month = await loop.run_in_executor(
+                None,
+                lambda u=uid, s=spreadsheet_id: rebuild_month_sheet(
+                    now.year, now.month, user_id=u, spreadsheet_id=s
+                )
             )
-        else:
-            await bot.send_message(
-                chat_id=TELEGRAM_CHAT_ID,
-                text="⚠️ Sebagian update Sheets gagal. Cek log atau coba /sync manual."
+            ok_summary = await loop.run_in_executor(
+                None,
+                lambda u=uid, s=spreadsheet_id: update_summary_sheet(
+                    user_id=u, spreadsheet_id=s
+                )
             )
 
-        logger.info("Weekly summary sent + sheets synced")
-    except Exception as e:
-        logger.error(f"send_weekly_summary_and_sync error: {e}")
+            if ok_month and ok_summary:
+                await bot.send_message(chat_id=uid, text="✅ Google Sheets berhasil diperbarui!")
+            else:
+                await bot.send_message(
+                    chat_id=uid,
+                    text="⚠️ Sebagian update Sheets gagal. Coba /sync manual."
+                )
+
+            logger.info(f"Weekly summary sent + sheets synced for {uid}")
+        except Exception as e:
+            logger.error(f"send_weekly_summary_and_sync error for {uid}: {e}")
