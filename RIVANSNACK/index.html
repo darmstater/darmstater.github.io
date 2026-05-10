@@ -1,0 +1,2412 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rivan's Snack — Tradition Crafted with Innovation</title>
+  <meta name="description" content="Rivan's Snack – Produsen camilan premium asal Salatiga sejak 2016. Abon Ayam 100% daging asli dan Tingkers Enting-Enting khas Indonesia." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --primary:      #fdbd5b;
+      --primary-dark: #d4941a;
+      --primary-light:#f6d49f;
+      --primary-xl:   #fef4e0;
+      --grad:         linear-gradient(135deg, #fdbd5b, #f6d49f);
+      --orange:       #F58634;
+      --ink:          #1A1008;
+      --ink-60:       rgba(26,16,8,.60);
+      --ink-30:       rgba(26,16,8,.30);
+      --ink-10:       rgba(26,16,8,.08);
+      --white:        #FFFFFF;
+      --off-white:    #FAF8F5;
+      --warm-gray:    #F4F0EB;
+      --border:       #E8E2D9;
+      --serif:        'Playfair Display', Georgia, serif;
+      --sans:         'DM Sans', system-ui, sans-serif;
+      --transition:   .28s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ─── RESET ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: var(--sans); color: var(--ink); background: var(--white); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    /* ─── UTILITIES ──────────────────────────────────────────── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+    .label {
+      display: inline-block;
+      font-family: var(--sans);
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--primary-dark);
+      margin-bottom: 14px;
+    }
+    .section-heading {
+      font-family: var(--serif);
+      font-size: clamp(1.9rem, 3.5vw, 2.75rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 18px;
+    }
+    .section-lead {
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-60);
+      max-width: 560px;
+    }
+    .link-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .9rem;
+      font-weight: 600;
+      letter-spacing: .02em;
+      color: var(--primary-dark);
+      transition: gap var(--transition);
+    }
+    .link-more::after { content: '→'; }
+    .link-more:hover { gap: 14px; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    /* ─── NAVBAR ─────────────────────────────────────────────── */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow var(--transition);
+    }
+    #navbar.scrolled { box-shadow: 0 2px 24px rgba(26,16,8,.08); }
+    .nav-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .nav-logo-img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      border-radius: 6px;
+    }
+    .nav-logo-text { line-height: 1.1; }
+    .nav-logo-text strong {
+      display: block;
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: .01em;
+    }
+    .nav-logo-text span {
+      display: block;
+      font-size: .6rem;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--primary-dark);
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      align-items: center;
+    }
+    .nav-links a {
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--ink-60);
+      letter-spacing: .02em;
+      transition: color var(--transition);
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; right: 0;
+      height: 1px;
+      background: var(--primary);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--transition);
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-shrink: 0;
+    }
+    .nav-btn-order {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 22px;
+      background: var(--grad);
+      color: var(--ink);
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      border-radius: 2px;
+      transition: opacity var(--transition), transform var(--transition);
+    }
+    .nav-btn-order:hover { opacity: .88; transform: translateY(-1px); }
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--ink);
+      border-radius: 2px;
+      transition: all .3s;
+    }
+    .nav-mobile {
+      display: none;
+      flex-direction: column;
+      background: white;
+      border-top: 1px solid var(--border);
+      padding: 20px 40px;
+      gap: 4px;
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a {
+      padding: 10px 0;
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--ink-60);
+      border-bottom: 1px solid var(--border);
+      transition: color var(--transition);
+    }
+    .nav-mobile a:last-child { border-bottom: none; }
+    .nav-mobile a:hover { color: var(--primary-dark); }
+
+    /* ─── HERO ───────────────────────────────────────────────── */
+    #hero {
+      height: 100vh;
+      min-height: 620px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(160deg,
+          rgba(26,16,8,.80) 0%,
+          rgba(80,48,0,.58) 45%,
+          rgba(253,189,91,.22) 100%);
+      z-index: 1;
+    }
+    .hero-pattern {
+      position: absolute;
+      inset: 0;
+      background-color: #1A0E00;
+      background-image:
+        radial-gradient(ellipse at 70% 40%, rgba(253,189,91,.3) 0%, transparent 55%),
+        radial-gradient(ellipse at 20% 80%, rgba(246,212,159,.18) 0%, transparent 45%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-visual {
+      position: absolute;
+      right: 0;
+      bottom: 110px;
+      width: 38%;
+      max-width: 480px;
+      z-index: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+    }
+    .hero-visual img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 24px 64px rgba(253,189,91,.25));
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+      padding-top: 68px;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .hero-eyebrow-line {
+      width: 32px;
+      height: 1px;
+      background: var(--primary);
+    }
+    .hero-eyebrow span {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--primary-light);
+    }
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 6vw, 5.2rem);
+      font-weight: 700;
+      color: white;
+      line-height: 1.08;
+      margin-bottom: 22px;
+      max-width: 740px;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--primary-light);
+    }
+    .hero-subtitle {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: rgba(255,255,255,.8);
+      line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 44px;
+    }
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      background: var(--grad);
+      color: var(--ink);
+      font-size: .9rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      border-radius: 2px;
+      transition: opacity var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .btn-primary:hover {
+      opacity: .88;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(253,189,91,.4);
+    }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 30px;
+      border: 1px solid rgba(255,255,255,.45);
+      color: white;
+      font-size: .9rem;
+      font-weight: 500;
+      letter-spacing: .03em;
+      border-radius: 2px;
+      transition: border-color var(--transition), background var(--transition);
+    }
+    .btn-ghost:hover { border-color: white; background: rgba(255,255,255,.08); }
+    .hero-stats-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0; right: 0;
+      z-index: 2;
+      background: rgba(255,255,255,.07);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255,255,255,.12);
+    }
+    .hero-stats-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: flex;
+    }
+    .hero-stat {
+      flex: 1;
+      padding: 22px 0;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,.12);
+    }
+    .hero-stat:last-child { border-right: none; }
+    .hero-stat-num {
+      font-family: var(--serif);
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: white;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .hero-stat-label {
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.55);
+    }
+
+    /* ─── KEUNGGULAN / VALUES ─────────────────────────────────── */
+    #values {
+      padding: 96px 0;
+      background: var(--white);
+    }
+    .values-head {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .values-head .section-lead { margin: 0 auto; }
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0;
+      border: 1px solid var(--border);
+    }
+    .value-item {
+      padding: 36px 20px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+      transition: background var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .value-item::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--primary);
+      transform: scaleX(0);
+      transition: transform var(--transition);
+    }
+    .value-item:last-child { border-right: none; }
+    .value-item:hover { background: var(--off-white); }
+    .value-item:hover::before { transform: scaleX(1); }
+    .value-icon {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--warm-gray);
+      border-radius: 50%;
+      font-size: 1.5rem;
+      transition: background var(--transition), transform var(--transition);
+    }
+    .value-item:hover .value-icon {
+      background: var(--primary-xl);
+      transform: scale(1.08);
+    }
+    .value-title {
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    /* ─── TENTANG ─────────────────────────────────────────────── */
+    #about {
+      padding: 96px 0;
+      background: var(--off-white);
+    }
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .about-visual {
+      position: relative;
+    }
+    .about-main-card {
+      background: white;
+      border: 1px solid var(--border);
+      padding: 48px;
+      position: relative;
+    }
+    .about-main-card::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 40px;
+      width: 60px; height: 3px;
+      background: var(--primary);
+    }
+    .about-big-year {
+      font-family: var(--serif);
+      font-size: 5rem;
+      font-weight: 700;
+      color: var(--ink-10);
+      line-height: 1;
+      position: absolute;
+      top: 24px; right: 24px;
+      pointer-events: none;
+      user-select: none;
+    }
+    .about-wordmark {
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+      object-position: left;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .about-card-label {
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--primary-dark);
+      margin-bottom: 12px;
+    }
+    .about-card-title {
+      font-family: var(--serif);
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.3;
+      margin-bottom: 24px;
+    }
+    .about-card-body {
+      font-size: .92rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--ink-60);
+    }
+    .about-sub-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .about-sub-card {
+      background: var(--warm-gray);
+      border: 1px solid var(--border);
+      padding: 20px;
+    }
+    .about-sub-num {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .about-sub-label {
+      font-size: .78rem;
+      font-weight: 500;
+      color: var(--ink-60);
+      line-height: 1.4;
+    }
+    .about-text .section-lead { margin-bottom: 32px; }
+    .about-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .about-list-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .about-list-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--primary);
+      border-radius: 50%;
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+    .about-list-item p {
+      font-size: .92rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink-60);
+    }
+    .about-list-item strong { color: var(--ink); font-weight: 600; }
+
+    /* ─── PERJALANAN / JOURNEY ────────────────────────────────── */
+    #journey {
+      padding: 96px 0;
+      background: var(--white);
+    }
+    .journey-head {
+      margin-bottom: 64px;
+    }
+    .journey-track {
+      position: relative;
+      padding: 0 0 0 2px;
+    }
+    .journey-line {
+      position: absolute;
+      top: 28px;
+      left: 0; right: 0;
+      height: 1px;
+      background: var(--border);
+      z-index: 0;
+    }
+    .journey-items {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .journey-item {
+      padding: 0 20px 0 0;
+      position: relative;
+    }
+    .journey-dot-wrap {
+      display: flex;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .journey-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      transition: border-color var(--transition), background var(--transition);
+    }
+    .journey-item:hover .journey-dot { border-color: var(--primary); background: var(--primary); }
+    .journey-year {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0;
+      cursor: default;
+      transition: color var(--transition);
+    }
+    .journey-item:hover .journey-year { color: var(--primary-dark); }
+    .journey-desc {
+      position: absolute;
+      bottom: calc(100% + 14px);
+      left: 0;
+      width: 210px;
+      background: var(--primary-xl);
+      color: var(--ink);
+      border: 1px solid var(--primary-light);
+      font-size: .8rem;
+      font-weight: 400;
+      line-height: 1.7;
+      padding: 14px 16px;
+      border-radius: 4px;
+      box-shadow: 0 4px 16px rgba(253,189,91,.18);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(6px);
+      transition: opacity var(--transition), transform var(--transition);
+      z-index: 20;
+      white-space: normal;
+    }
+    .journey-desc::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 18px;
+      border: 6px solid transparent;
+      border-top-color: var(--primary-light);
+    }
+    .journey-item:hover .journey-desc {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── PRODUK ──────────────────────────────────────────────── */
+    #products {
+      padding: 96px 0;
+      background: var(--off-white);
+    }
+    .products-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 48px;
+    }
+    .products-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      gap: 0;
+      margin-bottom: 48px;
+    }
+    .tab-btn {
+      padding: 12px 28px;
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--ink-60);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      letter-spacing: .02em;
+      transition: color var(--transition), border-color var(--transition);
+    }
+    .tab-btn.active, .tab-btn:hover { color: var(--primary-dark); }
+    .tab-btn.active { border-bottom-color: var(--primary); font-weight: 600; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .scroll-wrap {
+      position: relative;
+    }
+    .scroll-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 100px;
+      background: linear-gradient(to right, transparent, var(--white));
+      pointer-events: none;
+      transition: opacity .3s;
+      z-index: 2;
+    }
+    .scroll-wrap.at-end::after { opacity: 0; }
+    .scroll-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: var(--white);
+      box-shadow: 0 2px 16px rgba(26,16,8,.14);
+      border: 1px solid var(--border);
+      font-size: 1.2rem;
+      color: var(--ink);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: box-shadow var(--transition), opacity var(--transition), transform var(--transition);
+      line-height: 1;
+    }
+    .scroll-arrow:hover { box-shadow: 0 4px 20px rgba(26,16,8,.2); transform: translateY(calc(-50% - 1px)); }
+    .scroll-arrow--prev { left: -21px; }
+    .scroll-arrow--next { right: -21px; }
+    .scroll-arrow[disabled] { opacity: 0; pointer-events: none; }
+    .products-grid {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .products-grid::-webkit-scrollbar { display: none; }
+    .product-card {
+      flex: 0 0 calc(25% - 0.75px);
+      min-width: 220px;
+      scroll-snap-align: start;
+      background: var(--white);
+      padding: 0;
+      transition: background var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .product-card:hover { background: var(--off-white); }
+    .product-img {
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: #FAF8F5;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-bottom: none;
+      cursor: zoom-in;
+    }
+    .product-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      transition: transform .3s ease;
+    }
+    .product-img:hover img { transform: scale(1.04); }
+    .product-img-icon {
+      position: absolute;
+      bottom: 10px; right: 10px;
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.88);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem;
+      opacity: 0;
+      transition: opacity var(--transition);
+      pointer-events: none;
+    }
+    .product-img:hover .product-img-icon { opacity: 1; }
+
+    /* ─── LIGHTBOX ─────────────────────────────────────────── */
+    .lb {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,6,0,.50);
+      z-index: 9000;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+    .lb.open { display: flex; }
+    .lb-close {
+      position: absolute;
+      top: 18px; right: 20px;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.1);
+      color: rgba(255,255,255,.8);
+      font-size: 1.3rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s, color .2s;
+      z-index: 10;
+    }
+    .lb-close:hover { background: rgba(255,255,255,.2); color: white; }
+    .lb-stage {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      max-width: min(88vw, 540px);
+      padding: 0 4px;
+    }
+    .lb-nav {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.15);
+      color: white;
+      font-size: 1.6rem;
+      line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: background .2s;
+    }
+    .lb-nav:hover { background: rgba(255,255,255,.22); }
+    .lb-nav:disabled { opacity: .2; cursor: default; }
+    .lb-canvas {
+      flex: 1;
+      aspect-ratio: 1;
+      background: #1a1008;
+      border: 1px solid rgba(255,255,255,.07);
+      overflow: hidden;
+      position: relative;
+    }
+    .lb-canvas img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
+      transition: opacity .18s;
+    }
+    .lb-thumbs {
+      display: flex;
+      gap: 6px;
+      max-width: min(88vw, 540px);
+      overflow-x: auto;
+      padding: 2px 4px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,.15) transparent;
+    }
+    .lb-thumbs::-webkit-scrollbar { height: 4px; }
+    .lb-thumbs::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 2px; }
+    .lb-thumb {
+      width: 54px; height: 54px;
+      flex-shrink: 0;
+      object-fit: cover;
+      cursor: pointer;
+      border: 2px solid transparent;
+      opacity: .45;
+      transition: opacity .2s, border-color .2s;
+    }
+    .lb-thumb.active { border-color: var(--primary); opacity: 1; }
+    .lb-thumb:hover { opacity: .8; }
+    .lb-counter {
+      font-size: .78rem;
+      color: rgba(255,255,255,.35);
+      letter-spacing: .06em;
+    }
+    @media (max-width: 768px) {
+      .lb-stage { max-width: 95vw; }
+      .lb-thumbs { max-width: 95vw; }
+      .lb-nav { width: 34px; height: 34px; font-size: 1.3rem; }
+    }
+    .product-badge {
+      position: absolute;
+      top: 14px; left: 14px;
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      background: var(--primary);
+      color: var(--ink);
+    }
+    .product-badge-gold {
+      position: absolute;
+      top: 14px; left: 14px;
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      background: var(--ink);
+      color: var(--primary);
+    }
+    .product-body { padding: 22px 24px 24px; }
+    .product-name {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .product-price {
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--primary-dark);
+      margin-bottom: 10px;
+    }
+    .product-desc {
+      font-size: .8rem;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--ink-60);
+      margin-bottom: 18px;
+    }
+    .product-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .03em;
+      color: var(--primary-dark);
+      transition: gap var(--transition), border-color var(--transition);
+      border-bottom: 1px solid transparent;
+      padding-bottom: 1px;
+    }
+    .product-link::after { content: '→'; font-size: .85rem; }
+    .product-link:hover { gap: 10px; border-bottom-color: var(--primary-dark); }
+
+    /* ─── CARA ORDER ─────────────────────────────────────────── */
+    #order {
+      padding: 96px 0;
+      background: var(--white);
+    }
+    .order-head { margin-bottom: 60px; }
+    .order-channels {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .order-channel-card {
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      padding: 40px 36px 36px;
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+    .order-channel-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 64px rgba(26,16,8,.1);
+      border-color: var(--primary);
+    }
+    .order-channel-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--grad);
+    }
+    .order-channel-num {
+      font-family: var(--serif);
+      font-size: 3.8rem;
+      font-weight: 700;
+      line-height: 1;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+    .order-channel-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      flex-shrink: 0;
+    }
+    .order-channel-icon img {
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .order-channel-title {
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .order-channel-desc {
+      font-size: .85rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-60);
+      margin-bottom: 28px;
+    }
+    .order-channel-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      font-size: .82rem;
+      font-weight: 600;
+      letter-spacing: .02em;
+      border-radius: 2px;
+      transition: opacity var(--transition), transform var(--transition);
+    }
+    .order-channel-btn:hover { opacity: .88; transform: translateY(-1px); }
+    .ocb-sp { background: #EE4D2D; color: white; }
+    .ocb-tk { background: #42b549; color: white; }
+    .ocb-wa { background: #25D366; color: white; }
+
+    .order-reseller {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 36px 44px;
+      background: var(--ink);
+      border-radius: 2px;
+    }
+    .order-reseller p {
+      font-size: .9rem;
+      font-weight: 300;
+      color: rgba(255,255,255,.5);
+    }
+    .order-reseller strong { color: rgba(255,255,255,.85); font-weight: 600; }
+    .reseller-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 28px;
+      background: var(--grad);
+      color: var(--ink);
+      font-size: .85rem;
+      font-weight: 700;
+      border-radius: 2px;
+      transition: opacity var(--transition), transform var(--transition);
+    }
+    .reseller-btn:hover { opacity: .9; transform: translateY(-1px); }
+
+    /* ─── RESELLER ───────────────────────────────────────────── */
+    #reseller {
+      padding: 96px 0;
+      background: var(--ink);
+      position: relative;
+      overflow: hidden;
+    }
+    #reseller::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 80% 50%, rgba(253,189,91,.10), transparent);
+      pointer-events: none;
+    }
+    .reseller-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .reseller-left .label { color: var(--primary); }
+    .reseller-left .section-heading { color: var(--white); }
+    .reseller-left .section-lead { color: rgba(255,255,255,.55); max-width: 480px; }
+    .reseller-benefits {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 40px;
+    }
+    .reseller-benefit-card {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 2px;
+      padding: 24px 20px;
+      transition: background var(--transition), border-color var(--transition);
+    }
+    .reseller-benefit-card:hover {
+      background: rgba(253,189,91,.08);
+      border-color: rgba(253,189,91,.25);
+    }
+    .reseller-benefit-icon {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+    }
+    .reseller-benefit-title {
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .reseller-benefit-desc {
+      font-size: .78rem;
+      font-weight: 300;
+      color: rgba(255,255,255,.45);
+      line-height: 1.6;
+    }
+    .reseller-right {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 2px;
+      padding: 44px 40px;
+    }
+    .reseller-steps-title {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 32px;
+    }
+    .reseller-steps { display: flex; flex-direction: column; gap: 24px; }
+    .reseller-step { display: flex; gap: 18px; align-items: flex-start; }
+    .reseller-step-num {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--grad);
+      color: var(--ink);
+      font-size: .75rem;
+      font-weight: 700;
+      border-radius: 2px;
+    }
+    .reseller-step-body {}
+    .reseller-step-title {
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .reseller-step-desc {
+      font-size: .78rem;
+      font-weight: 300;
+      color: rgba(255,255,255,.45);
+      line-height: 1.6;
+    }
+    .reseller-cta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      flex-wrap: wrap;
+    }
+    .reseller-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 30px;
+      background: var(--grad);
+      color: var(--ink);
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: .03em;
+      border-radius: 2px;
+      transition: opacity var(--transition), transform var(--transition);
+    }
+    .reseller-cta-btn:hover { opacity: .88; transform: translateY(-1px); }
+    .reseller-cta-note {
+      font-size: .75rem;
+      color: rgba(255,255,255,.35);
+      line-height: 1.5;
+    }
+
+    /* ─── TESTIMONI ───────────────────────────────────────────── */
+    #testimonials {
+      padding: 96px 0;
+      background: var(--off-white);
+    }
+    .testi-head {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .testi-head .section-lead { margin: 0 auto; }
+    .testi-masonry {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+    .testi-item {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .testi-item:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(26,16,8,.09); }
+    .testi-item:first-child { border-top: 3px solid var(--primary); }
+    .testi-stars {
+      color: #E8A000;
+      font-size: .85rem;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+    .testi-product-tag {
+      display: inline-block;
+      font-size: .65rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--primary-dark);
+      background: rgba(253,189,91,.12);
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-bottom: 12px;
+    }
+    .testi-text {
+      font-family: var(--serif);
+      font-size: .92rem;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--ink-60);
+      margin-bottom: 20px;
+    }
+    .testi-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .testi-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+      font-weight: 700;
+      font-family: var(--serif);
+      color: white;
+      flex-shrink: 0;
+    }
+    .testi-name {
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .testi-source {
+      font-size: .72rem;
+      color: var(--ink-30);
+    }
+
+    /* ─── MEDIA SOSIAL ────────────────────────────────────────── */
+    #social {
+      padding: 80px 0;
+      background: var(--warm-gray);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .social-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .social-text .section-heading { margin-bottom: 8px; }
+    .social-text .section-lead { font-size: .95rem; }
+    .social-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 11px 20px;
+      border: 1px solid var(--border);
+      background: white;
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--ink);
+      transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+    }
+    .social-btn:hover { border-color: var(--ink-30); box-shadow: 0 4px 16px rgba(26,16,8,.08); transform: translateY(-2px); }
+    .social-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+    }
+    .social-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .si-ig  { background: radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%); }
+    .si-tt  { background: #010101; }
+    .si-sp  { background: transparent; }
+    .si-tp  { background: transparent; }
+    .si-wa  { background: transparent; }
+
+    /* ─── FOOTER ──────────────────────────────────────────────── */
+    footer {
+      background: #120B00;
+      color: rgba(255,255,255,.55);
+      padding: 72px 0 32px;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 56px;
+      padding-bottom: 56px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .footer-brand-name {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 4px;
+    }
+    .footer-brand-tagline {
+      font-size: .7rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--primary-light);
+      margin-bottom: 18px;
+    }
+    .footer-brand-desc {
+      font-size: .85rem;
+      font-weight: 300;
+      line-height: 1.75;
+      max-width: 280px;
+      margin-bottom: 28px;
+    }
+    .footer-social-row {
+      display: flex;
+      gap: 10px;
+    }
+    .footer-social-icon {
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(255,255,255,.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .95rem;
+      overflow: hidden;
+      transition: border-color var(--transition), background var(--transition);
+    }
+    .footer-social-icon:hover { border-color: rgba(255,255,255,.35); background: rgba(255,255,255,.05); }
+    .footer-social-icon { border-radius: 8px; }
+    .footer-social-icon img,
+    .footer-social-icon svg {
+      width: 36px;
+      height: 36px;
+      object-fit: cover;
+      display: block;
+    }
+    .footer-col-title {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.4);
+      margin-bottom: 20px;
+    }
+    .footer-col-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-col-links a {
+      font-size: .85rem;
+      font-weight: 300;
+      color: rgba(255,255,255,.5);
+      transition: color var(--transition);
+    }
+    .footer-col-links a:hover { color: rgba(255,255,255,.9); }
+    .footer-col-links span {
+      font-size: .85rem;
+      font-weight: 300;
+      color: rgba(255,255,255,.35);
+    }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-copy {
+      font-size: .78rem;
+      color: rgba(255,255,255,.28);
+    }
+    .footer-bottom-links {
+      display: flex;
+      gap: 24px;
+    }
+    .footer-bottom-links a {
+      font-size: .78rem;
+      color: rgba(255,255,255,.28);
+      transition: color var(--transition);
+    }
+    .footer-bottom-links a:hover { color: rgba(255,255,255,.6); }
+
+    /* ─── REVEAL ──────────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s cubic-bezier(.4,0,.2,1), transform .6s cubic-bezier(.4,0,.2,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+
+    /* ─── RESPONSIVE ──────────────────────────────────────────── */
+
+    /* ── Tablet (≤1024px) ── */
+    @media (max-width: 1024px) {
+      #about, #journey, #products, #order, #reseller, #testimonials { padding: 72px 0; }
+      .values-grid { grid-template-columns: repeat(3, 1fr); }
+      .value-item:nth-child(3) { border-right: none; }
+      .value-item:nth-child(6) { border-right: none; }
+      .about-inner { grid-template-columns: 1fr; gap: 48px; }
+      .journey-items { grid-template-columns: repeat(3, 1fr); gap: 28px; }
+      .journey-line { display: none; }
+      .product-card { flex: 0 0 calc(50% - 0.5px); }
+      .order-channels { grid-template-columns: 1fr; }
+      .testi-masonry { grid-template-columns: repeat(2, 1fr); }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .hero-visual { display: none; }
+      .reseller-inner { grid-template-columns: 1fr; gap: 40px; }
+    }
+
+    /* ── Mobile (≤768px) ── */
+    @media (max-width: 768px) {
+      /* Nav */
+      .container { padding: 0 20px; }
+      .nav-wrap { padding: 0 20px; }
+      .nav-links { display: none; }
+      .nav-btn-order { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-mobile { padding: 20px 20px; }
+      .nav-mobile a { padding: 13px 0; font-size: .95rem; }
+
+      /* Hero */
+      #hero { height: 100svh; min-height: 620px; }
+      .hero-content { padding: 0 20px; padding-top: 68px; }
+      .hero-title { font-size: clamp(2rem, 8vw, 2.8rem); }
+      .hero-subtitle { font-size: .92rem; margin-bottom: 32px; }
+      .hero-actions { flex-direction: column; align-items: stretch; gap: 12px; }
+      .btn-primary, .btn-ghost { justify-content: center; }
+      .hero-stats-inner { flex-wrap: wrap; padding: 0 20px; }
+      .hero-stat { flex: 0 0 50%; border-right: none; border-bottom: 1px solid rgba(255,255,255,.12); }
+      .hero-stat:nth-child(odd) { border-right: 1px solid rgba(255,255,255,.12); }
+
+      /* Section paddings */
+      #values, #about, #journey, #products, #order, #reseller, #testimonials, #social { padding: 60px 0; }
+
+      /* Values */
+      .values-grid { grid-template-columns: repeat(2, 1fr); }
+      .value-item:nth-child(even) { border-right: none; }
+      .value-item:nth-child(3) { border-right: 1px solid var(--border); }
+
+      /* Journey — show deskripsi inline (tidak pakai hover tooltip) */
+      .journey-items { grid-template-columns: 1fr 1fr; gap: 24px 16px; }
+      .journey-item { padding: 0; }
+      .journey-desc {
+        position: static;
+        opacity: 1;
+        pointer-events: auto;
+        transform: none;
+        width: auto;
+        margin-top: 8px;
+        box-shadow: none;
+        font-size: .75rem;
+      }
+      .journey-desc::after { display: none; }
+
+      /* Products */
+      .products-head { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .products-tabs { gap: 0; }
+      .tab-btn { flex: 1; justify-content: center; font-size: .8rem; padding: 10px 14px; }
+      .product-card { flex: 0 0 calc(80% - 0.2px); min-width: 240px; }
+      .scroll-arrow { display: none; }
+      .scroll-wrap::after { width: 50px; }
+
+      /* Order */
+      .order-channels { grid-template-columns: 1fr; }
+      .order-reseller { flex-direction: column; align-items: flex-start; }
+
+      /* Reseller */
+      .reseller-inner { grid-template-columns: 1fr; gap: 32px; }
+      .reseller-benefits { grid-template-columns: 1fr 1fr; }
+      .reseller-right { padding: 28px 20px; }
+      .reseller-cta { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .reseller-cta-btn { width: 100%; justify-content: center; }
+
+      /* Testimonials */
+      .testi-masonry { grid-template-columns: 1fr; }
+
+      /* Social */
+      .social-inner { flex-direction: column; align-items: flex-start; gap: 28px; }
+      .social-links { width: 100%; }
+      .social-btn { flex: 1 1 calc(50% - 6px); justify-content: center; }
+
+      /* Footer */
+      .footer-top { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .footer-bottom-links { flex-wrap: wrap; gap: 12px; }
+    }
+
+    /* ── Ponsel kecil (≤480px) ── */
+    @media (max-width: 480px) {
+      .container { padding: 0 16px; }
+      .nav-wrap { padding: 0 16px; }
+      .nav-mobile { padding: 16px; }
+
+      /* Hero */
+      .hero-title { font-size: 1.9rem; line-height: 1.12; }
+      .hero-eyebrow span { font-size: .65rem; }
+
+      /* Section paddings */
+      #values, #about, #journey, #products, #order, #reseller, #testimonials, #social { padding: 48px 0; }
+      .section-heading { font-size: 1.7rem; }
+
+      /* Values */
+      .values-grid { grid-template-columns: 1fr; }
+      .value-item { border-right: none !important; }
+
+      /* Journey */
+      .journey-items { grid-template-columns: 1fr; gap: 20px; }
+      .journey-head { margin-bottom: 32px; }
+
+      /* Products */
+      .product-card { flex: 0 0 calc(88% - 0.12px); min-width: 220px; }
+
+      /* Reseller */
+      .reseller-benefits { grid-template-columns: 1fr; }
+      .reseller-right { padding: 20px 16px; }
+
+      /* Social */
+      .social-btn { flex: 1 1 100%; }
+
+      /* Footer */
+      .footer-social-row { flex-wrap: wrap; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ NAVBAR ═══════════════ -->
+<header id="navbar">
+  <nav class="nav-wrap">
+    <a href="#" class="nav-logo">
+      <img src="assets/Foto%20Produk/RV.png" alt="Rivan's Snack Logo" class="nav-logo-img" />
+      <div class="nav-logo-text">
+        <strong>Rivan's Snack</strong>
+        <span>Tradition Crafted with Innovation</span>
+      </div>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#about">Tentang Kami</a></li>
+      <li><a href="#journey">Perjalanan</a></li>
+      <li><a href="#products">Produk</a></li>
+      <li><a href="#order">Cara Order</a></li>
+      <li><a href="#reseller">Reseller</a></li>
+      <li><a href="#testimonials">Testimoni</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <a href="https://wa.me/6281330393335" target="_blank" rel="noopener" class="nav-btn-order">Pesan Sekarang</a>
+    </div>
+
+    <button class="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <nav class="nav-mobile" id="mobileMenu">
+    <a href="#about" onclick="toggleMenu()">Tentang Kami</a>
+    <a href="#journey" onclick="toggleMenu()">Perjalanan</a>
+    <a href="#products" onclick="toggleMenu()">Produk</a>
+    <a href="#order" onclick="toggleMenu()">Cara Order</a>
+    <a href="#reseller" onclick="toggleMenu()">Reseller</a>
+    <a href="#testimonials" onclick="toggleMenu()">Testimoni</a>
+    <a href="https://wa.me/6281330393335" target="_blank" rel="noopener" onclick="toggleMenu()">Pesan Sekarang</a>
+  </nav>
+</header>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section id="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-line"></span>
+      <span>Berdiri sejak 2016 · Salatiga, Jawa Tengah</span>
+    </div>
+    <h1 class="hero-title">
+      Camilan Warisan,<br>
+      <em>Rasa yang Tak<br>Terlupakan</em>
+    </h1>
+    <p class="hero-subtitle">
+      Rivan's Snack menghadirkan Abon Ayam 100% daging asli dan Tingkers Enting-Enting khas Indonesia — dibuat dengan komitmen pada kualitas dan cita rasa terbaik.
+    </p>
+    <div class="hero-actions">
+      <a href="#products" class="btn-primary">Lihat Produk Kami</a>
+      <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="btn-ghost">Beli di Shopee</a>
+    </div>
+  </div>
+
+  <div class="hero-stats-bar">
+    <div class="hero-stats-inner">
+      <div class="hero-stat">
+        <div class="hero-stat-num">2016</div>
+        <div class="hero-stat-label">Tahun Berdiri</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">10+</div>
+        <div class="hero-stat-label">Varian Produk</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">⭐ 4.9</div>
+        <div class="hero-stat-label">Rating Shopee</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">3</div>
+        <div class="hero-stat-label">Negara Pameran</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">1</div>
+        <div class="hero-stat-label">Award Internasional</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ VALUES ═══════════════ -->
+<section id="values">
+  <div class="container">
+    <div class="values-head reveal">
+      <div class="label">Komitmen Kami</div>
+      <h2 class="section-heading">Standar Kualitas Tanpa Kompromi</h2>
+      <p class="section-lead">Setiap produk Rivan's Snack dibuat dengan standar ketat untuk memastikan cita rasa dan keamanan terbaik bagi keluarga Indonesia.</p>
+    </div>
+    <div class="values-grid reveal">
+      <div class="value-item">
+        <div class="value-icon">🥩</div>
+        <div class="value-title">100% Daging<br>Ayam Asli</div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">☪️</div>
+        <div class="value-title">Halal<br>Bersertifikat</div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">🌿</div>
+        <div class="value-title">Tanpa Pengawet<br>Berbahaya</div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">✦</div>
+        <div class="value-title">Bahan-Bahan<br>Pilihan</div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">🚚</div>
+        <div class="value-title">Pengiriman<br>Se-Indonesia</div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">🏆</div>
+        <div class="value-title">Pemenang<br>Pangan Award</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ═══════════════ ABOUT ═══════════════ -->
+<section id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-visual reveal">
+        <div class="about-main-card">
+          <div class="about-big-year">2016</div>
+          <img src="assets/Foto%20Produk/Rivan.png" alt="Rivan's" class="about-wordmark" />
+          <div class="about-card-label">Tentang Rivan's Snack</div>
+          <h3 class="about-card-title">Dari Dapur Keluarga ke Meja Makan Indonesia</h3>
+          <p class="about-card-body">Didirikan oleh Pak Marwoto di Salatiga dengan nama yang diambil dari nama kedua putranya — Mario dan Evan. Sebuah brand yang lahir dari cinta, tumbuh bersama inovasi.</p>
+        </div>
+        <div class="about-sub-cards">
+          <div class="about-sub-card">
+            <div class="about-sub-num">10+</div>
+            <div class="about-sub-label">Varian produk camilan premium</div>
+          </div>
+          <div class="about-sub-card">
+            <div class="about-sub-num">2019</div>
+            <div class="about-sub-label">Pemenang Pangan Award Internasional</div>
+          </div>
+          <div class="about-sub-card">
+            <div class="about-sub-num">3</div>
+            <div class="about-sub-label">Negara peserta pameran internasional</div>
+          </div>
+          <div class="about-sub-card">
+            <div class="about-sub-num">⭐ 4.9</div>
+            <div class="about-sub-label">Rating toko di Shopee</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-text reveal reveal-delay-1">
+        <div class="label">Kisah Kami</div>
+        <h2 class="section-heading">Tradition Crafted<br><em>with Innovation</em></h2>
+        <p class="section-lead" style="margin-bottom:28px;">Rivan's Snack lahir dari komitmen untuk menghadirkan camilan berkualitas dengan standar rasa dan bahan terbaik — memadukan tradisi lokal dengan inovasi modern.</p>
+
+        <div class="about-list">
+          <div class="about-list-item">
+            <div class="about-list-dot"></div>
+            <p><strong>Abon Ayam 100% daging asli</strong> — tanpa campuran bahan lain, dibuat dari daging dada ayam pilihan dengan tekstur lembut dan rasa otentik.</p>
+          </div>
+          <div class="about-list-item">
+            <div class="about-list-dot"></div>
+            <p><strong>Tingkers Enting-Enting</strong> — inovasi kami: produk enting-enting pertama di Indonesia dengan kemasan prisma segitiga, kini telah dipatenkan.</p>
+          </div>
+          <div class="about-list-item">
+            <div class="about-list-dot"></div>
+            <p><strong>Diakui internasional</strong> — meraih penghargaan pangan internasional dan tampil di pameran Kamboja, Thailand, dan Singapura.</p>
+          </div>
+        </div>
+
+        <a href="#journey" class="link-more">Lihat Perjalanan Kami</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ═══════════════ JOURNEY ═══════════════ -->
+<section id="journey">
+  <div class="container">
+    <div class="journey-head reveal">
+      <div class="label">Perjalanan Kami</div>
+      <h2 class="section-heading">Dari Salatiga ke Seluruh Indonesia</h2>
+      <p class="section-lead">Hampir satu dekade inovasi, dedikasi, dan cinta terhadap camilan berkualitas untuk keluarga Indonesia.</p>
+    </div>
+
+    <div class="journey-track reveal">
+      <div class="journey-line"></div>
+      <div class="journey-items">
+        <div class="journey-item">
+          <div class="journey-dot-wrap"><div class="journey-dot"></div></div>
+          <div class="journey-year">2015</div>
+          <p class="journey-desc">Pak Marwoto memulai usaha Enting-Enting Gepuk di Salatiga, berbekal pengalaman mengelola camilan tradisional keluarga.</p>
+        </div>
+        <div class="journey-item">
+          <div class="journey-dot-wrap"><div class="journey-dot"></div></div>
+          <div class="journey-year">2016</div>
+          <p class="journey-desc">Brand "RIVANS" didirikan. Lahirnya Tingkers — enting-enting pertama berbentuk prisma segitiga di Indonesia, sebuah inovasi kemasan yang revolusioner.</p>
+        </div>
+        <div class="journey-item">
+          <div class="journey-dot-wrap"><div class="journey-dot"></div></div>
+          <div class="journey-year">2017</div>
+          <p class="journey-desc">CV Rivan's Snack resmi terbentuk. Tingkers dipatenkan. Produk mulai masuk ke jaringan minimarket terbesar Indonesia.</p>
+        </div>
+        <div class="journey-item">
+          <div class="journey-dot-wrap"><div class="journey-dot"></div></div>
+          <div class="journey-year">2018</div>
+          <p class="journey-desc">Diversifikasi produk hingga 10+ varian. Tingkers, Singkong Presto, dan Manco menjadi produk unggulan nasional.</p>
+        </div>
+        <div class="journey-item">
+          <div class="journey-dot-wrap"><div class="journey-dot"></div></div>
+          <div class="journey-year">2019</div>
+          <p class="journey-desc">Mengikuti pameran pangan di Kamboja, Thailand, dan Singapura. Meraih Penghargaan Pangan Internasional bergengsi.</p>
+        </div>
+        <div class="journey-item">
+          <div class="journey-dot-wrap"><div class="journey-dot"></div></div>
+          <div class="journey-year">2024</div>
+          <p class="journey-desc">Generasi kedua, Mario, memimpin ekspansi digital ke Shopee, Tokopedia, dan TikTok Shop. Menjangkau konsumen di seluruh Indonesia.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ═══════════════ PRODUCTS ═══════════════ -->
+<section id="products">
+  <div class="container">
+    <div class="products-head reveal">
+      <div>
+        <div class="label">Produk Kami</div>
+        <h2 class="section-heading" style="margin-bottom:0;">Pilihan Camilan Premium</h2>
+      </div>
+      <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="link-more">Lihat semua di Shopee</a>
+    </div>
+
+    <div class="products-tabs reveal">
+      <button class="tab-btn active" onclick="switchTab('abon', this)">Abon Ayam</button>
+      <button class="tab-btn" onclick="switchTab('enting', this)">Snack Enting-Enting</button>
+    </div>
+
+    <!-- Abon Ayam -->
+    <div id="tab-abon" class="tab-panel active reveal">
+      <div class="scroll-wrap">
+      <button class="scroll-arrow scroll-arrow--prev" onclick="scrollGrid(this,-1)" aria-label="Sebelumnya" disabled>&#8249;</button>
+      <button class="scroll-arrow scroll-arrow--next" onclick="scrollGrid(this,1)" aria-label="Selanjutnya">&#8250;</button>
+      <div class="products-grid">
+        <div class="product-card">
+          <div class="product-img" onclick="openGallery(this)" data-gallery='["assets/Foto%20Produk/Latest/Abon%20Spicy-20260508T072643Z-3-001/Abon%20Spicy/1%20SPI.png","assets/Foto%20Produk/Latest/Abon%20Spicy-20260508T072643Z-3-001/Abon%20Spicy/1%20DUO%20SPI.png","assets/Foto%20Produk/Latest/Abon%20Spicy-20260508T072643Z-3-001/Abon%20Spicy/1%20TRI%20SPI.png","assets/Foto%20Produk/Latest/Abon%20Spicy-20260508T072643Z-3-001/Abon%20Spicy/2%20SPI.png","assets/Foto%20Produk/Latest/Abon%20Spicy-20260508T072643Z-3-001/Abon%20Spicy/3%20SPI.png","assets/Foto%20Produk/Latest/Abon%20Spicy-20260508T072643Z-3-001/Abon%20Spicy/4%20ABON%20AYAM.png"]'>
+            <span class="product-badge">Favorit</span>
+            <img src="assets/Foto%20Produk/Latest/Abon%20Spicy-20260508T072643Z-3-001/Abon%20Spicy/1%20SPI.png" alt="Abon Ayam Spicy">
+            <span class="product-img-icon">🔍</span>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Abon Ayam Spicy</div>
+            <div class="product-price">Rp 37.999</div>
+            <p class="product-desc">Abon ayam pedas dari 100% daging dada ayam asli. Tekstur lembut, renyah, dan pedasnya yang mantap.</p>
+            <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="product-link">Beli Sekarang</a>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img" onclick="openGallery(this)" data-gallery='["assets/Foto%20Produk/Latest/Abon%20Original-20260508T072643Z-3-001/Abon%20Original/1%20ORI.png","assets/Foto%20Produk/Latest/Abon%20Original-20260508T072643Z-3-001/Abon%20Original/1%20DUO%20ORI.png","assets/Foto%20Produk/Latest/Abon%20Original-20260508T072643Z-3-001/Abon%20Original/1%20TRI%20ORI.png","assets/Foto%20Produk/Latest/Abon%20Original-20260508T072643Z-3-001/Abon%20Original/2%20ORI.png","assets/Foto%20Produk/Latest/Abon%20Original-20260508T072643Z-3-001/Abon%20Original/3%20ORI.png","assets/Foto%20Produk/Latest/Abon%20Original-20260508T072643Z-3-001/Abon%20Original/4%20ABON%20AYAM.png"]'>
+            <span class="product-badge">Terlaris</span>
+            <img src="assets/Foto%20Produk/Latest/Abon%20Original-20260508T072643Z-3-001/Abon%20Original/1%20ORI.png" alt="Abon Ayam Original">
+            <span class="product-img-icon">🔍</span>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Abon Ayam Original</div>
+            <div class="product-price">Rp 37.999</div>
+            <p class="product-desc">Abon ayam manis gurih dari 100% daging dada ayam asli. Cocok untuk lauk, topping, atau camilan langsung.</p>
+            <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="product-link">Beli Sekarang</a>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img" onclick="openGallery(this)" data-gallery='["assets/Foto%20Produk/Latest/Abon%20Spi%20Nori-20260508T072643Z-3-001/Abon%20Spi%20Nori/1%20SPI%20NOR.png","assets/Foto%20Produk/Latest/Abon%20Spi%20Nori-20260508T072643Z-3-001/Abon%20Spi%20Nori/1%20DUO%20SPI%20NOR.png","assets/Foto%20Produk/Latest/Abon%20Spi%20Nori-20260508T072643Z-3-001/Abon%20Spi%20Nori/1%20TRI%20SPI%20NOR.png","assets/Foto%20Produk/Latest/Abon%20Spi%20Nori-20260508T072643Z-3-001/Abon%20Spi%20Nori/2%20SPI%20NORI.png","assets/Foto%20Produk/Latest/Abon%20Spi%20Nori-20260508T072643Z-3-001/Abon%20Spi%20Nori/3%20SPI%20NOR.png","assets/Foto%20Produk/Latest/Abon%20Spi%20Nori-20260508T072643Z-3-001/Abon%20Spi%20Nori/4%20ABON%20AYAM.png"]'>
+            <span class="product-badge-gold">Baru</span>
+            <img src="assets/Foto%20Produk/Latest/Abon%20Spi%20Nori-20260508T072643Z-3-001/Abon%20Spi%20Nori/1%20SPI%20NOR.png" alt="Abon Ayam Nori Spicy">
+            <span class="product-img-icon">🔍</span>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Abon Ayam Nori Spicy</div>
+            <div class="product-price">Rp 37.999</div>
+            <p class="product-desc">Perpaduan abon ayam pedas dengan nori rumput laut kering. Gurih, pedas, dengan sentuhan umami yang khas.</p>
+            <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="product-link">Beli Sekarang</a>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img" onclick="openGallery(this)" data-gallery='["assets/Foto%20Produk/Latest/Abon%20Ori%20Nori-20260508T072642Z-3-001/Abon%20Ori%20Nori/1%20ORI%20NOR.png","assets/Foto%20Produk/Latest/Abon%20Ori%20Nori-20260508T072642Z-3-001/Abon%20Ori%20Nori/1%20DUO%20ORI%20NOR.png","assets/Foto%20Produk/Latest/Abon%20Ori%20Nori-20260508T072642Z-3-001/Abon%20Ori%20Nori/1%20TRI%20ORI%20NOR.png","assets/Foto%20Produk/Latest/Abon%20Ori%20Nori-20260508T072642Z-3-001/Abon%20Ori%20Nori/2%20ORI%20NOR.png","assets/Foto%20Produk/Latest/Abon%20Ori%20Nori-20260508T072642Z-3-001/Abon%20Ori%20Nori/3%20ORI%20NOR.png","assets/Foto%20Produk/Latest/Abon%20Ori%20Nori-20260508T072642Z-3-001/Abon%20Ori%20Nori/4%20ABON%20AYAM.png"]'>
+            <span class="product-badge-gold">Baru</span>
+            <img src="assets/Foto%20Produk/Latest/Abon%20Ori%20Nori-20260508T072642Z-3-001/Abon%20Ori%20Nori/1%20ORI%20NOR.png" alt="Abon Ayam Nori Original">
+            <span class="product-img-icon">🔍</span>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Abon Ayam Nori Original</div>
+            <div class="product-price">Rp 37.999</div>
+            <p class="product-desc">Abon ayam manis dengan campuran nori pilihan. Cita rasa unik yang memanjakan lidah semua usia.</p>
+            <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="product-link">Beli Sekarang</a>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <!-- Snack Enting-Enting -->
+    <div id="tab-enting" class="tab-panel reveal">
+      <div class="scroll-wrap">
+      <button class="scroll-arrow scroll-arrow--prev" onclick="scrollGrid(this,-1)" aria-label="Sebelumnya" disabled>&#8249;</button>
+      <button class="scroll-arrow scroll-arrow--next" onclick="scrollGrid(this,1)" aria-label="Selanjutnya">&#8250;</button>
+      <div class="products-grid">
+        <div class="product-card">
+          <div class="product-img" onclick="openGallery(this)" data-gallery='["assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Original-20260508T072646Z-3-001/Tingkers%20-%20Ting2%20Original/1%20TINGK%20ORI.png","assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Original-20260508T072646Z-3-001/Tingkers%20-%20Ting2%20Original/1%20DUO%20TINGK%20ORI.png","assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Original-20260508T072646Z-3-001/Tingkers%20-%20Ting2%20Original/1%20TRI%20TINGK%20ORI.png","assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Original-20260508T072646Z-3-001/Tingkers%20-%20Ting2%20Original/2%20TINGK%20ORI.png","assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Original-20260508T072646Z-3-001/Tingkers%20-%20Ting2%20Original/3%20TINGK.png"]'>
+            <span class="product-badge">Klasik</span>
+            <img src="assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Original-20260508T072646Z-3-001/Tingkers%20-%20Ting2%20Original/1%20TINGK%20ORI.png" alt="Tingkers Original">
+            <span class="product-img-icon">🔍</span>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Tingkers Original 80gr</div>
+            <div class="product-price">Rp 15.999</div>
+            <p class="product-desc">Enting-enting gepuk prisma segitiga premium dengan kacang tanah pilihan. Manis gurih khas Indonesia.</p>
+            <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="product-link">Beli Sekarang</a>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img" onclick="openGallery(this)" data-gallery='["assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Mete-20260508T072648Z-3-001/Tingkers%20-%20Ting2%20Mete/1%20TINGK%20MET.png","assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Mete-20260508T072648Z-3-001/Tingkers%20-%20Ting2%20Mete/1%20DUO%20TINGK%20MET.png","assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Mete-20260508T072648Z-3-001/Tingkers%20-%20Ting2%20Mete/1%20TRI%20TINGK%20MET.png","assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Mete-20260508T072648Z-3-001/Tingkers%20-%20Ting2%20Mete/2%20TINGK%20MET.png","assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Mete-20260508T072648Z-3-001/Tingkers%20-%20Ting2%20Mete/3%20TINGK.png"]'>
+            <span class="product-badge">Favorit</span>
+            <img src="assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Mete-20260508T072648Z-3-001/Tingkers%20-%20Ting2%20Mete/1%20TINGK%20MET.png" alt="Tingkers Mete">
+            <span class="product-img-icon">🔍</span>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Tingkers Mete 80gr</div>
+            <div class="product-price">Rp 15.999</div>
+            <p class="product-desc">Enting-enting gepuk dengan campuran kacang mete pilihan. Rasa manis gurih dan tekstur halus.</p>
+            <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="product-link">Beli Sekarang</a>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img" onclick="openGallery(this)" data-gallery='["assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Wijen-20260508T072645Z-3-001/Tingkers%20-%20Ting2%20Wijen/1%20TINGK%20WIJ.png","assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Wijen-20260508T072645Z-3-001/Tingkers%20-%20Ting2%20Wijen/1%20DUO%20TINGK%20WIJ.png","assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Wijen-20260508T072645Z-3-001/Tingkers%20-%20Ting2%20Wijen/1%20TRI%20TINGK%20WIJ.png","assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Wijen-20260508T072645Z-3-001/Tingkers%20-%20Ting2%20Wijen/2%20TINGK%20WIJ.png","assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Wijen-20260508T072645Z-3-001/Tingkers%20-%20Ting2%20Wijen/3%20TINGK.png"]'>
+            <span class="product-badge">Unik</span>
+            <img src="assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Wijen-20260508T072645Z-3-001/Tingkers%20-%20Ting2%20Wijen/1%20TINGK%20WIJ.png" alt="Tingkers Wijen">
+            <span class="product-img-icon">🔍</span>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Tingkers Wijen 80gr</div>
+            <div class="product-price">Rp 15.999</div>
+            <p class="product-desc">Enting-enting gepuk dengan biji wijen pilihan. Wijen melimpah, manisnya pas, aroma yang menggoda.</p>
+            <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="product-link">Beli Sekarang</a>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img" onclick="openGallery(this)" data-gallery='["assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Original-20260508T072646Z-3-001/Tingkers%20-%20Ting2%20Original/1%20TING2%20ORI.png","assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Original-20260508T072646Z-3-001/Tingkers%20-%20Ting2%20Original/1%20DUO%20TING2%20ORI.png","assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Original-20260508T072646Z-3-001/Tingkers%20-%20Ting2%20Original/1%20TRI%20TING2%20ORI.png"]'>
+            <span class="product-badge">Hemat</span>
+            <img src="assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Original-20260508T072646Z-3-001/Tingkers%20-%20Ting2%20Original/1%20TING2%20ORI.png" alt="Ting-Ting Original Isi 25">
+            <span class="product-img-icon">🔍</span>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Ting-Ting Original Isi 25</div>
+            <div class="product-price">Rp 36.999</div>
+            <p class="product-desc">Enting-enting gepuk isi 25 pcs dengan kacang tanah pilihan. Ideal untuk oleh-oleh dan keluarga besar.</p>
+            <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="product-link">Beli Sekarang</a>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img" onclick="openGallery(this)" data-gallery='["assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Mete-20260508T072648Z-3-001/Tingkers%20-%20Ting2%20Mete/1%20TING2%20MET.png","assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Mete-20260508T072648Z-3-001/Tingkers%20-%20Ting2%20Mete/1%20DUO%20TING2%20MET.png","assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Mete-20260508T072648Z-3-001/Tingkers%20-%20Ting2%20Mete/1%20TRI%20TING2%20MET.png"]'>
+            <span class="product-badge">Hemat</span>
+            <img src="assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Mete-20260508T072648Z-3-001/Tingkers%20-%20Ting2%20Mete/1%20TING2%20MET.png" alt="Ting-Ting Mete Isi 25">
+            <span class="product-img-icon">🔍</span>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Ting-Ting Mete Isi 25</div>
+            <div class="product-price">Rp 36.999</div>
+            <p class="product-desc">Enting-enting gepuk isi 25 pcs dengan kacang mete. Ekonomis, cocok untuk oleh-oleh keluarga besar.</p>
+            <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="product-link">Beli Sekarang</a>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img" onclick="openGallery(this)" data-gallery='["assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Wijen-20260508T072645Z-3-001/Tingkers%20-%20Ting2%20Wijen/1%20TING2%20WIJ.png","assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Wijen-20260508T072645Z-3-001/Tingkers%20-%20Ting2%20Wijen/1%20DUO%20TING2%20WIJ.png","assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Wijen-20260508T072645Z-3-001/Tingkers%20-%20Ting2%20Wijen/3%20TRI%20TING2%20WIJ.png"]'>
+            <span class="product-badge">Hemat</span>
+            <img src="assets/Foto%20Produk/Latest/Tingkers%20-%20Ting2%20Wijen-20260508T072645Z-3-001/Tingkers%20-%20Ting2%20Wijen/1%20TING2%20WIJ.png" alt="Ting-Ting Wijen Isi 25">
+            <span class="product-img-icon">🔍</span>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Ting-Ting Wijen Isi 25</div>
+            <div class="product-price">Rp 36.999</div>
+            <p class="product-desc">Enting-enting gepuk isi 25 pcs dengan biji wijen. Cocok untuk snack kantor, santai, dan oleh-oleh.</p>
+            <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="product-link">Beli Sekarang</a>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ ORDER ═══════════════ -->
+<section id="order">
+  <div class="container">
+    <div class="order-head reveal">
+      <div class="label">Cara Order</div>
+      <h2 class="section-heading">Mudah Dipesan, Cepat Sampai</h2>
+      <p class="section-lead">Pilih cara pembelian yang paling nyaman — semua platform aman, mudah, dan cepat sampai ke tangan Anda.</p>
+    </div>
+
+    <div class="order-channels reveal">
+      <div class="order-channel-card">
+        <div class="order-channel-num">01</div>
+        <div class="order-channel-icon oi-sp"><img src="assets/Icon/shopee.png" alt="Shopee"></div>
+        <div class="order-channel-title">Via Shopee</div>
+        <p class="order-channel-desc">Belanja dengan proteksi pembeli penuh, nikmati promo cashback, voucher gratis ongkir, dan berbagai penawaran eksklusif setiap hari.</p>
+        <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="order-channel-btn ocb-sp">Buka Toko Shopee →</a>
+      </div>
+
+      <div class="order-channel-card">
+        <div class="order-channel-num">02</div>
+        <div class="order-channel-icon oi-tk"><img src="assets/Icon/tokopedia.png" alt="Tokopedia"></div>
+        <div class="order-channel-title">Via Tokopedia</div>
+        <p class="order-channel-desc">Tersedia di Tokopedia dengan berbagai pilihan pembayaran — GoPay, OVO, transfer bank, kartu kredit, dan metode lainnya.</p>
+        <a href="https://tk.tokopedia.com/ZSANFP6tw/" target="_blank" rel="noopener" class="order-channel-btn ocb-tk">Buka Toko Tokopedia →</a>
+      </div>
+
+      <div class="order-channel-card">
+        <div class="order-channel-num">03</div>
+        <div class="order-channel-icon oi-wa"><img src="assets/Icon/whatsapp.png" alt="WhatsApp"></div>
+        <div class="order-channel-title">Via WhatsApp</div>
+        <p class="order-channel-desc">Chat langsung dengan tim kami — lebih personal, responsif, dan ideal untuk pembelian dalam jumlah besar atau kebutuhan khusus.</p>
+        <a href="https://wa.me/6281330393335" target="_blank" rel="noopener" class="order-channel-btn ocb-wa">Chat WhatsApp →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════ RESELLER ═══════════════ -->
+<section id="reseller">
+  <div class="container">
+    <div class="reseller-inner reveal">
+
+      <div class="reseller-left">
+        <div class="label">Program Reseller</div>
+        <h2 class="section-heading">Bergabung sebagai<br>Mitra Rivan's Snack</h2>
+        <p class="section-lead">Jadikan produk Rivan's Snack sebagai peluang bisnis Anda. Harga grosir kompetitif, produk bersertifikat halal, dan dukungan penuh dari tim kami.</p>
+
+        <div class="reseller-benefits">
+          <div class="reseller-benefit-card">
+            <div class="reseller-benefit-icon">💰</div>
+            <div class="reseller-benefit-title">Harga Grosir</div>
+            <div class="reseller-benefit-desc">Margin keuntungan menarik untuk setiap penjualan produk.</div>
+          </div>
+          <div class="reseller-benefit-card">
+            <div class="reseller-benefit-icon">📦</div>
+            <div class="reseller-benefit-title">Stok Terjamin</div>
+            <div class="reseller-benefit-desc">Produksi rutin memastikan ketersediaan stok yang stabil.</div>
+          </div>
+          <div class="reseller-benefit-card">
+            <div class="reseller-benefit-icon">🏅</div>
+            <div class="reseller-benefit-title">Produk Bersertifikat</div>
+            <div class="reseller-benefit-desc">Halal MUI, PIRT, dan izin edar resmi — mudah dijual.</div>
+          </div>
+          <div class="reseller-benefit-card">
+            <div class="reseller-benefit-icon">📣</div>
+            <div class="reseller-benefit-title">Support Marketing</div>
+            <div class="reseller-benefit-desc">Foto produk profesional dan materi promosi gratis.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reseller-right">
+        <div class="reseller-steps-title">Cara Daftar Reseller</div>
+        <div class="reseller-steps">
+          <div class="reseller-step">
+            <div class="reseller-step-num">01</div>
+            <div class="reseller-step-body">
+              <div class="reseller-step-title">Hubungi Kami via WhatsApp</div>
+              <div class="reseller-step-desc">Chat ke nomor reseller kami dan sampaikan niat Anda untuk bergabung.</div>
+            </div>
+          </div>
+          <div class="reseller-step">
+            <div class="reseller-step-num">02</div>
+            <div class="reseller-step-body">
+              <div class="reseller-step-title">Diskusi Kebutuhan & Kuota</div>
+              <div class="reseller-step-desc">Tim kami akan menjelaskan paket harga, minimum order, dan ketentuan kerja sama.</div>
+            </div>
+          </div>
+          <div class="reseller-step">
+            <div class="reseller-step-num">03</div>
+            <div class="reseller-step-body">
+              <div class="reseller-step-title">Mulai Berjualan</div>
+              <div class="reseller-step-desc">Setelah deal, kami kirimkan produk dan materi promosi — langsung bisa berjualan!</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reseller-cta">
+          <a href="https://wa.me/6281330393336" target="_blank" rel="noopener" class="reseller-cta-btn">
+            💬 Daftar Reseller Sekarang
+          </a>
+          <span class="reseller-cta-note">0813-3039-3336<br>Senin–Sabtu, 08.00–17.00 WIB</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ TESTIMONIALS ═══════════════ -->
+<section id="testimonials">
+  <div class="container">
+    <div class="testi-head reveal">
+      <div class="label">Testimoni Pelanggan</div>
+      <h2 class="section-heading">Kata Mereka tentang Rivan's Snack</h2>
+      <p class="section-lead">Review asli dari pelanggan setia kami di Shopee — kepuasan Anda adalah prioritas utama kami.</p>
+    </div>
+
+    <div class="testi-masonry reveal">
+      <div class="testi-item">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-product-tag">Tingkers Mete 80gr</div>
+        <p class="testi-text">"Rasa manis gurih, textur halus, rasa mete cukup enak."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:var(--orange);">J</div>
+          <div>
+            <div class="testi-name">jsw5965</div>
+            <div class="testi-source">Shopee · Sep 2025</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-item">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-product-tag">Abon Ayam Pedas</div>
+        <p class="testi-text">"Enak... mantap pedasnya. Tekstur lembut, renyah. Exp lama. Next order yang manis 🔥"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#C52F33;">B</div>
+          <div>
+            <div class="testi-name">bernadetaaridwi27</div>
+            <div class="testi-source">Shopee · Agu 2025</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-item">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-product-tag">Tingkers Wijen 80gr</div>
+        <p class="testi-text">"Rasanya enak banget, wijennya banyak, manisnya pas. Packaging bagus, pelayanan cepat. Repeat order!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#7B3F9E;">A</div>
+          <div>
+            <div class="testi-name">asminur21</div>
+            <div class="testi-source">Shopee · Agu 2025</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-item">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-product-tag">Abon Ayam Manis</div>
+        <p class="testi-text">"Enakk banget, anak ku suka dan lahap, bikin Happy bunda 😍"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#C2185B;">A</div>
+          <div>
+            <div class="testi-name">amuzzella</div>
+            <div class="testi-source">Shopee · Des 2025</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-item">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-product-tag">Abon Manis Triple Bundle</div>
+        <p class="testi-text">"Benar-benar terasa daging ayamnya! Pertama beli untuk oleh-oleh, anak2ku suka. Order lagi di Shopee!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:var(--primary-dark);">L</div>
+          <div>
+            <div class="testi-name">lailanb</div>
+            <div class="testi-source">Shopee · Des 2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SOCIAL ═══════════════ -->
+<section id="social">
+  <div class="container">
+    <div class="social-inner">
+      <div class="social-text reveal">
+        <div class="label">Ikuti Kami</div>
+        <h2 class="section-heading" style="margin-bottom:8px;">Temukan Kami<br>di Semua Platform</h2>
+        <p class="section-lead">Update produk terbaru, promo eksklusif, dan konten inspiratif setiap harinya.</p>
+      </div>
+      <div class="social-links reveal reveal-delay-1">
+        <a href="https://www.instagram.com/rivansnack_" target="_blank" rel="noopener" class="social-btn">
+          <span class="social-icon si-ig"><img src="assets/Icon/instagram.png" alt="Instagram"></span>
+          Instagram
+        </a>
+        <a href="https://www.tiktok.com/@rivansnack" target="_blank" rel="noopener" class="social-btn">
+          <span class="social-icon si-tt"><img src="assets/Icon/tiktok.png" alt="TikTok"></span>
+          TikTok
+        </a>
+        <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="social-btn">
+          <span class="social-icon si-sp"><img src="assets/Icon/shopee.png" alt="Shopee"></span>
+          Shopee
+        </a>
+        <a href="https://tk.tokopedia.com/ZSANFP6tw/" target="_blank" rel="noopener" class="social-btn">
+          <span class="social-icon si-tp"><img src="assets/Icon/tokopedia.png" alt="Tokopedia"></span>
+          Tokopedia
+        </a>
+        <a href="https://wa.me/6281330393335" target="_blank" rel="noopener" class="social-btn">
+          <span class="social-icon si-wa"><img src="assets/Icon/whatsapp.png" alt="WhatsApp"></span>
+          WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name">Rivan's Snack</div>
+        <div class="footer-brand-tagline">Tradition Crafted with Innovation</div>
+        <p class="footer-brand-desc">Produsen camilan premium asal Salatiga, Jawa Tengah. Menghadirkan cita rasa terbaik untuk keluarga Indonesia sejak 2016.</p>
+        <div class="footer-social-row">
+          <div class="footer-social-row">
+            <a href="https://www.instagram.com/rivansnack_" target="_blank" rel="noopener" class="footer-social-icon" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><defs><radialGradient id="ig-fg" cx="30%" cy="107%" r="150%"><stop offset="0%" stop-color="#fdf497"/><stop offset="5%" stop-color="#fdf497"/><stop offset="45%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="90%" stop-color="#285AEB"/></radialGradient></defs><rect width="36" height="36" fill="url(#ig-fg)"/><rect x="8" y="8" width="20" height="20" rx="5" fill="none" stroke="white" stroke-width="2"/><circle cx="18" cy="18" r="5" fill="none" stroke="white" stroke-width="2"/><circle cx="24.5" cy="11.5" r="1.5" fill="white"/></svg></a>
+            <a href="https://www.tiktok.com/@rivansnack" target="_blank" rel="noopener" class="footer-social-icon" aria-label="TikTok"><img src="assets/Icon/tiktok.png" alt="TikTok"></a>
+            <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="footer-social-icon" aria-label="Shopee"><img src="assets/Icon/shopee.png" alt="Shopee"></a>
+            <a href="https://tk.tokopedia.com/ZSANFP6tw/" target="_blank" rel="noopener" class="footer-social-icon" aria-label="Tokopedia"><img src="assets/Icon/tokopedia.png" alt="Tokopedia"></a>
+            <a href="https://wa.me/6281330393335" target="_blank" rel="noopener" class="footer-social-icon" aria-label="WhatsApp"><img src="assets/Icon/whatsapp.png" alt="WhatsApp"></a>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Navigasi</div>
+        <div class="footer-col-links">
+          <a href="#about">Tentang Kami</a>
+          <a href="#journey">Perjalanan</a>
+          <a href="#products">Produk</a>
+          <a href="#order">Cara Order</a>
+          <a href="#testimonials">Testimoni</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Marketplace</div>
+        <div class="footer-col-links">
+          <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener">Shopee</a>
+          <a href="https://tk.tokopedia.com/ZSANFP6tw/" target="_blank" rel="noopener">Tokopedia</a>
+          <a href="https://www.tiktok.com/@rivansnack" target="_blank" rel="noopener">TikTok Shop</a>
+          <a href="https://www.instagram.com/rivansnack_" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Kontak</div>
+        <div class="footer-col-links">
+          <a href="https://wa.me/6281330393335" target="_blank" rel="noopener">WA Jualan · 0813-3039-3335</a>
+          <a href="https://wa.me/6281330393336" target="_blank" rel="noopener">WA Reseller · 0813-3039-3336</a>
+          <a href="mailto:rivancompany18@gmail.com">rivancompany18@gmail.com</a>
+          <span>Salatiga, Jawa Tengah</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Rivan's Snack · CV Rivan's Snack · Salatiga, Jawa Tengah</div>
+      <div class="footer-bottom-links">
+        <a href="#">Kebijakan Privasi</a>
+        <a href="#">Syarat & Ketentuan</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════ LIGHTBOX ═══════════════ -->
+<div id="lb" class="lb" role="dialog" aria-modal="true" aria-label="Galeri Foto">
+  <button class="lb-close" onclick="lbClose()" aria-label="Tutup">✕</button>
+  <div class="lb-stage">
+    <button class="lb-nav" id="lbPrev" onclick="lbNav(-1)" aria-label="Sebelumnya">&#8249;</button>
+    <div class="lb-canvas">
+      <img id="lbImg" src="" alt="" draggable="false">
+    </div>
+    <button class="lb-nav" id="lbNext" onclick="lbNav(1)" aria-label="Selanjutnya">&#8250;</button>
+  </div>
+  <div class="lb-thumbs" id="lbThumbs"></div>
+  <div class="lb-counter" id="lbCounter"></div>
+</div>
+
+<script>
+  /* ── Navbar scroll ── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  /* ── Mobile menu ── */
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  document.addEventListener('click', e => {
+    const menu = document.getElementById('mobileMenu');
+    const ham  = document.querySelector('.nav-hamburger');
+    if (menu.classList.contains('open') && !menu.contains(e.target) && !ham.contains(e.target)) {
+      menu.classList.remove('open');
+    }
+  });
+
+  /* ── Product scroll ── */
+  function scrollGrid(btn, dir) {
+    const wrap = btn.closest('.scroll-wrap');
+    const grid = wrap.querySelector('.products-grid');
+    const card = grid.querySelector('.product-card');
+    grid.scrollBy({ left: dir * (card.offsetWidth + 1) * 2, behavior: 'smooth' });
+  }
+
+  function initScrollWrap(wrap) {
+    const grid = wrap.querySelector('.products-grid');
+    const prev = wrap.querySelector('.scroll-arrow--prev');
+    const next = wrap.querySelector('.scroll-arrow--next');
+    function update() {
+      const atStart = grid.scrollLeft <= 2;
+      const atEnd = grid.scrollLeft >= grid.scrollWidth - grid.clientWidth - 2;
+      prev.disabled = atStart;
+      next.disabled = atEnd;
+      wrap.classList.toggle('at-end', atEnd);
+    }
+    grid.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+
+  document.querySelectorAll('.scroll-wrap').forEach(initScrollWrap);
+
+  /* ── Product tabs ── */
+  function switchTab(name, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+    document.querySelectorAll('#tab-' + name + ' .reveal:not(.visible)').forEach(el => {
+      void el.offsetWidth;
+      observer.observe(el);
+    });
+    const wrap = document.querySelector('#tab-' + name + ' .scroll-wrap');
+    if (wrap) initScrollWrap(wrap);
+  }
+
+  /* ── Scroll reveal ── */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  /* ── Smooth scroll ── */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) {
+        e.preventDefault();
+        const offset = navbar.offsetHeight;
+        window.scrollTo({ top: t.offsetTop - offset, behavior: 'smooth' });
+      }
+    });
+  });
+
+  /* ── Lightbox ── */
+  const lbEl      = document.getElementById('lb');
+  const lbImg     = document.getElementById('lbImg');
+  const lbThumbs  = document.getElementById('lbThumbs');
+  const lbCounter = document.getElementById('lbCounter');
+  const lbPrev    = document.getElementById('lbPrev');
+  const lbNext    = document.getElementById('lbNext');
+  let lbImages = [], lbCurrent = 0, lbTouchX = 0;
+
+  function lbShow(idx) {
+    lbCurrent = idx;
+    lbImg.style.opacity = '0';
+    lbImg.onload = () => { lbImg.style.opacity = '1'; };
+    lbImg.src = lbImages[idx];
+    lbCounter.textContent = (idx + 1) + ' / ' + lbImages.length;
+    lbPrev.disabled = idx === 0;
+    lbNext.disabled = idx === lbImages.length - 1;
+    lbThumbs.querySelectorAll('.lb-thumb').forEach((t, i) =>
+      t.classList.toggle('active', i === idx));
+    const active = lbThumbs.querySelectorAll('.lb-thumb')[idx];
+    if (active) active.scrollIntoView({ inline: 'center', behavior: 'smooth', block: 'nearest' });
+  }
+
+  function lbBuildThumbs() {
+    lbThumbs.innerHTML = '';
+    lbImages.forEach((src, i) => {
+      const img = document.createElement('img');
+      img.src = src; img.className = 'lb-thumb';
+      img.onclick = () => lbShow(i);
+      lbThumbs.appendChild(img);
+    });
+  }
+
+  function openGallery(el) {
+    lbImages = JSON.parse(el.dataset.gallery);
+    lbBuildThumbs();
+    lbShow(0);
+    document.body.style.overflow = 'hidden';
+    lbEl.classList.add('open');
+    lbEl.focus();
+  }
+
+  function lbClose() {
+    lbEl.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function lbNav(dir) {
+    const n = lbCurrent + dir;
+    if (n >= 0 && n < lbImages.length) lbShow(n);
+  }
+
+  /* click backdrop to close */
+  lbEl.addEventListener('click', e => { if (e.target === lbEl) lbClose(); });
+
+  /* keyboard */
+  document.addEventListener('keydown', e => {
+    if (!lbEl.classList.contains('open')) return;
+    if (e.key === 'ArrowRight') lbNav(1);
+    else if (e.key === 'ArrowLeft') lbNav(-1);
+    else if (e.key === 'Escape') lbClose();
+  });
+
+  /* touch swipe */
+  lbEl.addEventListener('touchstart', e => { lbTouchX = e.touches[0].clientX; }, { passive: true });
+  lbEl.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - lbTouchX;
+    if (Math.abs(dx) > 40) lbNav(dx < 0 ? 1 : -1);
+  }, { passive: true });
+</script>
+</body>
+</html>

@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rivan's Snack — Minimalist</title>
+  <meta name="description" content="Rivan's Snack – Camilan premium asal Salatiga sejak 2016." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --red:       #C52F33;
+      --red-dark:  #9E2226;
+      --orange:    #F58634;
+      --gold:      #C9A84C;
+      --gold-light:#E8C96A;
+      --ink:       #1A1008;
+      --ink-60:    rgba(26,16,8,.60);
+      --ink-30:    rgba(26,16,8,.30);
+      --ink-10:    rgba(26,16,8,.08);
+      --white:     #FFFFFF;
+      --off-white: #FAF8F5;
+      --warm-gray: #F4F0EB;
+      --border:    #E8E2D9;
+      --serif:     'Cormorant Garamond', Georgia, serif;
+      --sans:      'Jost', system-ui, sans-serif;
+      --tr:        .3s ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: var(--sans); color: var(--ink); background: var(--white); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    /* ── NAVBAR ── */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 0 60px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(255,255,255,.95); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo-v3 {
+      font-family: var(--serif); font-size: 1.2rem; font-weight: 700;
+      letter-spacing: .04em; color: var(--ink);
+    }
+    .nav-logo-v3 span { color: var(--red); }
+    .nav-links-v3 {
+      display: flex; gap: 40px;
+      position: absolute; left: 50%; transform: translateX(-50%);
+    }
+    .nav-links-v3 a {
+      font-size: .75rem; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--ink-60);
+      transition: color var(--tr);
+    }
+    .nav-links-v3 a:hover { color: var(--red); }
+    .nav-right-v3 {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .nav-right-v3 a {
+      font-size: .75rem; font-weight: 500; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--ink-60);
+      transition: color var(--tr);
+    }
+    .nav-right-v3 a:hover { color: var(--red); }
+    .nav-sep { width: 1px; height: 12px; background: var(--border); }
+    .nav-ham-v3 { display: none; flex-direction: column; gap: 5px; }
+    .nav-ham-v3 span { width: 22px; height: 1px; background: var(--ink); display: block; transition: all .3s; }
+    .nav-mob-v3 {
+      display: none; position: fixed; inset: 0; background: var(--white); z-index: 999;
+      flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+    }
+    .nav-mob-v3.open { display: flex; }
+    .nav-mob-v3 a {
+      font-family: var(--serif); font-size: 2.5rem; font-weight: 700;
+      color: var(--ink); transition: color var(--tr);
+    }
+    .nav-mob-v3 a:hover { color: var(--red); }
+    .nav-mob-close { position: absolute; top: 24px; right: 24px; font-size: 1.5rem; cursor: pointer; color: var(--ink-60); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh; padding: 64px 60px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; position: relative;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-overline {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 40px;
+      font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--ink-30); font-weight: 500;
+    }
+    .hero-overline::before, .hero-overline::after {
+      content: ''; flex: 1; max-width: 60px; height: 1px; background: var(--border);
+    }
+    .hero-h1 {
+      font-family: var(--serif); font-size: clamp(4rem, 9vw, 9rem);
+      font-weight: 700; line-height: .95; color: var(--ink);
+      margin-bottom: 24px; letter-spacing: -.02em;
+    }
+    .hero-h1 em { font-style: italic; color: var(--red); }
+    .hero-tagline {
+      font-size: 1rem; font-weight: 300; color: var(--ink-60);
+      line-height: 1.75; max-width: 480px; margin: 0 auto 48px;
+    }
+    .hero-actions-v3 { display: flex; gap: 20px; justify-content: center; align-items: center; }
+    .btn-text-link {
+      font-size: .82rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
+      color: var(--ink-60); display: inline-flex; align-items: center; gap: 8px;
+      transition: color var(--tr);
+    }
+    .btn-text-link:hover { color: var(--ink); }
+    .btn-text-link::after { content: '→'; transition: transform var(--tr); }
+    .btn-text-link:hover::after { transform: translateX(4px); }
+    .btn-solid-v3 {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; background: var(--ink); color: white;
+      font-size: .78rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+      transition: background var(--tr);
+    }
+    .btn-solid-v3:hover { background: var(--red); }
+    .hero-scroll-v3 {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      font-size: .62rem; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--ink-30); display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+    .scroll-line { width: 1px; height: 40px; background: var(--border); animation: scrollLine 1.8s ease-in-out infinite; }
+    @keyframes scrollLine { 0%,100%{transform:scaleY(1);opacity:1;} 50%{transform:scaleY(.3);opacity:.3;} }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      background: var(--off-white); padding: 18px 0;
+    }
+    .marquee-track {
+      display: flex; gap: 0; white-space: nowrap;
+      animation: marquee 18s linear infinite;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-50%);} }
+    .marquee-item {
+      display: inline-flex; align-items: center; gap: 16px;
+      padding: 0 40px; font-size: .7rem; font-weight: 500; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--ink-60);
+    }
+    .marquee-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
+
+    /* ── VALUES ── */
+    #values {
+      padding: 120px 60px; max-width: 1100px; margin: 0 auto;
+    }
+    .values-header-v3 {
+      display: grid; grid-template-columns: 1fr 2fr; gap: 80px;
+      margin-bottom: 80px; align-items: start;
+    }
+    .values-label { font-size: .68rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--red); margin-bottom: 20px; }
+    .values-h2 { font-family: var(--serif); font-size: clamp(2.4rem, 4vw, 3.8rem); font-weight: 700; line-height: 1.1; color: var(--ink); }
+    .values-desc { font-size: .95rem; font-weight: 300; line-height: 1.85; color: var(--ink-60); }
+    .values-list-v3 { display: flex; flex-direction: column; }
+    .value-row {
+      display: grid; grid-template-columns: 60px 1fr 1fr;
+      gap: 40px; padding: 32px 0; border-top: 1px solid var(--border);
+      align-items: center;
+      transition: background var(--tr);
+    }
+    .value-row:last-child { border-bottom: 1px solid var(--border); }
+    .value-row:hover .value-row-title { color: var(--red); }
+    .value-row-num { font-family: var(--serif); font-size: 1.1rem; font-weight: 400; color: var(--ink-30); }
+    .value-row-title { font-family: var(--serif); font-size: 1.4rem; font-weight: 700; color: var(--ink); transition: color var(--tr); }
+    .value-row-desc { font-size: .82rem; font-weight: 300; line-height: 1.7; color: var(--ink-60); }
+
+    /* ── ABOUT ── */
+    #about { padding: 120px 60px; border-top: 1px solid var(--border); background: var(--off-white); }
+    .about-v3 { max-width: 1100px; margin: 0 auto; }
+    .about-top-v3 { text-align: center; margin-bottom: 80px; }
+    .about-small-label { font-size: .68rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--red); margin-bottom: 16px; }
+    .about-big-h { font-family: var(--serif); font-size: clamp(2.8rem, 5vw, 5rem); font-weight: 700; line-height: 1.1; color: var(--ink); margin-bottom: 20px; }
+    .about-big-h em { font-style: italic; }
+    .about-big-p { font-size: 1.1rem; font-weight: 300; line-height: 1.8; color: var(--ink-60); max-width: 580px; margin: 0 auto; }
+
+    .about-grid-v3 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 80px; }
+    .about-stat-cell { background: white; padding: 40px 32px; text-align: center; }
+    .asc-num { font-family: var(--serif); font-size: 3rem; font-weight: 700; color: var(--red); line-height: 1; margin-bottom: 8px; }
+    .asc-label { font-size: .78rem; font-weight: 400; color: var(--ink-60); line-height: 1.5; }
+
+    .about-story-v3 { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .about-story-p { font-size: 1.05rem; font-weight: 300; line-height: 1.9; color: var(--ink-60); margin-bottom: 24px; }
+    .about-story-p:first-child { font-size: 1.2rem; font-weight: 400; color: var(--ink); font-family: var(--serif); }
+    .about-story-list { display: flex; flex-direction: column; gap: 0; }
+    .asl-item {
+      display: flex; gap: 24px; padding: 24px 0; border-top: 1px solid var(--border);
+    }
+    .asl-item:last-child { border-bottom: 1px solid var(--border); }
+    .asl-num { font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--red); flex-shrink: 0; padding-top: 2px; }
+    .asl-title { font-size: .9rem; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+    .asl-desc { font-size: .82rem; font-weight: 300; line-height: 1.65; color: var(--ink-60); }
+
+    /* ── JOURNEY ── */
+    #journey { padding: 120px 60px; max-width: 1100px; margin: 0 auto; }
+    .journey-header-v3 { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 64px; }
+    .journey-h { font-family: var(--serif); font-size: clamp(2.4rem, 4vw, 3.8rem); font-weight: 700; line-height: 1.1; color: var(--ink); }
+    .journey-sub-v3 { font-size: .88rem; font-weight: 300; color: var(--ink-60); max-width: 240px; text-align: right; line-height: 1.65; }
+    .timeline-v3 { display: flex; flex-direction: column; }
+    .tl-row {
+      display: grid; grid-template-columns: 120px 1px 1fr;
+      gap: 40px; position: relative; padding: 0 0 48px;
+    }
+    .tl-row:last-child { padding-bottom: 0; }
+    .tl-year { font-family: var(--serif); font-size: 2rem; font-weight: 700; color: var(--ink-30); text-align: right; padding-top: 2px; transition: color var(--tr); }
+    .tl-row:hover .tl-year { color: var(--red); }
+    .tl-line { background: var(--border); position: relative; }
+    .tl-line::before { content: ''; width: 9px; height: 9px; border-radius: 50%; background: var(--border); position: absolute; top: 8px; left: 50%; transform: translateX(-50%); transition: background var(--tr); }
+    .tl-row:hover .tl-line::before { background: var(--red); }
+    .tl-content { padding-top: 2px; }
+    .tl-title { font-family: var(--serif); font-size: 1.3rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+    .tl-desc { font-size: .85rem; font-weight: 300; line-height: 1.75; color: var(--ink-60); max-width: 520px; }
+
+    /* ── PRODUCTS ── */
+    #products { padding: 120px 60px; background: var(--off-white); border-top: 1px solid var(--border); }
+    .products-v3 { max-width: 1100px; margin: 0 auto; }
+    .products-header-v3 { text-align: center; margin-bottom: 64px; }
+    .prod-h-v3 { font-family: var(--serif); font-size: clamp(2.4rem, 4vw, 3.8rem); font-weight: 700; color: var(--ink); margin-bottom: 12px; }
+    .prod-sub-v3 { font-size: .88rem; font-weight: 300; color: var(--ink-60); }
+    .accordion { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); }
+    .acc-item { border-bottom: 1px solid var(--border); }
+    .acc-item:last-child { border-bottom: none; }
+    .acc-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 32px; cursor: pointer; background: white;
+      transition: background var(--tr);
+    }
+    .acc-header:hover { background: var(--off-white); }
+    .acc-title { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; color: var(--ink); }
+    .acc-meta { display: flex; align-items: center; gap: 20px; }
+    .acc-count { font-size: .75rem; font-weight: 400; color: var(--ink-30); letter-spacing: .06em; }
+    .acc-icon { font-size: .9rem; color: var(--ink-30); transition: transform .3s; }
+    .acc-item.open .acc-icon { transform: rotate(45deg); }
+    .acc-body { display: none; background: var(--off-white); border-top: 1px solid var(--border); }
+    .acc-item.open .acc-body { display: block; }
+    .acc-prod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); }
+    .acc-prod-card { background: white; padding: 24px; transition: background var(--tr); }
+    .acc-prod-card:hover { background: var(--off-white); }
+    .acc-prod-img { height: 160px; background: var(--warm-gray); margin-bottom: 16px; overflow: hidden; position: relative; }
+    .acc-prod-img img { width: 100%; height: 100%; object-fit: cover; }
+    .acc-prod-badge {
+      position: absolute; top: 10px; left: 10px;
+      font-size: .58rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      padding: 2px 8px; background: var(--red); color: white;
+    }
+    .acc-prod-badge-gold {
+      position: absolute; top: 10px; left: 10px;
+      font-size: .58rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      padding: 2px 8px; background: var(--gold); color: white;
+    }
+    .acc-prod-name { font-family: var(--serif); font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+    .acc-prod-price { font-size: .82rem; font-weight: 600; color: var(--red); margin-bottom: 8px; }
+    .acc-prod-desc { font-size: .75rem; font-weight: 300; line-height: 1.6; color: var(--ink-60); margin-bottom: 14px; }
+    .acc-prod-link {
+      font-size: .72rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+      color: var(--ink); border-bottom: 1px solid var(--ink-30); padding-bottom: 1px;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: color var(--tr), border-color var(--tr);
+    }
+    .acc-prod-link:hover { color: var(--red); border-color: var(--red); }
+
+    /* ── ORDER ── */
+    #order { padding: 120px 60px; max-width: 1100px; margin: 0 auto; }
+    .order-v3-header { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-bottom: 80px; align-items: end; }
+    .order-v3-h { font-family: var(--serif); font-size: clamp(2.4rem, 4vw, 3.8rem); font-weight: 700; line-height: 1.1; color: var(--ink); }
+    .order-v3-sub { font-size: .9rem; font-weight: 300; line-height: 1.75; color: var(--ink-60); }
+    .order-v3-channels { display: flex; flex-direction: column; }
+    .order-channel {
+      display: grid; grid-template-columns: 60px 1fr auto; gap: 40px;
+      padding: 36px 0; border-top: 1px solid var(--border);
+      align-items: center;
+    }
+    .order-channel:last-child { border-bottom: 1px solid var(--border); }
+    .order-channel-num { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; color: var(--ink-30); }
+    .order-channel-info {}
+    .order-channel-name { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+    .order-channel-desc { font-size: .82rem; font-weight: 300; line-height: 1.65; color: var(--ink-60); }
+    .order-channel-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 22px; border: 1px solid var(--border); color: var(--ink);
+      font-size: .75rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
+      transition: background var(--tr), border-color var(--tr), color var(--tr);
+      white-space: nowrap;
+    }
+    .order-channel-btn:hover { background: var(--ink); color: white; border-color: var(--ink); }
+    .order-v3-reseller {
+      margin-top: 60px; padding: 36px 40px;
+      background: var(--off-white); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+    }
+    .order-v3-reseller p { font-size: .9rem; color: var(--ink-60); }
+    .order-v3-reseller strong { color: var(--ink); }
+    .reseller-link-v3 {
+      font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+      color: var(--red); display: inline-flex; align-items: center; gap: 8px;
+      transition: gap var(--tr);
+    }
+    .reseller-link-v3::after { content: '→'; }
+    .reseller-link-v3:hover { gap: 14px; }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials { padding: 120px 60px; background: var(--off-white); border-top: 1px solid var(--border); }
+    .testi-v3 { max-width: 1100px; margin: 0 auto; }
+    .testi-header-v3 { text-align: center; margin-bottom: 80px; }
+    .testi-h-v3 { font-family: var(--serif); font-size: clamp(2.4rem, 4vw, 3.8rem); font-weight: 700; color: var(--ink); }
+    .testi-featured {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border); border: 1px solid var(--border);
+      margin-bottom: 1px;
+    }
+    .testi-secondary { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-top: none; }
+    .testi-cell {
+      background: white; padding: 36px 32px;
+      position: relative; overflow: hidden;
+    }
+    .testi-cell::before { content: '"'; font-family: var(--serif); font-size: 8rem; line-height: 1; color: var(--border); position: absolute; top: -10px; right: 16px; pointer-events: none; }
+    .testi-stars-v3 { color: var(--gold); letter-spacing: 3px; font-size: .8rem; margin-bottom: 12px; }
+    .testi-tag-v3 { font-size: .65rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--red); margin-bottom: 16px; }
+    .testi-text-v3 { font-family: var(--serif); font-size: 1.05rem; font-style: italic; line-height: 1.75; color: var(--ink); margin-bottom: 24px; }
+    .testi-featured .testi-text-v3 { font-size: 1.25rem; }
+    .testi-author-v3 { display: flex; align-items: center; gap: 10px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .testi-av-v3 { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .85rem; font-weight: 700; color: white; flex-shrink: 0; }
+    .testi-avname { font-size: .78rem; font-weight: 500; color: var(--ink); }
+    .testi-avsrc { font-size: .7rem; color: var(--ink-30); }
+
+    /* ── SOCIAL ── */
+    #social { padding: 80px 60px; border-top: 1px solid var(--border); }
+    .social-v3 { max-width: 1100px; margin: 0 auto; text-align: center; }
+    .social-sup-v3 { font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-30); margin-bottom: 24px; }
+    .social-h-v3 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 3rem); font-weight: 700; color: var(--ink); margin-bottom: 40px; }
+    .social-row-v3 { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    .social-btn-v3 {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 12px 24px; border: 1px solid var(--border); color: var(--ink);
+      font-size: .8rem; font-weight: 500; letter-spacing: .04em;
+      transition: border-color var(--tr), background var(--tr), transform var(--tr);
+    }
+    .social-btn-v3:hover { border-color: var(--ink); transform: translateY(-3px); }
+
+    /* ── FOOTER ── */
+    footer { background: var(--ink); color: rgba(255,255,255,.5); padding: 80px 60px 36px; }
+    .footer-v3 { max-width: 1100px; margin: 0 auto; }
+    .footer-main { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 60px; padding-bottom: 60px; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .f3-brand-name { font-family: var(--serif); font-size: 1.8rem; font-weight: 700; color: white; margin-bottom: 4px; }
+    .f3-brand-tag { font-size: .65rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    .f3-brand-desc { font-size: .82rem; font-weight: 300; line-height: 1.75; color: rgba(255,255,255,.35); max-width: 260px; margin-bottom: 28px; }
+    .f3-socials { display: flex; gap: 10px; }
+    .f3-social { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; transition: border-color var(--tr), background var(--tr); }
+    .f3-social:hover { border-color: rgba(255,255,255,.3); }
+    .f3-col-h { font-size: .65rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.25); margin-bottom: 20px; }
+    .f3-links { display: flex; flex-direction: column; gap: 10px; }
+    .f3-links a { font-size: .82rem; font-weight: 300; color: rgba(255,255,255,.4); transition: color var(--tr); }
+    .f3-links a:hover { color: rgba(255,255,255,.85); }
+    .f3-links span { font-size: .82rem; font-weight: 300; color: rgba(255,255,255,.25); }
+    .footer-bot-v3 { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+    .f3-copy { font-size: .72rem; color: rgba(255,255,255,.2); }
+    .f3-bot-links { display: flex; gap: 20px; }
+    .f3-bot-links a { font-size: .72rem; color: rgba(255,255,255,.2); transition: color var(--tr); }
+    .f3-bot-links a:hover { color: rgba(255,255,255,.5); }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .rd1 { transition-delay: .12s; }
+    .rd2 { transition-delay: .24s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      #navbar { padding: 0 32px; }
+      .nav-links-v3 { display: none; }
+      .nav-ham-v3 { display: flex; }
+      #hero { padding: 80px 32px; }
+      #values, #about, #journey, #products, #order, #testimonials, #social { padding-left: 32px; padding-right: 32px; }
+      .values-header-v3 { grid-template-columns: 1fr; gap: 24px; }
+      .value-row { grid-template-columns: 60px 1fr; }
+      .value-row-desc { display: none; }
+      .about-story-v3 { grid-template-columns: 1fr; gap: 40px; }
+      .about-grid-v3 { grid-template-columns: 1fr 1fr; }
+      .acc-prod-grid { grid-template-columns: 1fr 1fr; }
+      .order-v3-header { grid-template-columns: 1fr; gap: 24px; }
+      .testi-featured { grid-template-columns: 1fr; }
+      .testi-secondary { grid-template-columns: 1fr 1fr; }
+      .footer-main { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+    @media (max-width: 768px) {
+      #navbar { padding: 0 20px; }
+      .nav-right-v3 { display: none; }
+      #hero { padding: 80px 20px; }
+      .hero-h1 { font-size: clamp(3rem, 12vw, 5rem); }
+      #values, #about, #journey, #products, #order, #testimonials, #social { padding-left: 20px; padding-right: 20px; padding-top: 80px; padding-bottom: 80px; }
+      .value-row { grid-template-columns: 48px 1fr; gap: 20px; }
+      .journey-header-v3 { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .journey-sub-v3 { text-align: left; }
+      .tl-row { grid-template-columns: 80px 1px 1fr; gap: 20px; }
+      .acc-prod-grid { grid-template-columns: 1fr; }
+      .order-channel { grid-template-columns: 40px 1fr; }
+      .order-channel-btn { display: none; }
+      .testi-secondary { grid-template-columns: 1fr; }
+      footer { padding: 60px 20px 28px; }
+      .footer-main { grid-template-columns: 1fr; gap: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header id="navbar">
+  <a href="#" class="nav-logo-v3">Rivan<span>'s</span> Snack</a>
+  <nav class="nav-links-v3">
+    <a href="#about">Tentang</a>
+    <a href="#journey">Perjalanan</a>
+    <a href="#products">Produk</a>
+    <a href="#order">Order</a>
+    <a href="#testimonials">Testimoni</a>
+  </nav>
+  <div class="nav-right-v3">
+    <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener">Shopee</a>
+    <div class="nav-sep"></div>
+    <a href="https://wa.me/6281330393335" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+  <button class="nav-ham-v3" onclick="openMob()" aria-label="Menu"><span></span><span></span><span></span></button>
+</header>
+
+<nav class="nav-mob-v3" id="mobNav">
+  <button class="nav-mob-close" onclick="closeMob()">✕</button>
+  <a href="#about" onclick="closeMob()">Tentang Kami</a>
+  <a href="#journey" onclick="closeMob()">Perjalanan</a>
+  <a href="#products" onclick="closeMob()">Produk</a>
+  <a href="#order" onclick="closeMob()">Cara Order</a>
+  <a href="#testimonials" onclick="closeMob()">Testimoni</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-overline">
+    <span>Berdiri Sejak 2016</span>
+  </div>
+  <h1 class="hero-h1 reveal">
+    Camilan<br>
+    <em>Warisan</em><br>
+    Nusantara
+  </h1>
+  <p class="hero-tagline reveal rd1">
+    Rivan's Snack menghadirkan Abon Ayam 100% daging asli dan Tingkers Enting-Enting khas Indonesia — dibuat dengan komitmen pada kualitas dan cita rasa terbaik.
+  </p>
+  <div class="hero-actions-v3 reveal rd2">
+    <a href="#products" class="btn-solid-v3">Lihat Produk Kami</a>
+    <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="btn-text-link">Beli di Shopee</a>
+  </div>
+  <div class="hero-scroll-v3">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <!-- doubled for infinite loop -->
+    <span class="marquee-item"><span class="marquee-dot"></span>Abon Ayam Premium</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Halal Certified</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Tingkers Enting-Enting</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>International Award 2019</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Salatiga, Jawa Tengah</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>10+ Varian Produk</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Shopee Rating ⭐ 4.9</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Tanpa Pengawet Berbahaya</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Abon Ayam Premium</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Halal Certified</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Tingkers Enting-Enting</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>International Award 2019</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Salatiga, Jawa Tengah</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>10+ Varian Produk</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Shopee Rating ⭐ 4.9</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Tanpa Pengawet Berbahaya</span>
+  </div>
+</div>
+
+<!-- VALUES -->
+<section id="values">
+  <div class="values-header-v3 reveal">
+    <div>
+      <div class="values-label">Komitmen Kami</div>
+      <h2 class="values-h2">Standar<br>Kualitas<br>Terbaik</h2>
+    </div>
+    <p class="values-desc">
+      Setiap produk Rivan's Snack dibuat dengan standar ketat untuk memastikan cita rasa dan keamanan terbaik bagi keluarga Indonesia. Kami tidak berkompromi dalam hal kualitas.
+    </p>
+  </div>
+  <div class="values-list-v3 reveal">
+    <div class="value-row">
+      <div class="value-row-num">01</div>
+      <div class="value-row-title">100% Daging Ayam Asli</div>
+      <div class="value-row-desc">Tanpa campuran bahan lain. Dibuat dari daging dada ayam pilihan dengan tekstur lembut dan rasa otentik yang tak tertandingi.</div>
+    </div>
+    <div class="value-row">
+      <div class="value-row-num">02</div>
+      <div class="value-row-title">Halal Bersertifikat</div>
+      <div class="value-row-desc">Diproses sesuai standar halal Indonesia. Aman dan terjamin untuk dikonsumsi seluruh keluarga Muslim.</div>
+    </div>
+    <div class="value-row">
+      <div class="value-row-num">03</div>
+      <div class="value-row-title">Tanpa Pengawet Berbahaya</div>
+      <div class="value-row-desc">Bahan-bahan alami pilihan. Tidak menggunakan bahan pengawet berbahaya demi menjaga kesehatan konsumen.</div>
+    </div>
+    <div class="value-row">
+      <div class="value-row-num">04</div>
+      <div class="value-row-title">Bahan Pilihan Berkualitas</div>
+      <div class="value-row-desc">Setiap bahan dipilih dengan cermat dari sumber terpercaya untuk memastikan cita rasa dan nutrisi terbaik.</div>
+    </div>
+    <div class="value-row">
+      <div class="value-row-num">05</div>
+      <div class="value-row-title">Pengiriman Se-Indonesia</div>
+      <div class="value-row-desc">Tersedia via Shopee, Tokopedia, dan WhatsApp. Dikirim ke seluruh penjuru Nusantara dengan aman.</div>
+    </div>
+    <div class="value-row">
+      <div class="value-row-num">06</div>
+      <div class="value-row-title">Pemenang Pangan Award Internasional</div>
+      <div class="value-row-desc">Meraih penghargaan bergengsi pada 2019 dan tampil di pameran internasional di Kamboja, Thailand, dan Singapura.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-v3">
+    <div class="about-top-v3 reveal">
+      <div class="about-small-label">Tentang Rivan's Snack</div>
+      <h2 class="about-big-h">Dari Dapur Keluarga<br>ke <em>Seluruh Indonesia</em></h2>
+      <p class="about-big-p">Didirikan oleh Pak Marwoto di Salatiga — "RIVANS" lahir dari nama kedua putranya, Mario dan Evan. Sebuah brand yang bermula dari cinta, tumbuh bersama inovasi.</p>
+    </div>
+
+    <div class="about-grid-v3 reveal">
+      <div class="about-stat-cell">
+        <div class="asc-num">2016</div>
+        <div class="asc-label">Tahun berdiri di Salatiga</div>
+      </div>
+      <div class="about-stat-cell">
+        <div class="asc-num">10+</div>
+        <div class="asc-label">Varian produk camilan premium</div>
+      </div>
+      <div class="about-stat-cell">
+        <div class="asc-num">⭐ 4.9</div>
+        <div class="asc-label">Rating toko di Shopee</div>
+      </div>
+      <div class="about-stat-cell">
+        <div class="asc-num">3</div>
+        <div class="asc-label">Negara pameran internasional</div>
+      </div>
+    </div>
+
+    <div class="about-story-v3 reveal">
+      <div>
+        <p class="about-story-p">Rivan's Snack lahir dari komitmen untuk menghadirkan camilan berkualitas dengan standar rasa dan bahan terbaik — memadukan tradisi lokal dengan inovasi modern.</p>
+        <p class="about-story-p">Dimulai dari usaha kecil di Salatiga, kini Rivan's Snack telah dikenal di seluruh Indonesia bahkan mancanegara. Generasi kedua, Mario, kini memimpin ekspansi digital yang membawa produk lebih dekat ke konsumen.</p>
+      </div>
+      <div class="about-story-list">
+        <div class="asl-item">
+          <div class="asl-num">01</div>
+          <div>
+            <div class="asl-title">Abon Ayam 100% Daging Asli</div>
+            <p class="asl-desc">Dibuat dari daging dada ayam pilihan, tanpa campuran bahan lain. Tekstur lembut dan rasa otentik.</p>
+          </div>
+        </div>
+        <div class="asl-item">
+          <div class="asl-num">02</div>
+          <div>
+            <div class="asl-title">Tingkers — Inovasi Enting-Enting</div>
+            <p class="asl-desc">Enting-enting pertama di Indonesia berbentuk prisma segitiga. Telah dipatenkan dan menjadi produk unggulan nasional.</p>
+          </div>
+        </div>
+        <div class="asl-item">
+          <div class="asl-num">03</div>
+          <div>
+            <div class="asl-title">Pengakuan Internasional</div>
+            <p class="asl-desc">Penghargaan pangan internasional 2019. Pameran di Kamboja, Thailand, dan Singapura.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section id="journey">
+  <div class="journey-header-v3 reveal">
+    <div>
+      <div class="values-label">Perjalanan Kami</div>
+      <h2 class="journey-h">Dari Salatiga ke<br>Seluruh Indonesia</h2>
+    </div>
+    <p class="journey-sub-v3">Hampir satu dekade inovasi, dedikasi, dan cinta terhadap camilan berkualitas.</p>
+  </div>
+  <div class="timeline-v3 reveal">
+    <div class="tl-row">
+      <div class="tl-year">2015</div>
+      <div class="tl-line"></div>
+      <div class="tl-content">
+        <div class="tl-title">Awal Mula</div>
+        <p class="tl-desc">Pak Marwoto memulai usaha Enting-Enting Gepuk di Salatiga, berbekal pengalaman mengelola camilan tradisional keluarga.</p>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-year">2016</div>
+      <div class="tl-line"></div>
+      <div class="tl-content">
+        <div class="tl-title">Lahirnya Brand RIVANS</div>
+        <p class="tl-desc">Brand "RIVANS" didirikan. Lahirnya Tingkers — enting-enting pertama berbentuk prisma segitiga di Indonesia, sebuah inovasi kemasan yang revolusioner.</p>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-year">2017</div>
+      <div class="tl-line"></div>
+      <div class="tl-content">
+        <div class="tl-title">CV & Paten</div>
+        <p class="tl-desc">CV Rivan's Snack resmi terbentuk. Tingkers dipatenkan. Produk mulai masuk ke jaringan minimarket terbesar Indonesia.</p>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-year">2018</div>
+      <div class="tl-line"></div>
+      <div class="tl-content">
+        <div class="tl-title">Diversifikasi Produk</div>
+        <p class="tl-desc">Diversifikasi produk hingga 10+ varian. Tingkers, Singkong Presto, dan Manco menjadi produk unggulan nasional.</p>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-year">2019</div>
+      <div class="tl-line"></div>
+      <div class="tl-content">
+        <div class="tl-title">Pengakuan Internasional</div>
+        <p class="tl-desc">Mengikuti pameran pangan di Kamboja, Thailand, dan Singapura. Meraih Penghargaan Pangan Internasional bergengsi.</p>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-year">2024</div>
+      <div class="tl-line"></div>
+      <div class="tl-content">
+        <div class="tl-title">Era Digital</div>
+        <p class="tl-desc">Generasi kedua, Mario, memimpin ekspansi digital ke Shopee, Tokopedia, dan TikTok Shop. Menjangkau konsumen di seluruh Indonesia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="products-v3">
+    <div class="products-header-v3 reveal">
+      <div class="values-label">Produk Kami</div>
+      <h2 class="prod-h-v3">Pilihan Camilan Premium</h2>
+      <p class="prod-sub-v3">Klik kategori di bawah untuk melihat produk kami.</p>
+    </div>
+    <div class="accordion reveal">
+      <div class="acc-item open" id="acc-abon">
+        <div class="acc-header" onclick="toggleAcc('acc-abon')">
+          <div class="acc-title">Abon Ayam</div>
+          <div class="acc-meta">
+            <span class="acc-count">4 Produk</span>
+            <span class="acc-icon">+</span>
+          </div>
+        </div>
+        <div class="acc-body">
+          <div class="acc-prod-grid">
+            <div class="acc-prod-card">
+              <div class="acc-prod-img"><span class="acc-prod-badge">Favorit</span><img src="assets/Foto%20Produk/SPICY.png" alt="Abon Ayam Spicy"></div>
+              <div class="acc-prod-name">Abon Ayam Spicy</div>
+              <div class="acc-prod-price">Rp 37.999</div>
+              <p class="acc-prod-desc">100% daging dada ayam. Tekstur lembut, renyah, dengan pedas yang mantap.</p>
+              <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="acc-prod-link">Beli Sekarang →</a>
+            </div>
+            <div class="acc-prod-card">
+              <div class="acc-prod-img"><span class="acc-prod-badge">Terlaris</span><img src="assets/Foto%20Produk/ORIGINAL.png" alt="Abon Ayam Original"></div>
+              <div class="acc-prod-name">Abon Ayam Original</div>
+              <div class="acc-prod-price">Rp 37.999</div>
+              <p class="acc-prod-desc">Manis gurih dari 100% daging ayam. Cocok untuk lauk, topping, atau camilan.</p>
+              <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="acc-prod-link">Beli Sekarang →</a>
+            </div>
+            <div class="acc-prod-card">
+              <div class="acc-prod-img"><span class="acc-prod-badge-gold">Baru</span><img src="assets/Foto%20Produk/SPICY%20NORI.png" alt="Abon Nori Spicy"></div>
+              <div class="acc-prod-name">Abon Ayam Nori Spicy</div>
+              <div class="acc-prod-price">Rp 37.999</div>
+              <p class="acc-prod-desc">Abon pedas dengan nori rumput laut kering. Gurih, pedas, umami khas.</p>
+              <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="acc-prod-link">Beli Sekarang →</a>
+            </div>
+            <div class="acc-prod-card">
+              <div class="acc-prod-img"><span class="acc-prod-badge-gold">Baru</span><img src="assets/Foto%20Produk/ORIGINAL%20NORI.png" alt="Abon Nori Original"></div>
+              <div class="acc-prod-name">Abon Ayam Nori Original</div>
+              <div class="acc-prod-price">Rp 37.999</div>
+              <p class="acc-prod-desc">Abon manis dengan campuran nori pilihan. Cita rasa unik memanjakan lidah.</p>
+              <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="acc-prod-link">Beli Sekarang →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item" id="acc-enting">
+        <div class="acc-header" onclick="toggleAcc('acc-enting')">
+          <div class="acc-title">Enting-Enting Tingkers</div>
+          <div class="acc-meta">
+            <span class="acc-count">6 Produk</span>
+            <span class="acc-icon">+</span>
+          </div>
+        </div>
+        <div class="acc-body">
+          <div class="acc-prod-grid" style="grid-template-columns:repeat(3,1fr);">
+            <div class="acc-prod-card">
+              <div class="acc-prod-img"><span class="acc-prod-badge">Klasik</span><img src="assets/Foto%20Produk/TINGKERS%20ORI.png" alt="Tingkers Original"></div>
+              <div class="acc-prod-name">Tingkers Original 80gr</div>
+              <div class="acc-prod-price">Rp 15.999</div>
+              <p class="acc-prod-desc">Enting-enting gepuk prisma segitiga. Manis gurih dengan kacang tanah pilihan.</p>
+              <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="acc-prod-link">Beli Sekarang →</a>
+            </div>
+            <div class="acc-prod-card">
+              <div class="acc-prod-img"><span class="acc-prod-badge">Favorit</span><img src="assets/Foto%20Produk/TINGKERS%20METE.png" alt="Tingkers Mete"></div>
+              <div class="acc-prod-name">Tingkers Mete 80gr</div>
+              <div class="acc-prod-price">Rp 15.999</div>
+              <p class="acc-prod-desc">Enting-enting gepuk dengan kacang mete pilihan. Manis gurih, tekstur halus.</p>
+              <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="acc-prod-link">Beli Sekarang →</a>
+            </div>
+            <div class="acc-prod-card">
+              <div class="acc-prod-img"><span class="acc-prod-badge">Unik</span><img src="assets/Foto%20Produk/TINGKERS%20WIJEN.png" alt="Tingkers Wijen"></div>
+              <div class="acc-prod-name">Tingkers Wijen 80gr</div>
+              <div class="acc-prod-price">Rp 15.999</div>
+              <p class="acc-prod-desc">Enting-enting gepuk dengan biji wijen melimpah. Manisnya pas, aroma menggoda.</p>
+              <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="acc-prod-link">Beli Sekarang →</a>
+            </div>
+            <div class="acc-prod-card">
+              <div class="acc-prod-img"><span class="acc-prod-badge">Hemat</span><img src="assets/Foto%20Produk/TING2%20ORI.png" alt="Ting-Ting Isi 25 Ori"></div>
+              <div class="acc-prod-name">Ting-Ting Original Isi 25</div>
+              <div class="acc-prod-price">Rp 36.999</div>
+              <p class="acc-prod-desc">Isi 25 pcs kacang tanah. Ideal untuk oleh-oleh dan keluarga besar.</p>
+              <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="acc-prod-link">Beli Sekarang →</a>
+            </div>
+            <div class="acc-prod-card">
+              <div class="acc-prod-img"><span class="acc-prod-badge">Hemat</span><img src="assets/Foto%20Produk/TING2%20METE.png" alt="Ting-Ting Isi 25 Mete"></div>
+              <div class="acc-prod-name">Ting-Ting Mete Isi 25</div>
+              <div class="acc-prod-price">Rp 36.999</div>
+              <p class="acc-prod-desc">Isi 25 pcs kacang mete. Ekonomis untuk keluarga besar.</p>
+              <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="acc-prod-link">Beli Sekarang →</a>
+            </div>
+            <div class="acc-prod-card">
+              <div class="acc-prod-img"><span class="acc-prod-badge">Hemat</span><img src="assets/Foto%20Produk/TING2%20WIJEN.png" alt="Ting-Ting Isi 25 Wijen"></div>
+              <div class="acc-prod-name">Ting-Ting Wijen Isi 25</div>
+              <div class="acc-prod-price">Rp 36.999</div>
+              <p class="acc-prod-desc">Isi 25 pcs biji wijen. Cocok untuk snack kantor dan oleh-oleh.</p>
+              <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="acc-prod-link">Beli Sekarang →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER -->
+<section id="order">
+  <div class="order-v3-header reveal">
+    <div>
+      <div class="values-label">Cara Order</div>
+      <h2 class="order-v3-h">Mudah Dipesan,<br>Cepat Sampai</h2>
+    </div>
+    <p class="order-v3-sub">Pilih cara pembelian yang paling nyaman untuk Anda — aman, mudah, dan cepat sampai ke tangan Anda.</p>
+  </div>
+  <div class="order-v3-channels reveal">
+    <div class="order-channel">
+      <div class="order-channel-num">01</div>
+      <div class="order-channel-info">
+        <div class="order-channel-name">Via Shopee</div>
+        <p class="order-channel-desc">Aman dengan proteksi pembeli, banyak promo, cashback menarik, dan gratis ongkir.</p>
+      </div>
+      <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="order-channel-btn">Buka Toko →</a>
+    </div>
+    <div class="order-channel">
+      <div class="order-channel-num">02</div>
+      <div class="order-channel-info">
+        <div class="order-channel-name">Via Tokopedia</div>
+        <p class="order-channel-desc">Bayar dengan GoPay, OVO, dan berbagai metode pembayaran pilihan.</p>
+      </div>
+      <a href="https://tk.tokopedia.com/ZSANFP6tw/" target="_blank" rel="noopener" class="order-channel-btn">Buka Toko →</a>
+    </div>
+    <div class="order-channel">
+      <div class="order-channel-num">03</div>
+      <div class="order-channel-info">
+        <div class="order-channel-name">Via WhatsApp</div>
+        <p class="order-channel-desc">Chat langsung, lebih personal dan responsif. Hubungi kami untuk kebutuhan pembelian khusus.</p>
+      </div>
+      <a href="https://wa.me/6281330393335" target="_blank" rel="noopener" class="order-channel-btn">Chat Sekarang →</a>
+    </div>
+  </div>
+  <div class="order-v3-reseller reveal">
+    <p><strong>Tertarik menjadi reseller?</strong> Hubungi kami untuk informasi harga grosir dan program kemitraan.</p>
+    <a href="https://wa.me/6281330393336" target="_blank" rel="noopener" class="reseller-link-v3">WA Reseller · 0813-3039-3336</a>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="testi-v3">
+    <div class="testi-header-v3 reveal">
+      <div class="values-label">Testimoni Pelanggan</div>
+      <h2 class="testi-h-v3">Kata Mereka</h2>
+    </div>
+    <div class="testi-featured reveal">
+      <div class="testi-cell">
+        <div class="testi-stars-v3">★★★★★</div>
+        <div class="testi-tag-v3">Abon Ayam Pedas</div>
+        <p class="testi-text-v3">"Enak... mantap pedasnya. Tekstur lembut, renyah. Exp lama. Next order yang manis 🔥"</p>
+        <div class="testi-author-v3">
+          <div class="testi-av-v3" style="background:var(--red);">B</div>
+          <div><div class="testi-avname">bernadetaaridwi27</div><div class="testi-avsrc">Shopee · Agu 2025</div></div>
+        </div>
+      </div>
+      <div class="testi-cell">
+        <div class="testi-stars-v3">★★★★★</div>
+        <div class="testi-tag-v3">Abon Manis Triple Bundle</div>
+        <p class="testi-text-v3">"Benar-benar terasa daging ayamnya! Pertama beli untuk oleh-oleh, anak2ku suka. Order lagi di Shopee!"</p>
+        <div class="testi-author-v3">
+          <div class="testi-av-v3" style="background:var(--gold);">L</div>
+          <div><div class="testi-avname">lailanb</div><div class="testi-avsrc">Shopee · Des 2025</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-secondary reveal">
+      <div class="testi-cell">
+        <div class="testi-stars-v3">★★★★★</div>
+        <div class="testi-tag-v3">Tingkers Mete 80gr</div>
+        <p class="testi-text-v3">"Rasa manis gurih, textur halus, rasa mete cukup enak."</p>
+        <div class="testi-author-v3">
+          <div class="testi-av-v3" style="background:var(--orange);">J</div>
+          <div><div class="testi-avname">jsw5965</div><div class="testi-avsrc">Shopee · Sep 2025</div></div>
+        </div>
+      </div>
+      <div class="testi-cell">
+        <div class="testi-stars-v3">★★★★★</div>
+        <div class="testi-tag-v3">Tingkers Wijen 80gr</div>
+        <p class="testi-text-v3">"Rasanya enak banget, wijennya banyak, manisnya pas. Packaging bagus, pelayanan cepat. Repeat order!"</p>
+        <div class="testi-author-v3">
+          <div class="testi-av-v3" style="background:#7B3F9E;">A</div>
+          <div><div class="testi-avname">asminur21</div><div class="testi-avsrc">Shopee · Agu 2025</div></div>
+        </div>
+      </div>
+      <div class="testi-cell">
+        <div class="testi-stars-v3">★★★★★</div>
+        <div class="testi-tag-v3">Abon Ayam Manis</div>
+        <p class="testi-text-v3">"Enakk banget, anak ku suka dan lahap, bikin Happy bunda 😍"</p>
+        <div class="testi-author-v3">
+          <div class="testi-av-v3" style="background:#C2185B;">A</div>
+          <div><div class="testi-avname">amuzzella</div><div class="testi-avsrc">Shopee · Des 2025</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL -->
+<section id="social">
+  <div class="social-v3 reveal">
+    <div class="social-sup-v3">Ikuti Kami</div>
+    <h2 class="social-h-v3">Temukan Kami di Semua Platform</h2>
+    <div class="social-row-v3">
+      <a href="https://www.instagram.com/rivansnack_" target="_blank" rel="noopener" class="social-btn-v3">📸 Instagram</a>
+      <a href="https://www.tiktok.com/@rivansnack" target="_blank" rel="noopener" class="social-btn-v3">🎵 TikTok</a>
+      <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="social-btn-v3">🛒 Shopee</a>
+      <a href="https://tk.tokopedia.com/ZSANFP6tw/" target="_blank" rel="noopener" class="social-btn-v3">🟢 Tokopedia</a>
+      <a href="https://wa.me/6281330393335" target="_blank" rel="noopener" class="social-btn-v3">💬 WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-v3">
+    <div class="footer-main">
+      <div>
+        <div class="f3-brand-name">Rivan's Snack</div>
+        <div class="f3-brand-tag">Tradition Crafted with Innovation</div>
+        <p class="f3-brand-desc">Produsen camilan premium asal Salatiga, Jawa Tengah. Menghadirkan cita rasa terbaik untuk keluarga Indonesia sejak 2016.</p>
+        <div class="f3-socials">
+          <a href="https://www.instagram.com/rivansnack_" target="_blank" rel="noopener" class="f3-social" aria-label="Instagram">📸</a>
+          <a href="https://www.tiktok.com/@rivansnack" target="_blank" rel="noopener" class="f3-social" aria-label="TikTok">🎵</a>
+          <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener" class="f3-social" aria-label="Shopee">🛒</a>
+          <a href="https://tk.tokopedia.com/ZSANFP6tw/" target="_blank" rel="noopener" class="f3-social" aria-label="Tokopedia">🟢</a>
+        </div>
+      </div>
+      <div>
+        <div class="f3-col-h">Navigasi</div>
+        <div class="f3-links">
+          <a href="#about">Tentang Kami</a>
+          <a href="#journey">Perjalanan</a>
+          <a href="#products">Produk</a>
+          <a href="#order">Cara Order</a>
+          <a href="#testimonials">Testimoni</a>
+        </div>
+      </div>
+      <div>
+        <div class="f3-col-h">Marketplace</div>
+        <div class="f3-links">
+          <a href="https://shopee.co.id/rivanssnack" target="_blank" rel="noopener">Shopee</a>
+          <a href="https://tk.tokopedia.com/ZSANFP6tw/" target="_blank" rel="noopener">Tokopedia</a>
+          <a href="https://www.tiktok.com/@rivansnack" target="_blank" rel="noopener">TikTok Shop</a>
+          <a href="https://www.instagram.com/rivansnack_" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+      <div>
+        <div class="f3-col-h">Kontak</div>
+        <div class="f3-links">
+          <a href="https://wa.me/6281330393335" target="_blank" rel="noopener">WA Jualan · 0813-3039-3335</a>
+          <a href="https://wa.me/6281330393336" target="_blank" rel="noopener">WA Reseller · 0813-3039-3336</a>
+          <a href="mailto:rivancompany18@gmail.com">rivancompany18@gmail.com</a>
+          <span>Salatiga, Jawa Tengah</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bot-v3">
+      <div class="f3-copy">© 2026 Rivan's Snack · CV Rivan's Snack · Salatiga</div>
+      <div class="f3-bot-links"><a href="#">Kebijakan Privasi</a><a href="#">Syarat & Ketentuan</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function openMob() { document.getElementById('mobNav').classList.add('open'); }
+  function closeMob() { document.getElementById('mobNav').classList.remove('open'); }
+
+  function toggleAcc(id) {
+    const item = document.getElementById(id);
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.acc-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); window.scrollTo({ top: t.offsetTop - 64, behavior: 'smooth' }); }
+    });
+  });
+</script>
+</body>
+</html>
