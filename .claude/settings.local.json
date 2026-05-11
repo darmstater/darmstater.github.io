@@ -3,7 +3,9 @@
     "allow": [
       "Bash(git config *)",
       "Bash(git remote *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "PowerShell(cmdkey *)",
+      "Bash(git credential *)"
     ]
   }
 }
