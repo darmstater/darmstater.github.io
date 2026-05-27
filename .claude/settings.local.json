@@ -5,7 +5,8 @@
       "Bash(git remote *)",
       "Bash(git push *)",
       "PowerShell(cmdkey *)",
-      "Bash(git credential *)"
+      "Bash(git credential *)",
+      "PowerShell(New-Item *)"
     ]
   }
 }
