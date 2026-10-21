@@ -428,6 +428,7 @@ section { padding: 6rem 0; }
 /* Tabs */
 .tab-titles {
     display: flex;
+    flex-wrap: wrap;
     gap: 0;
     margin-bottom: 2rem;
     border-bottom: 1px solid var(--border);
@@ -458,7 +459,18 @@ section { padding: 6rem 0; }
 
 .tab-content.active {
     display: block;
+    max-height: 560px;
+    overflow-y: auto;
+    padding-right: 0.75rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--dark-4) transparent;
     animation: fadeSlideIn 0.3s ease;
+}
+
+/* fade hint at the bottom while there is more content to scroll */
+.tab-content.active.has-more {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 64px), transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 calc(100% - 64px), transparent 100%);
 }
 
 @keyframes fadeSlideIn {
@@ -597,6 +609,32 @@ section { padding: 6rem 0; }
     transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+
+/* Skill chips (replaces percentage bars) */
+.skill-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.chip {
+    background: var(--dark-4);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.35rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all var(--transition);
+    cursor: default;
+}
+
+.chip:hover {
+    border-color: rgba(255, 0, 79, 0.45);
+    color: var(--white);
+    background: rgba(255, 0, 79, 0.08);
+}
+
 /* Tech badges */
 .tech-stack {
     display: flex;
@@ -663,6 +701,25 @@ section { padding: 6rem 0; }
 }
 
 .project-card:hover .project-img img { transform: scale(1.07); }
+
+
+.project-img.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(ellipse at 30% 30%, rgba(255, 0, 79, 0.18) 0%, transparent 60%),
+        linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+}
+
+.project-img.placeholder > i {
+    font-size: 3.4rem;
+    color: var(--accent);
+    opacity: 0.85;
+    transition: transform 0.5s ease;
+}
+
+.project-card:hover .project-img.placeholder > i { transform: scale(1.12); }
 
 .project-overlay {
     position: absolute;
@@ -1010,6 +1067,8 @@ footer {
 
     /* About mobile */
     .about-content { grid-template-columns: 1fr; gap: 3rem; }
+    .tab-content.active { max-height: none; overflow: visible; padding-right: 0; }
+    .tab-content.active.has-more { -webkit-mask-image: none; mask-image: none; }
     .about-info    { grid-template-columns: 1fr; }
 
     /* Skills mobile */
@@ -1024,6 +1083,7 @@ footer {
 }
 
 @media (max-width: 480px) {
+    .tab-btn       { padding: 0.65rem 0.8rem; font-size: 0.82rem; }
     .section-title { font-size: 1.9rem; }
     .hero-name     { font-size: 2.2rem; }
     .contact-form  { padding: 1.25rem; }

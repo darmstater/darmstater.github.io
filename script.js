@@ -40,11 +40,12 @@ function updateActiveLink() {
 
 // ===== TYPING EFFECT =====
 const roles = [
-    'Backend Developer',
-    'Python Enthusiast',
-    'Database Engineer',
+    'Full-stack Developer',
+    '.NET Developer',
+    'ASP.NET MVC & C#',
+    'SQL Server Engineer',
+    'Application Support Developer',
     'Problem Solver',
-    'Fresh Graduate',
 ];
 
 let roleIndex  = 0;
@@ -84,8 +85,23 @@ function openTab(e, tabName) {
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active-tab'));
     document.querySelectorAll('.tab-content').forEach(pane => pane.classList.remove('active'));
     e.currentTarget.classList.add('active-tab');
-    document.getElementById(tabName).classList.add('active');
+    const pane = document.getElementById(tabName);
+    pane.classList.add('active');
+    pane.scrollTop = 0;
+    updateTabFade(pane);
 }
+
+// Show a bottom fade while the tab pane still has content below the fold
+function updateTabFade(pane) {
+    const more = pane.scrollHeight - pane.clientHeight - pane.scrollTop > 8;
+    pane.classList.toggle('has-more', more);
+}
+
+document.querySelectorAll('.tab-content').forEach(pane => {
+    pane.addEventListener('scroll', () => updateTabFade(pane));
+});
+window.addEventListener('load',   () => document.querySelectorAll('.tab-content.active').forEach(updateTabFade));
+window.addEventListener('resize', () => document.querySelectorAll('.tab-content.active').forEach(updateTabFade));
 
 // ===== SCROLL REVEAL =====
 const revealObserver = new IntersectionObserver((entries) => {
@@ -98,22 +114,6 @@ const revealObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-// ===== SKILL BAR ANIMATION =====
-const skillObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.skill-fill').forEach((fill, i) => {
-                setTimeout(() => {
-                    fill.style.width = fill.dataset.width + '%';
-                }, i * 100);
-            });
-            skillObserver.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.25 });
-
-document.querySelectorAll('.skill-category').forEach(cat => skillObserver.observe(cat));
 
 // ===== SCROLL TO TOP =====
 const scrollTopBtn = document.getElementById('scroll-top');
